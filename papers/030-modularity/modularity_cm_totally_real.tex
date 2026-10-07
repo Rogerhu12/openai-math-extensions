@@ -1,0 +1,1365 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=25mm,headheight=14pt]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern,amsmath,amssymb,amsthm,mathtools}
+\usepackage{booktabs,array,enumitem,microtype,needspace}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{hyperref,fancyhdr}
+\hypersetup{colorlinks=true,linkcolor=MidnightBlue,citecolor=MidnightBlue,
+urlcolor=MidnightBlue,pdftitle={Modularity of elliptic curves over CM and totally real fields},
+breaklinks=true}
+\Urlmuskip=0mu plus 1mu
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{4.5pt}
+\setlist{topsep=4pt,itemsep=2pt,parsep=0pt}
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small Elliptic curves over CM and totally real fields}
+\fancyhead[R]{\small Research draft}
+\fancyfoot[C]{\thepage}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}\newtheorem{definition}[theorem]{Definition}
+\theoremstyle{remark}\newtheorem*{remark}{Remark}
+\newcommand{\Q}{\mathbb Q}\newcommand{\Z}{\mathbb Z}
+\newcommand{\C}{\mathbb C}\newcommand{\A}{\mathbb A}
+\newcommand{\F}{\mathbb F}\newcommand{\OO}{\mathcal O}
+\newcommand{\GL}{\operatorname{GL}}\newcommand{\SL}{\operatorname{SL}}
+\newcommand{\PSL}{\operatorname{PSL}}\newcommand{\PGL}{\operatorname{PGL}}
+\newcommand{\Gal}{\operatorname{Gal}}\newcommand{\Res}{\operatorname{Res}}
+\newcommand{\Jac}{\operatorname{Jac}}\newcommand{\Spec}{\operatorname{Spec}}
+\newcommand{\diag}{\operatorname{diag}}\newcommand{\tr}{\operatorname{tr}}
+\newcommand{\WD}{\operatorname{WD}}\newcommand{\BC}{\operatorname{BC}}
+\newcommand{\ad}{\operatorname{ad}}\newcommand{\Inf}{\operatorname{Inf}}
+\newcommand{\im}{\operatorname{im}}\newcommand{\ur}{\mathrm{ur}}
+\newcommand{\ord}{\mathrm{ord}}\newcommand{\e}{\epsilon}
+\newcommand{\HH}{\mathrm H^1_{\mathrm{\acute et}}}
+\newcommand{\srcM}{\cite{M}}
+\newcommand{\Ginput}{\mathcal G}
+\newcommand{\Tinput}{\mathcal T_5}
+\title{Modularity of elliptic curves\\over CM and totally real fields}
+\author{AI-assisted research draft\thanks{AI assistance: OpenAI ChatGPT was used for mathematical exploration and drafting; OpenAI Codex was used for editing and compilation.}}
+\date{8 October 2026}
+\hypersetup{pdfsubject={Research draft}}
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We assemble the field extension of the geometric prime switch in
+\texttt{openai/math}, family 030, and a proposed treatment of its remaining
+characteristic-five obstruction. The source's explicit geometric and local
+inputs imply modularity over every CM field not containing a primitive fifth
+root of unity, with no Galois or degree restriction. Quadratic descent then
+gives modularity over every totally real field. For CM fields containing fifth
+roots of unity, a split Tate condition with parameter valuation prime to five
+excludes the exceptional adjoint cohomology class. We give a partially framed
+ordinary patching argument using the local rings of Allen--Khare--Thorne.
+The width-three second degeneration of the geometric family produces precisely
+this Tate condition. Validation of the new patching argument would complete
+the extension to all CM fields. Independently of the geometric construction,
+it would remove the fifth-root-of-unity restriction from Caraiani--Newton's
+residual-mod-three modularity criterion.
+\end{abstract}
+
+\noindent\fbox{\parbox{\dimexpr\linewidth-2\fboxsep-2\fboxrule\relax}{
+\textbf{Status.} This is a research draft. The package $\Ginput$ in
+Section~\ref{sec:package} records the geometric and local assertions used from
+family 030; that source manuscript is not independently certified here.
+The argument $\Tinput$ in Proposition~\ref{prop:global} is a new patching
+adaptation presented for independent review. The CM theorem without fifth
+roots of unity and the totally real theorem use $\Ginput$ only. The all-CM
+extension uses both $\Ginput$ and $\Tinput$.
+}}
+
+\section{Main statements and conventions}
+\label{sec:statements}
+
+A CM field is a totally imaginary quadratic extension of a totally real number
+field. It need not be Galois over $\Q$. For an elliptic curve $E/K$ we write
+\[
+ V_\ell(E)=\HH(E_{\overline K},\Q_\ell),\qquad
+ \det V_\ell(E)=\e_\ell^{-1},
+\]
+with labelled Hodge--Tate weights $\{0,1\}$. We use weight zero for the
+cohomological automorphic normalization; over a totally real field this means
+parallel classical weight two. The notation $E[\ell]$ uses the usual Tate-module
+convention. Passing to its dual does not change any residual irreducibility,
+image-up-to-conjugacy, or decomposed-generic condition used below.
+
+For a non-CM elliptic curve, modularity means a cuspidal weight-zero automorphic
+representation with its Galois representations and finite local parameters.
+For a CM elliptic curve we use the classical Hecke-character construction: its
+realization is an isobaric sum when the CM field is contained in the ground
+field, and quadratic automorphic induction otherwise. Thus cuspidality is not
+asserted for a split CM realization.
+
+For a residual representation of characteristic $\ell$, decomposed genericity
+means that there is a rational prime $q\ne\ell$, completely split in the
+ground field, such that the representation is unramified at every place above
+$q$ and every ratio of two distinct indexed Frobenius eigenvalues differs from
+$q$ modulo $\ell$; see \cite{CN}, Definition 2.1.27. We will always construct
+witnesses with $q\equiv1\pmod\ell$ and two distinct eigenvalues.
+
+Here are the conclusions and their dependencies. The proofs appear in the
+indicated sections; the input symbols are defined there without assuming any
+all-CM or all-totally-real modularity statement.
+\begin{center}
+\begin{tabular}{@{}p{.47\linewidth}p{.17\linewidth}p{.22\linewidth}@{}}
+\toprule
+Conclusion & Inputs & Location\\
+\midrule
+All elliptic curves over CM $K$ with $\zeta_5\notin K$
+ & $\Ginput$ & Theorem~\ref{thm:CM}\\[3pt]
+All elliptic curves over totally real fields
+ & $\Ginput$ & Corollary~\ref{cor:TR}\\[3pt]
+All elliptic curves over every CM field
+ & $\Ginput+\Tinput$ & Corollary~\ref{cor:allcm}\\[3pt]
+Residual-mod-three modularity over every CM field
+ & $\Tinput$ & Corollary~\ref{cor:mod3}\\
+\bottomrule
+\end{tabular}
+\end{center}
+The last row retains decomposed genericity and absolute irreducibility over
+the field obtained by adjoining $\zeta_3$; it is not an unrestricted modularity
+claim. In particular the totally real conclusion is logically independent of
+the proposed exceptional-five step.
+
+The two field choices driving the argument are different. First prove the
+auxiliary elliptic curve modular over its parameter's ground field; only then
+adjoin the cyclotomic characters for the three congruences. For a totally real
+ground field, pass to a CM quadratic extension chosen to avoid $\zeta_5$ and
+descend. For the remaining CM case, keep the characteristic-five seed and
+control its local ordinary deformation condition geometrically.
+
+\section{Geometric systems and local inputs}
+\label{sec:package}
+
+We write \(G_L=\Gal(\overline L/L)\) and use the cohomological convention
+\(\det\HH(E,\Q_\ell)=\epsilon_\ell^{-1}\), with labeled Hodge--Tate weights
+\(\{0,1\}\). The following package, denoted \(\Ginput\), records the source inputs.
+The source [M] is the manuscript dated 4 October 2026 listed in the bibliography;
+its assertions are used in precisely the forms stated below.
+
+\begin{enumerate}[label=\textbf{G\arabic*.},leftmargin=40pt]
+\item \textbf{Covers and compatible systems.}
+For an elliptic curve $E/k$ over a number field and odd $n$, \srcM,
+Lemma 3.1 constructs $U\subset\A^1_k$, quadratic twists $B_t$ of $E$, and
+smooth genus-$m$ curves $C_m(t)$ for $m\mid n$. The covers have rotations
+after adjoining $\mu_m$, and an involution $w$ over $k$ inverting those
+rotations. For $n=3p$, the character pieces $V_\theta$ over
+$F=k(\mu_{3p})$ are rank-two compatible systems. Proposition 5.1 gives
+semisimplicity, determinant $\e_\ell^{-1}$, labelled Hodge--Tate weights
+$\{0,1\}$ at every embedding, potential semistability, and compatible
+Frobenius polynomials. The construction is over arbitrary number fields;
+its Hodge-number calculation is performed embedding by embedding.
+
+\item \textbf{Integral character congruences.}
+Proposition 4.2 gives the rotation-module isomorphism
+\[
+\mathrm H^1(C_m,\Z_\ell)\simeq\Z_\ell[\mu_m]^2,
+\]
+including when $\ell\mid m$. Thus evaluation at characters with the same
+reduction gives isomorphic semisimplified residual representations, as in
+Lemma 5.3 and Corollary 5.4. In particular the congruences used below do not
+require integral character projectors with denominator divisible by $3p$.
+
+\item \textbf{Two geometric monodromy elements.}
+For a nontrivial residual character with value $\lambda$, Theorem 4.5 gives,
+in one basis, both matrices
+\[
+T_a=\begin{pmatrix}1&\sigma c_\lambda\\0&1\end{pmatrix},\qquad
+T_b=\begin{pmatrix}1&0\\\tau c_\lambda&1\end{pmatrix},\qquad
+c_\lambda=2-\lambda-\lambda^{-1},\quad\sigma,\tau\in\{1,-1\}.
+\]
+The two loops act simultaneously on all character pieces of each cover.
+
+\item \textbf{Compact-type local specialization.}
+The first degeneration has Jacobian $E^n$. Proposition 7.5 and Corollary 7.6
+provide nonempty local opens at every $v\mid3p$, over arbitrary finite
+extensions of the relevant $\Q_\ell$, in which every rank-two piece has the
+same type as $E$: potentially crystalline ordinary, potentially crystalline
+with slopes $1/2$, or potentially totally toric with nonzero monodromy.
+
+\item \textbf{The second boundary model.}
+On the constant-$E$ parameter cover, let $R_*$ be a boundary point with
+$Q=[n]R_*\in E[2]\setminus\{O\}$ and $O,\pm R_*,Q$ distinct. The local
+blowup and normalization calculation of \srcM, Lemma 3.2, equation (3.7),
+and Lemma 3.5 gives an unramified degree-three cover of $E$, possibly
+disconnected, with Kummer class $-2(n/3)R_*$ and a geometrically rational tail,
+meeting in three geometric nodes of smoothing order one. The involution
+extends to this model. Section~\ref{sec:tategeometry} proves connectedness
+at exact-order-six $R_*$, splitness after adjoining $E[6]$, and the quotient's
+width three; none of those arithmetic conclusions is assumed here.
+Only the all-CM extension needs this second boundary input.
+\end{enumerate}
+
+\paragraph{Local automorphic comparison (LC).}
+The package $\Ginput$ also includes the local-comparison assertion of \srcM,
+Lemma 9.2: when a character system has become automorphic, its next local
+automorphic input has zero monodromy in the potentially good case and is a
+quadratic twist of Steinberg in the toric case, with the ordinarity matching
+G4. This assertion uses compatibility at a different coefficient prime, purity,
+and genericity of cuspidal $\GL_2$ local components. It is a separate source
+input from G1--G5. No degree-two condition is used in the argument stated
+there. The simultaneous arithmetic Hilbert specialization over arbitrary CM
+fields is proved in Section~\ref{sec:specialization}, rather than assumed
+as part of $\Ginput$.
+
+The elliptic identifications from Proposition 5.2 are
+\[
+ V_1=\HH(B_t),\qquad
+ V_\eta=\HH(A_t),\qquad
+ A_t=\Jac(C_3(t)/\langle w\rangle),\qquad \operatorname{ord}(\eta)=3.
+\]
+The quotient and its Jacobian are defined over \(k\), because \(C_3(t)\) and
+\(w\) are. The fact that the source introduces \(A_t\) over \(F\) does not
+prevent this earlier descent. A rational point on the genus-one quotient is
+unnecessary for its Jacobian to be an elliptic curve.
+
+We also use Serre's open-image theorem \cite{Serre}, Hilbert irreducibility
+with weak approximation, Chebotarev, and automorphic Galois representations.
+The exact base-change and descent result is \cite{ACC}, Proposition 6.5.13,
+which permits both imaginary CM and totally real fields and does not require
+a polarization hypothesis. Its proof uses cyclic base change and descent
+from \cite{AC}, Chapter 3, Theorems 4.2 and 5.1. The specific automorphy inputs
+are Caraiani--Newton \cite{CN}, Theorem 5.2, Theorem 6.1, and Lemma 6.1.3.
+Theorem 5.2 allows arbitrary CM fields and ramification at its coefficient
+prime. Its extra condition in characteristic five will not occur in the three
+lifts.
+
+\section{Normal closures and large residual images}
+
+\begin{lemma}\label{lem:cm}
+The normal closure of a CM field is CM, with central complex conjugation.
+Every subfield of a CM field is either totally real or CM. Consequently, for
+a CM field \(K\), the extension \(K(\mu_N)/K\) is abelian and all its
+intermediate fields are CM.
+\end{lemma}
+\begin{proof}
+If \(c_K\) is the CM involution, then every embedding \(\sigma:K\to\C\)
+satisfies \(\overline{\sigma(x)}=\sigma(c_Kx)\).
+The normal closure is generated by the conjugates of \(K\), so complex
+conjugation commutes with every automorphism there. Its fixed field is totally
+real: every conjugate of an element fixed by this central involution is real.
+The involution is nontrivial, so the normal closure is CM. The same argument
+applies to composita of CM fields.
+
+Inside a Galois CM normal closure, central complex conjugation preserves every
+subfield. Its restriction either acts trivially, giving a totally real field,
+or makes the subfield a quadratic totally imaginary extension of its totally
+real fixed field. Apply this to the subfields of the compositum
+\(K(\mu_N)\). A field containing \(K\) cannot be totally real. Finally,
+\(K(\mu_N)/K\) is abelian because it is obtained from the abelian extension
+\(\Q(\mu_N)/\Q\) by base extension.
+\end{proof}
+
+Let now \(K\) be any CM field, \(d=[K:\Q]\), and let \(\widetilde K\) be its
+\emph{fixed} normal closure. For a non-CM elliptic curve \(E/K\), Serre's theorem
+allows a prime
+\[
+ p>\max(100,2d+1),\qquad
+ \rho_{E,p}(G_{\widetilde K})\supseteq\SL_2(\F_p).
+\]
+Set
+\[
+ F=K(\mu_{3p}),\qquad D_0=\widetilde K(\mu_{3p}).
+\]
+The automorphy field will be \(F\), not the normal closure. The latter is used
+only to control Frobenius conditions at every conjugate.
+
+\begin{lemma}\label{lem:survives}
+For every embedding \(\sigma:K\hookrightarrow\widetilde K\),
+\(\rho_{E^\sigma,p}(G_{D_0})=\SL_2(\F_p)\).
+\end{lemma}
+\begin{proof}
+Normality of \(\widetilde K/\Q\) transports the large-image assertion to every
+conjugate \(E^\sigma\). Since \(D_0/\widetilde K\) is abelian, the image of
+\(G_{D_0}\) contains the commutator subgroup of the image of
+\(G_{\widetilde K}\). The group \(\SL_2(\F_p)\) is perfect for \(p>3\);
+hence that commutator contains \(\SL_2(\F_p)\). Conversely, the determinant is
+trivial over \(D_0\), which contains \(\mu_p\). This proves equality.
+\end{proof}
+This argument deals with the dependence of \(D_0\) on \(p\). It does not compare
+\(p\) with the degree of a field chosen after \(p\), and does not require a
+large image after passing to the finite extension cut out by the later
+Hilbert specialization.
+
+\begin{lemma}\label{lem:genericE}
+For every quadratic twist \(B/K\) of \(E\), its residual representation at \(p\)
+is absolutely irreducible and decomposed generic over \(F\).
+\end{lemma}
+\begin{proof}
+On \(G_{D_0}\), form the joint image
+\[
+ J\subseteq\prod_{\sigma:K\hookrightarrow\widetilde K}\SL_2(\F_p).
+\]
+Each of its \(d\) projections is surjective. In \(\SL_2(\F_p)\), precisely
+\(p^2\) elements have trace 2: writing such a matrix as
+\(\left(\begin{smallmatrix}a&b\\c&2-a\end{smallmatrix}\right)\), its determinant
+condition is \(bc=-(a-1)^2\). For \(a=1\) there are \(2p-1\) solutions;
+the other \(p-1\) values give \(p-1\) solutions each. The count for trace
+\(-2\) is the same.
+
+The fibers of each surjective projection from \(J\) have equal cardinality.
+The union bound therefore gives
+\begin{equation}
+ \frac{\#\{g\in J:\text{some factor has trace }2\text{ or }-2\}}{|J|}
+ \leq \frac{2dp}{p^2-1}<1.                     \label{eq:union-bound}
+\end{equation}
+No independence of the conjugate residual representations is assumed.
+Choose an element regular semisimple in every factor. In a finite Galois
+extension of \(\Q\) recording \(D_0\) and the torsion fields, its conjugacy
+class still has this property, because conjugation permutes the \(d\) factors.
+
+Chebotarev gives rational primes \(q\) completely split in \(D_0\), hence in
+\(F\), with these Frobenius actions. In particular \(q\equiv1\pmod p\).
+At every place over \(q\), distinct eigenvalues give the decomposed-generic
+condition: neither eigenvalue ratio equals \(q\) modulo \(p\).
+Absolute irreducibility over \(F\) follows from the full special-linear image
+on \(G_{D_0}\subseteq G_F\). Quadratic twisting preserves irreducibility and
+eigenvalue ratios; exclude the finitely many primes ramified in the twist.
+\end{proof}
+
+\section{Simultaneous arithmetic specialization}\label{sec:specialization}
+
+\begin{lemma}\label{lem:specialization}
+Assume \(\Ginput\). Prescribe nonempty opens \(\Omega_v\subset U(K_v)\) at
+finitely many finite places, including every \(v\mid3p\). There is
+\(t\in U(K)\) in all these opens for which, over \(F\):
+\begin{enumerate}
+\item every nontrivial character space for
+\((m,\ell)=(3,p),(3,5),(p,3)\) is absolutely irreducible on
+\(G_{F(\zeta_\ell)}\) and decomposed generic;
+\item the same assertions hold for \(V_1\bmod p\);
+\item \(A_t\) is non-CM, and the image of \(A_t[5]\) on \(G_D\)
+is \(\SL_2(\F_5)\), for the auxiliary Galois field \(D\) used below.
+In particular, if \(\mu_5\subset K\), its full mod-five image is
+\(\SL_2(\F_5)\).
+\end{enumerate}
+\end{lemma}
+\begin{proof}
+Put \(W=\Res_{K/\Q}U\), an open of \(\A^d_\Q\), and choose a finite Galois
+field \(D/\Q\) containing \(D_0\) and \(\zeta_5\); \(D=D_0(\zeta_5)\) suffices.
+Then
+\[
+ W_D\simeq\prod_{\sigma:K\hookrightarrow D} U^\sigma_D.
+\]
+For each listed pair, pull back the finite local system
+\(\mathrm H^1(C_m,\F_\ell)\) from every factor. Intersect the kernels of these
+finite actions in \(\pi_1(W_D)\), and take the normal core in \(\pi_1(W)\).
+We obtain a finite quotient
+\[
+ \pi_1(W)\twoheadrightarrow H\twoheadrightarrow\Gal(D/\Q).
+\]
+
+In one geometric factor, the two opposite nonidentity unipotents in G3 have
+different fixed lines, hence force absolute irreducibility. There is also a
+single geometric element regular semisimple on \emph{all} its nontrivial
+characters for each pair. For \(m=3\), \(c_\lambda=3\), and \(T_aT_b^2\)
+has trace \(20\) or \(-16\), neither equal to \(\pm2\) modulo 5 or modulo
+\(p>100\). For \(m=p,\ell=3\), use \(T_aT_b\), with trace
+\(2+\sigma\tau c_\lambda^2\). A failure of regular semisimplicity would imply
+\(c_\lambda^2=\pm4\), giving a polynomial of degree at most four for
+\(\lambda\) over \(\F_3\). Its order \(p\) would divide \(3^e-1\) for some
+\(e\leq4\), impossible for \(p>100\).
+
+Geometric loops in different factors act independently on the systems pulled
+back from those factors. Multiplying the chosen factor loops gives, for each
+pair, an element \(h_{m,\ell}\) of the constant-field kernel which is regular
+semisimple on every factor and character. The opposite unipotents are also
+in this kernel.
+
+For each rational prime \(q\),
+\[
+ W(\Q_q)=\prod_{v\mid q}U(K_v).
+\]
+Thus the local conditions are nonempty opens on \(W(\Q_q)\). Hilbert
+irreducibility with weak approximation produces \(x\in W(\Q)\) in those
+opens with surjective specialization \(s_x:G_\Q\to H\). This is precisely
+the arbitrary-dimensional Hilbert statement already recorded as \srcM,
+Lemma 8.3. The constant-field map implies
+\begin{equation}
+ s_x(G_D)=\ker(H\to\Gal(D/\Q)).                 \label{eq:specialization-kernel}
+\end{equation}
+The point \(x\) corresponds to one \(t\in U(K)\); its coordinates over \(D\)
+are the actual conjugates \(\sigma(t)\), not independently selected parameters.
+
+Equation~\eqref{eq:specialization-kernel} retains the opposite unipotents over \(G_D\), hence also over
+\(G_{F(\zeta_\ell)}\). Since \(\ell\nmid m\) for the three pairs, character
+decomposition of the smaller cover commutes with reduction. The comparison
+with the \(C_{3p}\)-pieces preserves semisimplified reductions.
+
+Conjugation permutes the specialized conjugate covers and their rotation
+characters. Thus every conjugate of \(h_{m,\ell}\) has the required
+regular-semisimple action. Chebotarev in the extension cut out by \(s_x\)
+gives rational primes split completely in \(D\) and regular semisimple at
+every place above them. They are \(1\bmod\ell\), establishing decomposed
+genericity. Each pair may use a different prime. Assertion 2 is
+Lemma~\ref{lem:genericE}.
+
+For $m=3$ and $\ell=5$, $c_\lambda=3$. Powers of the two nonzero
+unipotents generate both root subgroups, hence a group of order $120$
+isomorphic to $\SL_2(\F_5)$. The rational isomorphism between the character
+system and $V_5(A_t)$ identifies their semisimplified residual representations.
+Since the character representation is absolutely irreducible, the actual
+residual representation on $A_t[5]$ is isomorphic to it. In an $\F_5$-basis
+of $A_t[5]$ this subgroup has determinant one and order $120$, so it is
+$\SL_2(\F_5)$. The determinant is trivial on $G_D$; if $\mu_5\subset K$
+it is trivial on $G_K$ as well. This proves the asserted full-image statements
+without requiring an integral isomorphism of the two original lattices.
+
+Finally, \(A_t\bmod p\) has the two opposite noncommuting unipotents of order
+\(p\). A CM elliptic curve has all endomorphisms defined over an extension
+of degree at most two; its residual image consequently has an abelian normal
+subgroup of index at most two. Both odd-order unipotents would lie in that
+subgroup and commute, a contradiction.
+\end{proof}
+
+\section{The seed field, three lifts, and descent}
+
+\begin{theorem}[Conditional CM scope extension]\label{thm:CM}
+Assume \(\Ginput\). Let \(K\) be any CM number field with
+\(\zeta_5\notin K\). Every elliptic curve \(E/K\) is modular.
+For non-CM \(E\), there is a cuspidal weight-zero representation
+\(\pi_E\) of \(\PGL_2(\A_K)\) realizing its cohomology at every coefficient
+prime, with full finite-place local compatibility in the usual
+Tate normalization.
+\end{theorem}
+\begin{proof}
+First let \(E\) be non-CM. Choose \(p,F,t\) as above, using all the opens
+from G4. The auxiliary elliptic curve \(A_t\) is over \(K\).
+Its residual representation modulo 5 is absolutely irreducible on
+\(G_{F(\zeta_5)}\), hence on \(G_{K(\zeta_5)}\).
+The rational split prime witnessing decomposed genericity over \(F\) also
+witnesses it over \(K\): all relevant local residue degrees are one.
+
+Caraiani--Newton, Theorem 6.1, applies to \(A_t/K\).
+\emph{This is the only step requiring \(\zeta_5\notin K\).}
+Base change its modular representation through the abelian extension \(F/K\),
+using \cite{ACC}, Proposition 6.5.13(1).
+It remains cuspidal. Indeed, in a cyclic prime-degree step, noncuspidal base
+change would give a nontrivial self-twist by a character of that cyclic
+extension. A corresponding intertwiner of Galois representations would be
+scalar after restriction to the upper field, by absolute irreducibility and
+Schur's lemma; a scalar cannot implement a nontrivial twist.
+Irreducibility at every step follows already from the residual
+irreducibility over \(F\).
+
+Let \(\eta,\psi\) have orders 3 and \(p\). G2 gives
+\begin{equation}
+ V_\eta\equiv_p V_{\eta\psi}
+       \equiv_3 V_\psi
+       \equiv_p V_1=\HH(B_t).                  \label{eq:switch}
+\end{equation}
+Starting with the base change of \(A_t\), apply Caraiani--Newton,
+Theorem 5.2, successively as follows:
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+Automorphic input&Coefficient prime&Target\\
+\midrule
+\(V_\eta\)&\(p\)&\(V_{\eta\psi}\)\\
+\(V_{\eta\psi}\)&\(3\)&\(V_\psi\)\\
+\(V_\psi\)&\(p\)&\(V_1\)\\
+\bottomrule
+\end{tabular}
+\end{center}
+Determinants, all labeled weights, and potential semistability are G1.
+Residual hypotheses are Lemmas~\ref{lem:genericE} and
+\ref{lem:specialization}. In the potentially good cases G4 and LC give matching
+ordinarity and zero automorphic monodromy; in the toric case they give
+noncrystalline representations and an ordinary Steinberg input.
+Compatible Frobenius polynomials transport the automorphic realization to the
+coefficient prime needed for the next lift, using semisimplicity and
+Chebotarev. Thus all hypotheses in Theorem 5.2 are met.
+The lifting primes are \(p,3,p\), so its characteristic-five exception
+never enters. In particular, \(\zeta_5\) is allowed to lie in \(F\).
+
+We have modularity of \(B_t/F\). The extension \(F/K\) is abelian, with CM
+intermediate fields by Lemma~\ref{lem:cm}. Apply \cite{ACC}, Proposition 6.5.13(2). Its argument descends through
+a tower of cyclic prime-degree extensions: For completeness, if \(L'/L\) is one such step and
+\(r|_{G_{L'}}\) is realized by a cuspidal representation \(\Pi\), extension of
+\(r\) to \(G_L\) gives \(\Gal(L'/L)\)-invariance of \(\Pi\) by strong
+multiplicity one. Cyclic descent gives \(\pi/L\). Its complex archimedean
+parameters still have weight zero. After identifying restrictions,
+Schur's lemma gives
+\[
+ r_\ell(\pi)=r\otimes\delta,\qquad
+ \delta:\Gal(L'/L)\longrightarrow\overline{\Q}_\ell^\times.
+\]
+Twisting by the inverse Hecke character removes \(\delta\).
+Absolute irreducibility holds at every step because it holds over \(F\).
+No nonsolvable descent and no prime-to-\(\ell\) extension-degree assumption
+is used.
+
+Twist \(B_t/K\) back to \(E/K\). Caraiani--Newton, Lemma 6.1.3, supplies
+realization at all coefficient primes and
+\begin{equation}
+ \WD\bigl(\HH(E_{\overline K},\Q_\ell)|_{G_{K_v}}\bigr)^{F\text{-ss}}
+   \simeq \operatorname{rec}^{T}_{K_v}(\pi_{E,v})
+   \quad(v\nmid\ell),                          \label{eq:local-compat}
+\end{equation}
+after the chosen coefficient isomorphism. Choosing \(\ell\) away from each
+place yields every finite local factor.
+
+For CM \(E\), the classical Hecke-character construction applies over the
+compositum with its imaginary quadratic CM field \(M\). It gives an isobaric
+sum if \(M\subseteq K\), and quadratic automorphic induction otherwise.
+\end{proof}
+
+\section{Totally real descent}\label{sec:TR}
+
+\begin{corollary}[Conditional totally real modularity]\label{cor:TR}
+Assume \(\Ginput\). Every elliptic curve over every totally real number
+field \(k\) is modular of parallel weight two, with matching finite local
+parameters.
+\end{corollary}
+\begin{proof}
+For non-CM \(E/k\), choose an odd rational prime \(q\ne5\) unramified in \(k\)
+and set \(K=k(\sqrt{-q})\). This is a quadratic CM extension, ramified at
+places above \(q\). Since \(k(\zeta_5)/k\) is unramified at those places,
+\(\zeta_5\) cannot belong to \(K\): otherwise the nontrivial subextension
+\(k(\zeta_5)/k\) of this quadratic extension would equal \(K/k\).
+Theorem~\ref{thm:CM} gives a modular representation \(\Pi/K\).
+
+Since \(E\) is defined over \(k\), \(\Pi\) is invariant under \(\Gal(K/k)\).
+Apply \cite{ACC}, Proposition 6.5.13(2), to \(V_\ell(E)\), choosing \(\ell\)
+so that its restriction to \(G_K\) is irreducible. It produces a cuspidal
+regular algebraic representation \(\pi/k\) realizing \(V_\ell(E)\).
+The real archimedean type requires a check beyond CM-to-CM descent.
+At a complex place of \(K\) its unitary parameter is
+\[
+ \chi\oplus\chi^c,\qquad \chi(z)=z/|z|.
+\]
+The characters are distinct. Any \(W_\mathbb R\)-parameter restricting to
+this must interchange the two lines, and is
+\(\operatorname{Ind}_{W_\C}^{W_\mathbb R}\chi\), the parameter of
+weight-two discrete series. For example, the nontrivial Weil element can
+act by \(\left(\begin{smallmatrix}0&1\\-1&0\end{smallmatrix}\right)\).
+There is no principal-series extension of these two angular characters.
+Thus $\pi$ has parallel classical weight two. The character correction
+implicit in the descent proposition is at most a sign twist at a real place,
+which preserves this discrete series. Its central character is trivial:
+its base change is trivial, so it is either trivial or the quadratic character
+of $K/k$, and the latter has nontrivial sign at every real place whereas
+weight-two discrete series has trivial central character.
+
+One can also obtain all finite local parameters using just the CM comparison
+already invoked. Fix a finite place \(v\) of \(k\). Choose a fresh finite place
+\(w\ne v\), away from 2 and 5, and by weak approximation choose \(a\in k^\times\)
+negative at every real place, a square in \(k_v^\times\), and of valuation one
+at \(w\). The extension \(L^{(v)}=k(\sqrt a)\) is CM, splits at \(v\), and avoids
+\(\zeta_5\) by its ramification at \(w\).
+The modular representation of \(E/L^{(v)}\) and \(\BC_{L^{(v)}/k}(\pi)\) agree at
+good places, hence everywhere by strong multiplicity one; base change stays
+cuspidal by the same irreducibility argument. At \(v\) local base change is
+the identity. Formula~\eqref{eq:local-compat} over \(L^{(v)}\) therefore gives the local parameter
+over \(k_v\). Repeat for each \(v\). CM curves are covered by classical
+quadratic automorphic induction.
+\end{proof}
+
+
+\section{The exceptional characteristic-five obstruction}
+\label{sec:exception}
+
+The three lifts in \eqref{eq:switch} use $p,3,p$, with $p>5$. Their lifting
+hypotheses allow $\zeta_5$ in the automorphy field. The root-of-unity restriction
+in Theorem~\ref{thm:CM} enters solely when the auxiliary curve $A_t$ is first
+proved modular by CN, Theorem 6.1. Its mod-five seed proposition, Proposition
+6.1.5, has no such restriction; its mod-three seed proposition, Proposition
+6.1.6, uses the internal 3--5 switch of AKT, Proposition 9.15.
+
+Suppose $\mu_5\subset K$ and $\bar\rho$ has image $\SL_2(\F_5)$.
+For $M=\ad^0\bar\rho$ one has the exceptional line
+\begin{equation}\label{eq:lie}
+H^1(\SL_2(\F_5),M)\simeq\F_5.
+\end{equation}
+It is not detected by ordinary Taylor--Wiles primes. The image restrictions in
+AKT, Theorem 8.1, and CN, Theorem 5.2, exclude this global obstruction.
+Twisting does not change the projective image; soluble restriction preserves
+full $\SL_2(\F_5)$ image because that group is perfect. Our alternative is to
+exclude the line from the relevant dual Selmer group using a local ordinary
+condition. Sections~\ref{sec:local}--\ref{sec:seed} are independent of $\Ginput$.
+
+\section{The local Tate condition}
+\label{sec:local}
+
+Let $L/\Q_5$ contain $\mu_5$, and let $T_q/L$ be a Tate elliptic curve with
+parameter $q$. Assume
+\begin{equation}\label{eq:tate}
+ v_L(q)>0,\qquad 5\nmid v_L(q).
+\end{equation}
+Up to a choice of basis, and using either the Tate-module convention or its
+cohomological twist, its residual representation has the form
+\[
+ \bar\rho_q(g)=\begin{pmatrix}1&a_q(g)\\0&1\end{pmatrix}.
+\]
+The character $a_q$ is the Kummer character of $q$, after choosing an
+identification $\mu_5\simeq\F_5$. Since $5\nmid v_L(q)$,
+$L(q^{1/5})/L$ is totally ramified of degree 5. In particular the residual
+inertia image is the full unipotent subgroup $U\simeq C_5$.
+
+Write
+\[
+ e=\begin{pmatrix}0&1\\0&0\end{pmatrix},\qquad
+ h=\begin{pmatrix}1&0\\0&-1\end{pmatrix},\qquad
+ f=\begin{pmatrix}0&0\\1&0\end{pmatrix},
+ \quad \mathfrak n=\F_5e,\quad\mathfrak b=\F_5e\oplus\F_5h.
+\]
+These are $G_L$-stable subspaces of $M=\mathfrak{sl}_2(\F_5)$.
+
+\begin{lemma}[Restriction of the exceptional class]\label{lem:restriction}
+Every nonzero class in $H^1(\SL_2(\F_5),M)$ has nonzero image in
+$H^1(U,M/\mathfrak b)$, and hence in $H^1(L,M/\mathfrak b)$ when
+$G_L\twoheadrightarrow U$ is the Tate residual representation.
+\end{lemma}
+\begin{proof}
+The centre has order 2 and acts trivially on $M$, so we may equally work with
+$A_5$. Restriction to its Sylow 5-subgroup is injective, because restriction
+followed by corestriction is multiplication by $[A_5:U]=12$.
+For $u=\left(\begin{smallmatrix}1&1\\0&1\end{smallmatrix}\right)$,
+\[
+ u(e)=e,\qquad u(h)=h-2e,\qquad u(f)=f+h-e.
+\]
+Thus $(u-1)M=\mathfrak b$ and $1+u+u^2+u^3+u^4=0$ on $M$.
+The cyclic-group formula gives
+\[
+ H^1(U,M)=M/(u-1)M=M/\mathfrak b.
+\]
+Projection to the trivial module $M/\mathfrak b$ induces an isomorphism on
+$H^1(U,-)$. Its inflation to $G_L$ is injective. The resulting character
+is a nonzero scalar multiple of $a_q$.
+\end{proof}
+
+Let $\mathcal L_L\subset H^1(L,M)$ be the tangent space of ordinary,
+fixed-determinant deformations relative to their weight algebra. Its local
+Tate-dual annihilator is denoted by $\mathcal L_L^\perp$.
+
+\begin{lemma}[The ordinary condition kills the exceptional line]
+\label{lem:kill}
+For the Tate representation satisfying \eqref{eq:tate},
+\[
+ \mathcal L_L=\im\bigl(H^1(L,\mathfrak n)\longrightarrow H^1(L,M)\bigr).
+\]
+Consequently a nonzero exceptional class inflated from
+$H^1(\SL_2(\F_5),M)$ does not belong to $\mathcal L_L^\perp$.
+\end{lemma}
+\begin{proof}
+In an upper-triangular ordinary deformation with fixed determinant and fixed
+inertial weights, the diagonal infinitesimal character is unramified. Lifting
+the extension requires its cup product with $a_q$ to vanish. The pairing of
+$a_q$ with a nonzero unramified character is a nonzero multiple of $v_L(q)$.
+Thus that diagonal direction is zero. All upper extension directions
+$H^1(L,\mathfrak n)$ remain available. Changing the ordinary line only changes
+the class by a coboundary. This proves the tangent-space assertion; it is also
+the fixed-determinant form of AKT's calculation in Proposition 4.3.
+
+For the trace pairing on $M$, one has $\mathfrak n^\perp=\mathfrak b$.
+Functoriality and nondegeneracy of local Tate duality therefore imply
+\[
+ \mathcal L_L^\perp\subset
+ \ker\bigl(H^1(L,M(1))\longrightarrow
+                     H^1(L,(M/\mathfrak b)(1))\bigr).
+\]
+Here the mod-5 cyclotomic twist is trivial. Lemma~\ref{lem:restriction}
+shows that the exceptional class has nonzero image under this map.
+\end{proof}
+
+\begin{remark}
+The condition $5\nmid v_L(q)$ does two jobs. It ensures a ramified unipotent
+residual image, and makes the ordinary deformation ring smooth relative to
+weight. Nonzero unipotent image alone is not being substituted for both facts.
+\end{remark}
+
+\section{The ordinary local ring}
+\label{sec:ring}
+
+Let $d=[L:\Q_5]$, and let $\OO$ be a sufficiently large coefficient ring.
+Put $\Lambda_L=\OO[[(\OO_L^\times)^f]]$, with $(\OO_L^\times)^f$ the maximal
+torsion-free pro-5 quotient. Thus $\dim\Lambda_L=1+d$. We use the weight branch
+through the Tate representation. The fixed determinant is $\e_5^{-1}$.
+
+\begin{proposition}[Fixed-determinant form of AKT, Proposition 4.3]
+\label{prop:smooth}
+For \eqref{eq:tate}, the ordinary lifting ring is formally smooth over
+$\Lambda_L$, of relative dimension $d+3$ and total dimension $2d+4$.
+Moreover
+\[
+ \dim\mathcal L_L=d+1,\qquad h^0(L,M)=1,
+ \qquad \dim\mathcal L_L-h^0(L,M)=d.
+\]
+\end{proposition}
+\begin{proof}
+AKT, Section 4.2.1, is stated for a general prime $p$ under exactly the
+Kummer-valuation hypothesis \eqref{eq:tate}. Proposition 4.1 proves
+representability of the ordinary condition and uniqueness of its ordered
+ordinary line; Proposition 4.2 identifies it with the matrix relations provided
+by ordinary local--global compatibility. Proposition 4.3 proves formal
+smoothness, with two weight characters and without fixing the determinant.
+The ring there has dimension $5+3d$ over a weight ring of dimension $1+2d$.
+
+At the odd prime 5, first impose the determinant relation on the two inertial
+weight characters. This removes $d$ weight variables. The remaining unramified
+determinant character splits off by its unique square root congruent to 1.
+Fixing it removes one further variable. This gives dimension $2d+4$ over
+$\Lambda_L$, and relative dimension $d+3$.
+
+For clarity, the essential infinitesimal argument can be given directly.
+Write an ordinary lift as
+\[
+ \begin{pmatrix}\phi&*\\0&\e_5^{-1}\phi^{-1}\end{pmatrix},
+\]
+so its extension module has character $\e_5\phi^2$. For a small extension
+of coefficient algebras with kernel $I$, the obstruction to lifting the
+extension cocycle lies in $H^2(L,\F_5)\otimes I$, a one-dimensional
+obstruction space. Changing the unramified part of $\phi$ by $x\ur$
+changes that obstruction by
+\[
+ \pm2x(\ur\smile a_q).
+\]
+Its invariant is a nonzero multiple of $2xv_L(q)$, so every obstruction can
+be removed. The ordinary line is recovered from an inertia matrix with unit
+upper-right entry. The forgetful map from the flagged ordinary functor is
+therefore an isomorphism at this residual representation.
+
+At fixed weight the diagonal infinitesimal direction is forced to vanish.
+The upper cocycles contribute $h^1(L,\F_5)=d+2$ parameters and the line
+contributes one. The coboundary dimension is $3-h^0(L,M)=2$, giving
+$\dim\mathcal L_L=d+1$. In particular the Kummer torsion directions have
+not been discarded by taking a flat quotient.
+\end{proof}
+
+\section{The exceptional-five lifting argument}
+\label{sec:patch}
+
+\begin{proposition}[Proposed exceptional-5 ordinary lifting variant]
+\label{prop:global}
+Let $K$ be a CM field containing $\mu_5$. Let
+$\rho:G_K\to\GL_2(\overline{\Q}_5)$ have determinant $\e_5^{-1}$,
+be unramified almost everywhere, and be ordinary of weight zero. Suppose:
+\begin{enumerate}
+\item $\bar\rho$ is decomposed generic and has image $\SL_2(\F_5)$;
+\item $\bar\rho$ is the residual representation of a cuspidal, ordinary,
+weight-zero representation $\pi$ of $\PGL_2(\mathbb A_K)$;
+\item at every place above 5, $\rho$ and $r_5(\pi)$ are the cohomology
+representations of split Tate elliptic curves, with the common residual
+Kummer class having valuation nonzero modulo 5. In particular their local
+representations are extensions
+$0\to\Q_5\to V\to\Q_5(-1)\to0$, after extending coefficients.
+\end{enumerate}
+The proposed lifting assertion $\Tinput$ is that $\rho$ is automorphic.
+We give the patching adaptation below as a research draft of this assertion.
+\end{proposition}
+
+We give the full construction as a candidate proof, using the published
+abstract patching theorem. The assertion is not an application of the excluded
+case of AKT, Theorem A.14, or CN, Theorem 5.2.
+
+\subsection{Preparation and the two deformation problems}
+
+Make the soluble CM base changes used before AKT, Theorem A.7, but require
+the extensions at every 5-adic place to be unramified. This preserves
+\eqref{eq:tate}, and allows $[K_v:\Q_5]>4$. The imaginary quadratic auxiliary
+fields can be chosen to split at 5 and at a protected decomposed-generic
+rational prime. The latter prime then remains a witness after every extension.
+Arrange that the automorphic seed is Iwahori-spherical and that, away from 5,
+the Galois representations are unramified or unipotently ramified, with
+trivial residual representation at the level-raising places. These are
+local soluble extension requirements and can be imposed together with the
+unramified requirements at 5. Full $\SL_2(\F_5)$ image survives soluble
+restriction. The printed step which trivializes the residual representation
+at 5 is omitted; Proposition~\ref{prop:smooth} supplies its replacement.
+
+Write
+\[
+D=[K^+:\Q],\quad d_v=[K_v:\Q_5],\quad
+\Lambda=\widehat\bigotimes_{v\mid5,\OO}\Lambda_v,
+\qquad \dim\Lambda=1+2D.
+\]
+We use one inertial weight character at each $v$, with ordered diagonal
+characters $\phi_v$ and $\e_5^{-1}\phi_v^{-1}$. The maximal torsion-free
+pro-5 weight branch contains the Tate point: under reciprocity the cyclotomic
+character is the local norm, up to inversion, and is trivial on the 5-power
+roots of unity of $K_v$. Let
+$\mathfrak p_0=\ker(\Lambda\to\OO)$ be the weight-zero augmentation.
+
+Let $S=S_5\cup R$, with $R$ the prepared prime-to-5 ramification set. Use
+the smooth fixed-determinant ordinary ring of Proposition~\ref{prop:smooth}
+at every place above 5. At $v\in R$, use the fixed-determinant rings of AKT,
+Lemma A.2, with tame characters $x_v=1$ or $x_v=\chi_v$, where $\chi_v$ has
+5-power order and $\chi_v^2\ne1$. Such characters exist after the preparation
+$q_v\equiv1\pmod5$ and enlarging the coefficient field. The resulting problems
+are denoted $\mathcal S_1$ and $\mathcal S_\chi$; they are canonically identical
+modulo the coefficient uniformizer $\varpi$. Additional smooth prime-to-5
+places allowed by Lemma A.3 cause no change in the argument.
+
+\subsection{The retained local condition and Taylor--Wiles primes}
+
+Choose $v_0\mid5$ and put
+\[
+T=S\setminus\{v_0\},\qquad t=|T|,\qquad d_0=d_{v_0}.
+\]
+The split imaginary quadratic auxiliary extension gives at least two places
+above 5, so $T$ is nonempty. In the $T$-framed relative dual Selmer group,
+places of $T$ have no dual local condition, whereas $v_0$ retains
+$\mathcal L_{v_0}^{\perp}$. The relative tangent is taken over the fixed
+weight algebra; Proposition~\ref{prop:smooth} gives
+\[
+\dim\mathcal L_{v_0}=d_0+1,\qquad h^0(K_{v_0},M)=1.
+\]
+Lemma~\ref{lem:kill} excludes the inflated exceptional line from this dual
+Selmer group. The local condition is the same for $\mathcal S_1$ and
+$\mathcal S_\chi$. Taking $T=S$ would drop this condition and invalidate
+the exclusion.
+
+Here is the replacement for AKT, Lemma A.5. Put $K_N=K(\mu_{5^N})$.
+The residual field is disjoint from the abelian extension $K_N/K$ because
+$\SL_2(\F_5)$ is perfect. The combined finite image is
+$\SL_2(\F_5)\times\Gal(K_N/K)$. Since the adjoint module has no
+$\SL_2(\F_5)$-invariants, the $H^1$ of this combined image is precisely the
+exceptional line. A dual Selmer class vanishing on the kernel of the combined
+representation would inflate from that line, and hence must be zero.
+
+Any remaining nonzero class restricts to a nonzero equivariant homomorphism
+from this kernel to $M$. The span of its image over the residue coefficient
+field is all of $M$, by absolute irreducibility of the adjoint module. This
+span formulation also covers enlarged residue coefficient fields. Choose a
+lift of $g=\diag(2,3)$ with trivial $5^N$-cyclotomic character. Varying it by
+kernel elements makes the class nonzero in $M/(g-1)M$. Chebotarev supplies a
+regular semisimple Taylor--Wiles prime of norm $1$ modulo $5^N$ detecting the
+class. Degree-one primes may be chosen as in AKT, Lemma A.5; they have the
+required imaginary quadratic splitting property.
+
+Iteration and padding produce sets $Q_N$ of one fixed size $q$, with the
+relative dual Selmer group zero for both problems. Set $Q_0=\varnothing$.
+AKT, Proposition A.4, gives presentations with
+\begin{equation}\label{eq:generators}
+g=q-3D-1+t+d_0
+\end{equation}
+global variables over the partially framed local ring. Here the omitted
+ordinary place contributes $d_0$, each Taylor--Wiles place contributes one,
+and the complex places contribute $-3D$. Increase $q$ if necessary. Only the
+presentation-generator bound is used: dual Selmer vanishing does not assert
+formal smoothness of the augmented global ring.
+
+\subsection{Framing algebras and finite-level presentations}
+
+Write
+\[
+R_N=R_{\mathcal S_1,Q_N},\quad R'_N=R_{\mathcal S_\chi,Q_N},\quad
+\Delta_N=\prod_{v\in Q_N}k(v)^\times(5).
+\]
+Let $\mathcal B=\Lambda[[z_1,\ldots,z_{4t-1}]]$ be the formal framing
+algebra. Absolute irreducibility and $T\ne\varnothing$ identify the framed
+rings, after compatible choices of representatives and coordinates, with
+\[
+R_{\mathcal S_1,Q_N}^{T}\simeq
+\mathcal B\widehat\otimes_\Lambda R_N,
+\qquad
+R_{\mathcal S_\chi,Q_N}^{T}\simeq
+\mathcal B\widehat\otimes_\Lambda R'_N.
+\]
+These choices can respect both the Taylor--Wiles augmentation and reduction
+modulo $\varpi$, as in AKT, Section 6.2. Fixing the determinant of the
+representation does not impose determinant-one framing matrices: the framing
+count remains $4t-1$.
+
+Let $\Lambda_T=\widehat\bigotimes_{v\in T,\OO}\Lambda_v$, taking
+$\Lambda_v=\OO$ away from 5. The local coefficient rings are
+\[
+R^{\mathrm{loc}}=
+\Lambda\widehat\otimes_{\Lambda_T}
+ \left(\widehat\bigotimes_{v\in T,\OO}R_{v,1}\right),\qquad
+R^{\prime\mathrm{loc}}=
+\Lambda\widehat\otimes_{\Lambda_T}
+ \left(\widehat\bigotimes_{v\in T,\OO}R_{v,\chi}\right).
+\]
+Thus the weight factor $\Lambda_{v_0}$ remains present, although its ordinary
+lifting-ring factor is omitted. Restriction gives maps from these rings to
+the corresponding $T$-framed global rings. Define
+\begin{gather*}
+R_\infty=R^{\mathrm{loc}}[[X_1,\ldots,X_g]],\qquad
+R'_\infty=R^{\prime\mathrm{loc}}[[X_1,\ldots,X_g]],\\
+\Delta_\infty=\Z_5^q,\qquad
+S_\infty=\mathcal B[[\Delta_\infty]],\qquad
+\mathfrak a_\infty=\ker(S_\infty\to\Lambda).
+\end{gather*}
+
+\subsection{The five finite-level patching inputs}
+
+We verify the inputs of \cite{ACC}, Section 6.4.1. Its formal framing algebra
+is arbitrary; it does not require framing at every ramified place.
+
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=24pt]
+\item \textbf{Diamond groups.}
+The group $\Delta_N$ is a quotient of $\Delta_\infty$ whose kernel is
+contained in $5^N\Delta_\infty$, because every Taylor--Wiles norm is $1$
+modulo $5^N$. At $N=0$ the quotient is trivial.
+
+\item \textbf{Perfect complexes and their reductions.}
+Take the complexes constructed before AKT, Proposition A.13, and specialize
+the full diamond-operator weight algebra $\Lambda_1$ to $\Lambda$:
+\[
+C_N=F_{\mathfrak m,1,Q_N}\otimes_{\Lambda_1[\Delta_N]}\Lambda[\Delta_N],
+\qquad
+C'_N=F_{\mathfrak m,\chi,Q_N}\otimes_{\Lambda_1[\Delta_N]}\Lambda[\Delta_N].
+\]
+Here $\mathfrak m$ is the non-Eisenstein maximal ideal attached to the
+common residual representation. AKT, Lemma A.10 and its Taylor--Wiles-level
+construction give perfectness; the non-neat-level input is supplied by
+Theorem 5.11 using $\mu_5\subset K$. The tame coefficient systems $1$ and
+$\chi$ agree modulo $\varpi$, giving the required derived identification of
+$C_N/\varpi$ and $C'_N/\varpi$. Their finite Hecke algebras, denoted
+$\mathbb T_N$ and $\mathbb T'_N$, have the same image after this reduction.
+Changing the framing set changes none of these complexes or operators.
+
+\item \textbf{Global rings and local structures.}
+The rings $R_N,R'_N$ have their usual $\Lambda[\Delta_N]$-structures and
+agree modulo $\varpi$. The restriction maps just constructed give the
+required $R^{\mathrm{loc}}$- and $R^{\prime\mathrm{loc}}$-structures on
+$\mathcal B\widehat\otimes_\Lambda R_N$ and
+$\mathcal B\widehat\otimes_\Lambda R'_N$. They respect the common reduction.
+
+\item \textbf{Uniform presentations.}
+Equation~\eqref{eq:generators} supplies surjections
+\[
+R_\infty\twoheadrightarrow\mathcal B\widehat\otimes_\Lambda R_N,
+\qquad
+R'_\infty\twoheadrightarrow\mathcal B\widehat\otimes_\Lambda R'_N.
+\]
+Choose generators compatibly with $N=0$ and modulo $\varpi$: fix generators
+at level zero, lift them through the augmentation maps, and extend them by
+generators in the augmentation kernels. Choose a common generating tuple
+on the reduced rings and lift it to both sides. Nakayama's lemma and the
+uniform bound give the required presentations.
+
+\item \textbf{Deformation maps to the Hecke actions.}
+The adaptations of AKT, Propositions A.11 and A.13 give surjections
+\[
+R_N\twoheadrightarrow\mathbb T_N/I_N,\qquad
+R'_N\twoheadrightarrow\mathbb T'_N/I'_N,
+\qquad I_N^\delta=(I'_N)^\delta=0
+\]
+for a single $\delta$ independent of $N$. To verify the changed local
+condition, first adjoin the ordinary $U$-operators to the Hecke algebra.
+AKT, Corollary 5.9 supplies the ordered characters, determinant
+$\e_5^{-1}$, and the characteristic-polynomial and ordered-product matrix
+identities. Proposition 4.2 identifies those identities with the actual
+ramified ordinary lifting functor. Descent of the Galois representation to
+the algebra generated by traces and weights, together with the descent
+remark following Proposition 4.2, descends this representable local condition
+to the smaller Hecke algebra modulo its intersected nilpotent ideal.
+The determinant already has the required value. This is the argument of
+AKT, Theorem 6.3 and Corollary 6.4, with its $\PGL_2$ form in Corollary 5.9.
+The nilpotence bound stays uniform. Frobenius traces and the
+weight/diamond structures determine the maps, hence give their compatibility
+modulo $\varpi$. A genuine action of $R_N$ on the complex before passage
+through nilpotent ideals is not being asserted.
+\end{enumerate}
+
+AKT, Lemma A.12 and the construction after it also give
+\[
+C_N\otimes^{\mathbf L}_{\Lambda[\Delta_N]}\Lambda\simeq C_0,
+\qquad
+R_N\otimes_{\Lambda[\Delta_N]}\Lambda\simeq R_0,
+\]
+with corresponding primed identities. Killing the diamond characters makes
+the Taylor--Wiles local representations unramified. The identities respect
+reduction modulo $\varpi$, the Hecke maps, and the chosen presentations;
+these are the augmentation requirements of \cite{ACC}, Section 6.4.1.
+
+\subsection{Patched objects and the support hypotheses}
+
+The abstract construction now produces perfect complexes $C_\infty,C'_\infty$
+over $S_\infty$, finite Hecke algebras in their derived endomorphism rings,
+and compatible surjections from $R_\infty,R'_\infty$ modulo uniformly
+nilpotent ideals. It supplies the $S_\infty$-algebra structures on the patched
+rings. ACC+, Proposition 6.4.17 gives the identified reductions and their
+compatible ring actions. Lemma 6.4.15 and Proposition 6.4.16 give
+\begin{equation}\label{eq:augmentation}
+R_\infty/\mathfrak a_\infty\twoheadrightarrow R_0,
+\qquad
+C_\infty\otimes^{\mathbf L}_{S_\infty}S_\infty/\mathfrak a_\infty
+\simeq C_0,
+\end{equation}
+and compatibility with the Hecke maps. Only the indicated surjection of
+rings is needed.
+
+Here are all three hypotheses of ACC+, Assumption 6.3.6.
+
+\paragraph{Dimensions.}
+Since $\sum_{v\mid5}d_v=2D$ and each prime-to-5 local factor has relative
+dimension three, one has
+\begin{align*}
+\dim R^{\mathrm{loc}}&=1+4D-d_0+3t,\\
+\dim R_\infty&=D+4t+q,\\
+\dim S_\infty&=2D+4t+q.
+\end{align*}
+The same formulas hold for the primed ring. The smooth factors are
+$\OO$-flat. The dimension and component statements of AKT, Lemma A.2,
+together with the completed tensor-product calculation, give
+\[
+\dim(R_\infty/\varpi)=\dim R_\infty-1,\qquad
+\dim(R'_\infty/\varpi)=\dim R'_\infty-1.
+\]
+Hence
+\begin{equation}\label{eq:defect}
+\dim S_\infty-\dim R_\infty=D.
+\end{equation}
+Relative to the printed $T=S$ calculation, deleting $R_{v_0}$ removes
+$d_0+3$ variables over weight, while \eqref{eq:generators} adds $d_0-1$.
+Both patched dimensions therefore fall by four.
+
+\paragraph{Components.}
+The retained 5-adic local factors are formal power series rings over their
+weight factors; the omitted place contributes its smooth weight algebra.
+They introduce no extra components. The prime-to-5 level-raising factors
+are exactly those in AKT, Lemma A.2. Its first part gives the unique generic
+component above each maximal generic special-fibre component on the
+unprimed side; its second part gives the unique characteristic-zero generic
+component on the primed side. The completed tensor-product and power-series
+argument at the end of AKT, Theorem A.7 applies with these same factors.
+The remaining factors are smooth, so the required component and
+specialization conditions hold. In this all-Tate problem the factors are
+equidimensional; every characteristic-zero target point lies on a component
+of maximal dimension.
+
+\paragraph{Generic cohomological concentration.}
+The prime $\mathfrak p=(\mathfrak a_\infty,\mathfrak p_0)$ of $S_\infty$
+has one-dimensional characteristic-zero quotient. By \eqref{eq:augmentation},
+specialization there and inversion of 5 gives the weight-zero ordinary
+localized $\PGL_2$ complex at level zero. The seed $\pi$ supplies nonzero
+rational cohomology. AKT, Theorem 5.10 concentrates this cohomology in an
+interval of length $D$, up to the degree reversal for the chain/dual convention.
+This is precisely Assumption 6.3.6(3) with $l_0=D$; no integral amplitude
+vanishing is assumed.
+
+\subsection{The target point and automorphy}
+
+The target representation defines $f:R_0\to\OO$ at weight zero. Pull
+$\ker f$ back under the surjection in \eqref{eq:augmentation}, and denote
+the resulting prime of $R_\infty$ by $\mathfrak x$. Its contraction to
+$S_\infty$ is $(\mathfrak a_\infty,\mathfrak p_0)$ and it lies on a maximal
+component. ACC+, Proposition 6.3.8 and Corollary 6.3.9 therefore place it in
+the support of
+\[
+H^*\!\left(C_\infty\otimes^{\mathbf L}_{S_\infty}
+S_\infty/(\mathfrak a_\infty,\mathfrak p_0)\right)[1/5].
+\]
+Proposition 6.4.16 and the compatible Hecke maps transfer this support to
+the rational weight-zero ordinary complex at level $U(1,1)$. By AKT,
+Theorem 5.10(3), the corresponding eigensystem comes from a cuspidal ordinary
+weight-zero automorphic representation. Frobenius traces and absolute
+irreducibility identify its Galois representation with $\rho$.
+Finally \cite{ACC}, Proposition 6.5.13 descends automorphy through the
+prepared soluble extension, whose 5-adic ramification was explicitly
+controlled. This completes the candidate proof of $\Tinput$.
+
+\section{A modular seed preserving the Tate condition}
+\label{sec:seed}
+
+The following is a local-preservation variant of AKT, Proposition 9.13.
+It uses AKT's unconditional seed construction, independently of
+Proposition~\ref{prop:global}.
+
+\begin{lemma}[Preserving the completions at 5]\label{lem:seed}
+Let $A/K$ be an elliptic curve over a CM field, with split multiplicative
+reduction at every $v\mid5$ and local Tate parameters $q_v$.
+Put $\bar r=A[5]$, with its Weil pairing. Then, after a solvable CM extension which
+splits completely at the 5-adic places, there is a modular elliptic curve
+$B$ with a symplectic isomorphism $B[5]\simeq\bar r$.
+Its Tate parameters at 5 can be chosen in
+prescribed sufficiently small neighbourhoods of the $q_v$. A finite
+avoidance field and a chosen decomposed-generic prime can also be retained.
+\end{lemma}
+\begin{proof}
+In AKT's proof of Proposition 9.13, the initial solvable CM extension
+trivializes the prescribed residual representation at 2, 3 and 5. Triviality
+at 5 is used to supply local Tate points on the twist $Y_{\bar r}$ of
+$Y(5)$. Here the local curves $A_{K_v}$ with their tautological level
+structures already provide points on this fixed symplectic twist.
+Trivialize only at 2 and 3,
+arrange their splitting over the maximal real subfield and the required
+unramified $i$-extension at 2, and keep the places above 5 completely split.
+
+The curve $Y_{\bar r}$ is a nonempty open of a projective line. AKT,
+Lemma 9.7, therefore applies with the prescribed local 5-adic opens, as
+well as the opens at 2 and 3 used in Proposition 9.13. It gives an elliptic
+curve $B$ with full and decomposed-generic mod-3 image, the required
+discriminant conditions at 2 and 3, and the specified mod-5 representation.
+AKT, Proposition 9.12, proves $B$ modular. That proposition imposes no
+condition at 5 and no exclusion of $\zeta_5$.
+
+The internal extension used to prove $B$ modular need not preserve the
+5-adic parameters: modularity is descended back to the field on which
+$B$ was constructed before our proposed 5-adic lifting argument is used.
+\end{proof}
+
+The preservation condition is on the local moduli points of
+$Y_{\bar r}$, including their symplectic level structures. In particular
+the approximation takes place on the prescribed residual twist.
+
+\section{Tate specialization of the geometric family}\label{sec:tategeometry}
+\label{sec:geometry}
+
+Return to the covers of family 030. After pulling the parameter line back
+to the fixed elliptic curve $E$, write the moving point as $R$ and take
+$n=3p$. Choose a point $R_*$ of exact order 6. Then
+\[
+ [n]R_*=[3p]R_*\in E[2]\setminus\{0\},\qquad
+ -2(n/3)R_*=-2pR_*
+\]
+has exact order 3. This is enough for the degree-3 version of the second
+degeneration: full $6p$-torsion is unnecessary.
+
+For the normalized covering function on the constant-$E$ parameter cover,
+write $f_{j,R}$ for the rational function, over the field obtained by adjoining
+$R$, with
+\[
+\operatorname{div}(f_{j,R})=([j]R)-(-[j]R)-j(R)+j(-R),
+\qquad f_{j,R}(O)=1.
+\]
+These are the functions of \srcM, Lemma 3.1. They satisfy the exact identity
+\[
+ f_{ab,R}=f_{a,[b]R}\,f_{b,R}^{\,a}.
+\]
+It follows by comparing divisors and the normalization $f(O)=1$.
+For $a=3$ and $b=p$, the change $Y\mapsto Y/f_{p,R}$ identifies
+the degree-3 cover for $n=3p$ with the degree-3 family for $n=3$
+pulled back by $[p]$. The identity is compatible with $w$.
+Since $[p]R_*=\pm R_*$, the boundary splitting data can be fixed
+independently of $p$.
+
+\begin{lemma}[Width three at the elliptic endpoint]\label{lem:width}
+After a fixed extension of a characteristic-zero local ground field
+splitting the degeneration data, the genus-one quotient
+$C_3/\langle w\rangle$ has an $I_3$ degeneration at $R_*$. For a local
+parameter $s$ there,
+\begin{equation}\label{eq:qexp}
+ q_{A}(s)=a s^3(1+O(s)),\qquad a\ne0.
+\end{equation}
+In particular, at a place of residue characteristic 5, arbitrarily small
+nonzero specializations can satisfy $5\nmid v(q_A(s))$.
+\end{lemma}
+\begin{proof}
+The degree-3 special cover consists of a connected unramified elliptic cover
+$E'\to E$ and a rational component joined by three nodes, each with
+smoothing order one. The connectedness follows from the exact-order-3
+divisor class $-2pR_*$. The involution $w$ preserves both components,
+acts by inversion on the elliptic component, and acts on the three node
+labels by $i\mapsto-i$. There is one fixed node and one pair.
+
+At the fixed node, $w$ acts by $(-1,-1)$ on the two branch parameters.
+If $xy=s$ is the smoothing equation, the quotient has equation
+$XY=s^2$. The pair of nodes yields one quotient node of thickness one.
+The two quotient components are rational. Resolving the thickness-two
+node inserts one component, yielding the three-component cycle $I_3$.
+Thus the quotient Jacobian has $j$-invariant with a pole of order 3,
+which gives \eqref{eq:qexp}.
+
+For the splitting field, it is enough to adjoin $E[6]$. The point
+$(O,1)$ makes $E'\to E$ a 3-isogeny whose kernel $\mu_3$ is rational.
+Its restriction $E'[2]\to E[2]$ is an isomorphism of Galois modules.
+If $Q=[n]R_*$, its unique 2-torsion lift $Q'$ is therefore rational,
+and the three attaching points are $Q'+\ker(E'\to E)$.
+They are all rational. The rational tail and the quotient cycle are
+then split as well.
+
+In the arithmetic local field, the constant $a$ need not be an integer
+unit. For sufficiently small $s$, however,
+\[
+ v(q_A(s))=v(a)+3v(s).
+\]
+Choose arbitrarily large integers $k=v(s)$ avoiding the single residue
+class $-v(a)/3$ modulo 5. Splitness is preserved in a sufficiently small
+neighbourhood, for example by the square condition on $-c_6$ in a local
+Weierstrass model. Finally $t=x(R)$ is etale at the exact-order-6 point
+$R_*$, so these conditions define nonempty opens in the original
+parameter line over the extended local field.
+\end{proof}
+
+The extension splitting the local boundary data must be chosen before the
+parameter is specialized. Taking an arbitrary extension afterwards could
+multiply the valuation by 5 and invalidate \eqref{eq:tate}. Such local
+extensions can be accommodated in a solvable CM extension. Here one can
+make the approximation explicit: take, at each 5-adic place of $K^+$, the
+Galois compositum containing the relevant completions of $K$, their
+6-torsion and their conjugates. The preceding proof shows this already
+splits the boundary. Its Galois group has order divisible only by 2 and 3,
+so it is solvable. Realize successive cyclic steps by the degree-2 and
+degree-3 cases of Grunwald--Wang, keeping every real place and any
+prescribed auxiliary places split. Taking a Galois closure preserves
+total reality, solvability, and the prescribed complete splitting.
+Composing that totally real extension with $K$ gives the required CM
+extension. The local character theorem used here is recorded, for
+example, in Conrad, Proposition A.3~\cite{Conrad}; there is no Wang
+exception for the cyclic steps of degree 2 or 3.
+
+There is no circularity in the choice of $p$: the 6-torsion preparation
+is independent of $p$, so one can fix the solvable CM field first and
+then choose $p$ large enough for the original residual-image estimates.
+The variable character pieces use the
+independent-factor Hilbert argument over the fixed field, not a new
+degree-dependent union bound for $p$.
+
+\section{Completion of the CM argument}
+\label{sec:consequence}
+
+The geometric package is $\Ginput$ from Section~\ref{sec:package};
+the additional split Tate specialization is Lemma~\ref{lem:width}.
+We now combine it with $\Tinput$ from Proposition~\ref{prop:global}.
+
+\begin{corollary}[Consequence of the proposed lifting variant]
+\label{cor:allcm}
+If Proposition~\ref{prop:global} is validated, then
+$\Ginput$ implies the modularity of every elliptic curve over
+every CM number field, including fields containing $\zeta_5$.
+\end{corollary}
+\begin{proof}
+The case $\zeta_5\notin K$ is Theorem~\ref{thm:CM}. For the remaining
+case, elliptic curves with complex multiplication are treated by Hecke
+characters. For a non-CM curve, first take a solvable CM extension admitting
+the 6-torsion local boundary data and then choose a large $p>5$ with the
+residual properties needed for \eqref{eq:switch}. Impose:
+\begin{itemize}
+\item the compact-type local opens at places above $3p$, as in the original
+switch, so that its successive representations have matching local types;
+\item at every place above 5, the second-degeneration opens of
+Lemma~\ref{lem:width}, so that $A_t$ is Tate and
+$5\nmid v(q_{A_t})$;
+\item the finite residual-image and decomposed-generic conditions on
+$A_t[p]$, $A_t[5]$, and the required order-$p$ character pieces modulo 3.
+\end{itemize}
+Weak approximation together with Hilbert irreducibility gives a common
+specialization. The 5-adic conditions do not conflict with the opens at
+3 and $p$, or with full global mod-5 monodromy.
+
+Apply Lemma~\ref{lem:seed} to $A_t[5]$, preserving the 5-adic completions,
+the residual avoidance fields and decomposed-generic primes. It supplies a
+modular $B$ with the same residual representation and Tate type at 5.
+Proposition~\ref{prop:global} would then prove $A_t$ modular. Solvable
+descent returns this modularity to the field used for specialization.
+
+Now pass to $F=K'(\mu_{3p})$, where $K'$ denotes that field. The three
+ordinary/potentially Barsotti--Tate lifting steps in \eqref{eq:switch}
+use CN, Theorem 5.2, only at $p,3,p$. Its exceptional-5 condition never
+enters these steps. They give the modularity of $B_t$, hence of $E$ over
+$F$. Abelian cyclotomic descent and then solvable descent give modularity
+over the original $K$.
+\end{proof}
+
+\section{An independent residual-mod-three consequence}
+
+The proposed lifting variant has a consequence that does not use
+$\Ginput$.
+
+\begin{corollary}[Conditional extension of CN, Theorem 6.1(1)]\label{cor:mod3}
+Assume Proposition~\ref{prop:global}. Let $F$ be any CM number field and
+let $E/F$ be an elliptic curve. If $E[3]$ is decomposed generic and
+$E[3]|_{G_{F(\zeta_3)}}$ is absolutely irreducible, then $E$ is modular.
+In particular this conclusion would no longer require $\zeta_5\notin F$.
+\end{corollary}
+\begin{proof}
+Only $\mu_5\subset F$ is new. In the proof of AKT, Proposition 9.15,
+and CN, Proposition 6.1.6, first make the soluble CM preparation that
+trivializes the prescribed mod-3 representation at the places above 5.
+The local fields then contain $\mu_3$, by the determinant condition.
+On the prescribed twist of $Y(3)$, choose at such a place a Tate curve
+with parameter
+\[
+ q=a^3,\qquad v(a)>0,\qquad 5\nmid v(a).
+\]
+Its mod-3 representation is trivial, and $5\nmid v(q)$. These conditions
+hold on a nonempty local open of the twist. The prescribed ordinary,
+supersingular, or Tate opens at 3 in CN, Proposition 6.1.6, can be
+retained independently. AKT, Lemma 9.7, constructs a curve $C$ satisfying
+all these opens, with full and decomposed-generic mod-5 image, including
+the required finite avoidance condition.
+
+Apply Lemma~\ref{lem:seed} to $C[5]$ and then
+Proposition~\ref{prop:global} over the resulting soluble CM extension,
+preserving its 5-adic completions, full mod-5 image and generic prime.
+Descend the modularity of $C$ to the field on which it was first
+constructed. This removes the root-of-unity restriction from the mod-3
+seed construction without changing its avoidance or prescribed 3-adic
+local-type conclusions. Finally CN, Theorem 5.2, at $p=3$ proves the
+modularity of the original $E$, exactly as in Theorem 6.1(1).
+The irreducibility and decomposed-generic hypotheses of that theorem
+are retained; this is not yet all-CM modularity by itself.
+\end{proof}
+
+
+\section{Scope of the new argument}
+
+The field extension in Sections~\ref{sec:package}--\ref{sec:TR} uses the source package $\Ginput$ and
+published automorphy theorems. The extra arithmetic use of the second
+geometric degeneration is its width three, which is invertible modulo five:
+\begin{align*}
+\text{width-three degeneration at five}
+&\Longrightarrow \text{Tate parameter of valuation prime to five}\\
+&\Longrightarrow \text{smooth ordinary local condition}\\
+&\Longrightarrow \text{exclusion of the exceptional adjoint class}.
+\end{align*}
+The condition is imposed on the auxiliary elliptic curve. The original curve
+need not be ordinary or multiplicative at five. The local ring is an existing
+input; retaining its dual local condition in the partially framed patching
+problem is the new global argument.
+
+Independent review should concentrate on Proposition~\ref{prop:global},
+especially the partially framed patched complexes, their Galois action through
+the Hecke algebra, and the support comparison. The local cohomology, local-ring
+calculation, preservation of the Tate class through the modular seed, and
+width-three specialization have explicit proofs above. A separate verification
+of $\Ginput$ remains necessary to certify the source manuscript itself.
+These dependencies are retained in each main statement.
+
+\begin{thebibliography}{99}
+\bibitem[M]{M}
+\texttt{openai/math}, family 030,
+\emph{Modularity of elliptic curves over imaginary quadratic fields},
+manuscript dated 4 October 2026.
+\href{https://github.com/openai/math/blob/main/preprints/Modularity-of-elliptic-curves-over-imaginary-quadratic-fields-October-4-2026/paper.pdf}{GitHub manuscript PDF}.
+Source locations: Sections 3--5, 7--9.
+
+\bibitem[CN]{CN}
+A. Caraiani and J. Newton,
+\emph{On the modularity of elliptic curves over imaginary quadratic fields},
+arXiv:2301.10509v3, 27 March 2025.
+\url{https://arxiv.org/html/2301.10509v3}.
+Theorem 5.2, Theorem 6.1, and Section 6.1.
+
+\bibitem[AKT]{AKT}
+P. B. Allen, C. Khare, and J. A. Thorne,
+\emph{Modularity of $\GL_2(\F_p)$-representations over CM fields},
+Cambridge Journal of Mathematics \textbf{11} (2023), 1--158.
+Version used: arXiv:1910.12986v2, 2 September 2022.
+\url{https://arxiv.org/abs/1910.12986}.
+Sections 4.2.1, 5.2, 8--9, and Appendix A.
+
+\bibitem[ACC]{ACC}
+P. B. Allen, F. Calegari, A. Caraiani, T. Gee, D. Helm,
+B. V. Le Hung, J. Newton, P. Scholze, R. Taylor, and J. A. Thorne,
+\emph{Potential automorphy over CM fields},
+Annals of Mathematics \textbf{197} (2023), 897--1113.
+\url{https://arxiv.org/abs/1812.09999}.
+Sections 6.3--6.4 and Proposition 6.5.13.
+
+\bibitem[Serre]{Serre}
+J.-P. Serre, \emph{Propri\'et\'es galoisiennes des points d'ordre fini des
+courbes elliptiques}, Inventiones Mathematicae \textbf{15} (1972), 259--331.
+\href{https://www.college-de-france.fr/media/jean-pierre-serre/UPL5874918517843398173_Serre_proprie_te_s_galoisiennes_des_courbes_elliptiques.pdf}{Author's collected-paper copy}.
+
+\bibitem[AC]{AC}
+J. Arthur and L. Clozel, \emph{Simple Algebras, Base Change, and the Advanced
+Theory of the Trace Formula}, Annals of Mathematics Studies 120,
+Princeton University Press, 1989.
+\url{https://www.math.toronto.edu/arthur/pdf/30.pdf}.
+Chapter 3, Theorems 4.2 and 5.1, used through \cite{ACC}, Proposition 6.5.13.
+
+\bibitem[Conrad]{Conrad}
+B. Conrad, \emph{Lifting global representations with local properties},
+Appendix A, Proposition A.3 (Grunwald--Wang).
+\url{https://math.stanford.edu/~conrad/papers/locchar.pdf}.
+\end{thebibliography}
+\end{document}

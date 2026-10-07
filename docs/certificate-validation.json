@@ -1,0 +1,7 @@
+[
+  {
+    "script": "papers/029-artin-primitive-roots/certificates/hecke_double_sparse_endpoint_certificate.py",
+    "assertions_passed": true,
+    "recorded_output_matches": true
+  }
+]

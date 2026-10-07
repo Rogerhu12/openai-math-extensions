@@ -1,0 +1,851 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern,microtype}
+\usepackage[margin=25mm]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools,booktabs,array,xcolor}
+\usepackage[colorlinks=true,linkcolor=blue!45!black,citecolor=blue!45!black,urlcolor=blue!45!black]{hyperref}
+\hypersetup{pdftitle={A common zero-free strip for Hecke L-functions}}
+\setlength{\emergencystretch}{2em}
+\numberwithin{equation}{section}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{hypothesis}[theorem]{Hypothesis}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\K}{\mathcal K}
+\newcommand{\R}{\mathcal R}
+\newcommand{\B}{\mathcal B}
+\newcommand{\N}{\mathrm N}
+\newcommand{\one}{\mathbf 1}
+\title{A common zero-free strip for Hecke $L$-functions}
+\author{AI-assisted research draft\thanks{AI assistance: OpenAI ChatGPT was used for mathematical exploration and drafting; OpenAI Codex was used for editing and compilation.}}
+\date{8 October 2026}
+
+\hypersetup{pdfsubject={Research draft}}
+\begin{document}
+\maketitle
+\begin{abstract}
+We prove a zero-free strip of width $25/258$ for all finite-order
+Hecke $L$-functions, conditional on the cited theta and reflection
+inputs and the fixed-order large sieve.  The proof first treats Dedekind zeta
+functions.  Each reflected row then pairs a character with its
+conjugate, and one symmetric zero-free rectangle controls both
+$L$-factors.  The required density estimate retains
+the number of selected rows in a fourth $L$-moment and a second
+mollifier moment.  Its exponent is determined by a quadratic
+equation, and a quartic inequality gives the stated rational width.
+The same argument reaches an exactly defined endpoint
+$0.096906264531643757\ldots$.  The width is common to all fixed
+fields; uniform implied constants in a varying field are not asserted.
+\end{abstract}
+
+\section{The theorem and the reflection input}
+
+We take as analytic inputs the theta realization, reflected
+expansion, and their estimates in~\cite[Sections~3--8 and
+Appendix~A]{OAI}.  The construction there is presented over
+cyclotomic fields.  We first verify the fixed-field generality
+needed here and record the precise consequences used in the proof.
+The large-sieve input is stated separately in Section~\ref{sec-moments}.
+These cited analytic results are retained as inputs; their full
+proofs are not reproduced or independently certified in this article.
+
+\begin{theorem}\label{thm-main}
+Under the theta and reflection inputs in Proposition~\ref{prop-theta}
+and the fixed-order large sieve \eqref{eq-ls}, for every number
+field $K$ and every finite-order Hecke character $\eta$ of $K$,
+\[
+ L_K(s,\eta)\ne0\qquad\left(\Re s>\frac{233}{258}\right),
+\]
+with the usual pole at $s=1$ permitted for the principal character.
+More precisely, the conclusion holds in $\Re s>1-\Delta_\#$,
+where $\Delta_\#>25/258$ is defined in
+\eqref{eq-endpoint}; its numerical value is
+$0.096906264531643757\ldots$.
+\end{theorem}
+
+All implied constants may depend on the fixed field, the local
+data, and fixed auxiliary parameters.  No zero-free hypothesis is
+part of the inputs.  The new estimates below are deduced from
+the displayed identities and the large sieve.
+
+\begin{proposition}[Fixed-field theta reflection]\label{prop-theta}
+Under the cited theta and reflection inputs, the construction
+of~\cite{OAI} applies to every fixed number field $F\supset\mu_{12}$
+after fixing a finite set $S$ and its local data.  It supplies
+sixth-power-free rows $u$, characters
+$\chi_u$ of order dividing six, and a probe $I(X,Y,Z)$ with the
+following properties.
+
+The row norm is $q_u=\N u$, the actual primitive conductor satisfies
+$Q_u\ll_F q_u$, and the principal inducing row is $u=1$.
+After a fixed finite ray-class partition, the characters form the
+residue-character family in~\cite{DF}.  For $X=Y=Z^{1-h}$,
+$1/2<h<3/5$, the reflected row square and the additive square
+mass satisfy
+\begin{equation}\label{eq-reflection-input}
+ \sum_m|B_m(Z)|^2\ll Z^\eps(R_0+R_0^2/Z),\quad R_0=XY,
+ \qquad \sum_m|A_m|^2\ll X^{-1}+Y^{-1},
+\end{equation}
+and $|I|\le(\sum|A_m|^2\sum|B_m|^2)^{1/2}$.
+
+For the principal target, the Poisson expansion is a sum of triple
+Mellin integrals with scalar factor
+\begin{equation}\label{eq-scalar}
+ X^{1/2-z}Z^{\xi+z-1}Y^{w-1}q_u^{-z}
+\end{equation}
+and row Dirichlet series
+\begin{equation}\label{eq-euler}
+ \zeta_F^S(6z)\,
+ \frac{L_F^S(w,\chi_u)}{L_F^S(\xi,\overline{\chi_u})}
+ H_u(\xi,w,z).
+\end{equation}
+The local factors are those in~\cite[(7.16)--(7.20)]{OAI}.
+The fixed Mellin weights in $w,z$ are rapidly decreasing on
+vertical lines, with the Gaussian factor $e^{(\xi+z-1)^2}$.
+The double principal
+residue at $w=1$, $z=1/6$
+is $c_0f_h(Z)$, where $c_0\ne0$ and
+\begin{equation}\label{eq-main-residue}
+ f_h(Z)=\frac1{2\pi i}\int_{(2)}
+ Z^{s-1+(1-h)/2+h/6}e^{(s-5/6)^2}
+ \frac{H_1(s)}{\zeta_F^S(s)}\,ds,
+ \qquad H_1(s)=H_1(s,1,1/6).
+\end{equation}
+The expansions and contour truncations have the convergence and
+vertical decay asserted in~\cite[Sections~7--8]{OAI}.
+\end{proposition}
+
+\begin{proof}
+Enlarge $S$ to contain the places above six, the trace-character
+ramification, and primes generating the ideal class group.  The
+ring of $S$-integers is then principal.  The Poisson lattice in
+\cite[Lemma~3.1]{OAI} uses adelic duality, the product formula,
+and strong approximation over $F$.  Balanced generators follow
+from compactness of the norm-one idele class group.
+Write $[F:\mathbb Q]=2r$; all its archimedean places are complex.
+For $\ell=2,3$, the local and global $S$-unit power-class spaces
+in \cite[Lemma~3.2]{OAI} have dimensions
+\[
+ \dim_{\mathbb F_\ell}(F_S^\times/F_S^{\times\ell})
+ =2|S_f|+2r,\qquad
+ \dim_{\mathbb F_\ell}(U_S/U_S^\ell)=|S_f|+r.
+\]
+The trivial $S$-class group gives injectivity of the global image;
+Hilbert reciprocity makes it isotropic.  Since $-1$ is a sixth
+power in $F$, the pairing is alternating.  Thus the image is
+Lagrangian and has the isotropic complement required by the
+construction.  Its Kummer characters and conductor bounds use
+only $\mu_6\subset F$ and class field theory.
+
+For the cubic Gauss correction, put $E_0=\mathbb Q(\sqrt{-3})$
+and $\Lambda=\Lambda_{E_0}\circ N_{F/E_0}$.  If
+$\mathfrak p\mid\mathfrak q$ has residue degree $f$, Jacobi-sum
+lifting gives $J_{\kappa(\mathfrak p)}=(-1)^{f-1}
+J_{\kappa(\mathfrak q)}^f=-\pi^+(\mathfrak q)^f$.
+This proves the identity $\gamma_2(\mathfrak p)^3=-\Lambda(\mathfrak p)$
+used in \cite[Lemma~3.4]{OAI}.  At every complex place the relative
+norm contributes the coordinate or its conjugate, so the angular
+exponent is $+1$ or $-1$, with no radial part.  This supplies the
+constant-term cancellation even when $F$ is not CM.
+The quadratic correction uses the Weil-index product formula
+and the same isotropic complement.
+
+The metaplectic framework of~\cite[Section~0.2 and Chapter~II]{KP}
+is over any global field containing the required roots of unity.
+For the specialization $(\text{rank},\text{cover degree},c)=(2,3,2)$
+in~\cite[Proposition~5.1 and Appendix~A]{OAI}, the scalar center,
+exceptional quotient, spherical vector, and local Whittaker
+conditions depend on the local fields and these parameters.
+The adelic splitting uses Hilbert reciprocity.  Compatibility of
+the global datum with rational lifts uses that an everywhere-local
+cube is a global cube, which follows from Kummer theory and
+Chebotarev.  The cited nonzero theta residue and Whittaker
+functional have the same general-field scope.
+
+All archimedean profiles are therefore the complex profiles used
+in the source.  The ensuing reflection uses those profiles and
+finite power-class partitions; its ideal counts and quadratic
+large sieve hold over each fixed number field.  The separated
+additive fractions use balanced generators and the product
+formula, and the exterior local Gauss identities use
+$\N\mathfrak p\equiv1\pmod{12}$.  No step here requires $F/\mathbb Q$
+to be Galois or abelian.
+
+To justify the changed probe scales, retain the dyads in the
+proof of~\cite[Section~6.4]{OAI}, before its final use of a fixed
+row-box exponent.  Let $P=\N\mathfrak h$ denote the powerful
+part and $D=\N\mathfrak d$ the squarefree part.  The compact
+row box gives $PD\ll R_0=XY$.  The local reflection and quadratic
+large sieve give, with the source's row restrictions retained,
+\[
+ \sum_{\mathfrak h\sim P}\sum_{\mathfrak d\sim D}|B_{hd}(Z)|^2
+ \ll Z^\eps P^{1/2}\left(D+\frac{D^2P}{Z}\right)
+ \ll Z^\eps\left(\frac{R_0}{\sqrt P}
+                    +\frac{R_0^2}{Z\sqrt P}\right).
+\]
+Summing dyads proves the first estimate in \eqref{eq-reflection-input}.
+The retained column cutoff is $Z^\nu(8D^2P/Z)$; the decay order
+is chosen after $\nu$ in~\cite[(6.40)--(6.45)]{OAI}.
+If this cutoff is below one, the full partial-sum estimate (6.40)
+is already a rapidly decaying tail, so no constant term is added.
+The additive square norm in~\cite[Section~7.1]{OAI} is
+$(XY+Y^2)/(XY^2)=X^{-1}+Y^{-1}$.
+The Poisson identities and the two principal residues then give
+\eqref{eq-scalar}--\eqref{eq-main-residue} with these scales.
+All constants depend only on the fixed field and auxiliary data.
+\end{proof}
+
+\subsection{The local Euler domain}
+
+The exact local sums give a domain larger than the sufficient
+domain recorded in~\cite[(7.21)]{OAI}.  This enlargement is needed
+for the lines used in the proof.
+
+\begin{lemma}\label{lem-euler}
+The correction $H_u$ is holomorphic and $\ll q_u^\eps$, uniformly
+in the imaginary parts, on every closed subregion with positive
+margins of
+\begin{equation}\label{eq-domain}
+\begin{gathered}
+ \Re\xi>\tfrac12,\quad \Re w>0,\quad \Re z>0,\quad
+ \Re(\xi+w)>1,\\
+ \Re(w+6z)>1,\quad\Re(\xi+6z)>1,\quad
+ \Re(\xi+w+6z)>2,\quad\Re(\xi+z)>\tfrac56.
+\end{gathered}
+\end{equation}
+After a fixed enlargement of $S$, $H_1(s)$ is nonzero for
+$\Re s\ge9/10$.
+\end{lemma}
+
+\begin{proof}
+Write $p=\N\mathfrak p$, and use real parts for the exponents
+in the following bounds.  At a prime not dividing $u$, the exact
+factor in~\cite[(7.19)]{OAI} differs from one by at most a constant
+times
+\[
+ p^{-w-6z}+p^{-\xi-6z}+p^{-\xi-w}
+       +p^{1-\xi-w-6z}+p^{4-6\xi-6z}.
+\]
+Every term is $O(p^{-1-\delta})$ on a fixed inner region of
+\eqref{eq-domain}.  At a prime with $j=v_{\mathfrak p}(u)$,
+$1\le j\le5$, the exact boundary terms instead give
+\begin{align*}
+ |H_{u,\mathfrak p}-1|\ll{}&p^{4-6\xi-6z}+p^{1-\xi-w}
+ +\one_{j=5}p^{3-6\xi}+\one_{j=2}p^{3/2-3\xi}\\
+ &+\one_{j=3}(p^{2-3\xi-w}+p^{2-4\xi})
+ +\one_{j=4}p^{5/2-4\xi-w}.
+\end{align*}
+To obtain this bound directly from~\cite[(7.17)]{OAI}, write the
+theta exponent as $t=6a,6a+1,6a+3,6a+4$.  For the other modulus
+exponents $0,1$, the boundary terms occur at $j+6m=t-1,t$,
+respectively.  Away from these boundaries the character sums
+vanish unless $t\equiv0,1\pmod6$, respectively.  The remaining
+terms sum geometrically with ratio of absolute value
+$p^{4-6\xi-6z}$; the displayed bound retains each boundary.
+All its exponents are negative on \eqref{eq-domain}.
+Thus the good-prime product converges normally and the bad-prime
+product is bounded by
+$\prod_{\mathfrak p\mid u}(1+Cp^{-\delta})\ll q_u^\eps$.
+For $u=1$ every exterior prime is good.  Enlarge $S$ so that each
+remaining correction has distance less than $1/2$ from one on
+$\Re s\ge9/10$, $w=1$, $z=1/6$; the convergent logarithmic
+product proves nonvanishing.
+\end{proof}
+
+\section{Moments on selected rows}\label{sec-moments}
+
+Fix $F$ and its local data.  We suppress the superscript $S$ in
+moment estimates and omit the principal inducing row.  The input
+from~\cite[Theorem~1.1]{DF}, with character order six, is
+\begin{equation}\label{eq-ls}
+ \sum_{q_u\le U}\left|\sum_{\N\mathfrak n\le V}
+ a_{\mathfrak n}\chi_u(\mathfrak n)\right|^2
+ \ll(UV)^\eps\K(U,V)\sum|a_{\mathfrak n}|^2,
+ \quad
+ \K(U,V)=U+V+U^{5/6}V^{1/3}+U^{1/3}V^{5/6},
+\end{equation}
+initially for sixth-power-free coefficient ideals.  Fixed twists,
+ray-class partitions and row subsets are permitted.
+
+We will also use \eqref{eq-ls} for divisor-bounded coefficients
+on arbitrary ideals.  First restrict the complete ideal to
+$\N\mathfrak n\asymp V$ and write
+$\mathfrak n=\mathfrak b\mathfrak a^6$.  On a real line $s$, its
+squared coefficient mass for fixed $\mathfrak a$ is
+$O(V^{1-2s+\eps}/(\N\mathfrak a)^6)$.  Minkowski's inequality
+and the convergent sum in $(\N\mathfrak a)^{-3+\eps}$ give
+\begin{equation}\label{eq-dyad}
+ \sum_{q_u\le U}|D_u(s+it;V)|^2
+ \ll(UV)^\eps\K(U,V)V^{1-2s}.
+\end{equation}
+Here $\chi_u(\mathfrak a)^6$ merely restricts to rows coprime
+to $\mathfrak a$.  Smooth weights can be separated on conductor
+and column dyads by Mellin inversion.
+
+The approximate functional equation and \eqref{eq-dyad} give
+the three full-family bounds needed later:
+\begin{equation}\label{eq-standard-moments}
+\begin{gathered}
+ \sum|L(1/2+it,\chi_u)|^2\ll U^{1+\eps}T_0^C,\qquad
+ \sum|L(1/2+it,\chi_u)|^4\ll U^{7/6+\eps}T_0^C,\\
+ \sum|L(1/4+it,\chi_u)|^8\ll U^{3+\eps}T_0^C,
+\end{gathered}
+\end{equation}
+where $T_0=2+|t|$ and $C$ is fixed.  Indeed, apply the approximate functional
+equation to $L^m$, with $m=1,2,4$, on actual conductor dyads
+$Q\ll U$; the polynomial lengths are $Q^{m/2}T_0^C$.
+Maximizing the four terms of \eqref{eq-dyad} at their two column
+endpoints gives the displayed powers.  On the dual side retain
+the squared multiplier $Q^{m(1-2s)}$ until the endpoints have
+been evaluated.  Its lower endpoint is at most the displayed
+bound; its upper endpoint has the same conductor exponent as
+the original polynomial.  Conjugation inside an absolute square
+restores the residue-character family, and the root number is
+a row phase of modulus one.
+
+For $A\ge1$, put
+\[
+ M_A(s,\chi_u)=\sum_{\N\mathfrak n\le A}
+       \mu_F(\mathfrak n)\chi_u(\mathfrak n)(\N\mathfrak n)^{-s}.
+\]
+The next lemma preserves the size of an arbitrary selected set
+in both factors of the zero detector.
+
+\begin{lemma}\label{lem-sparse}
+Let $\R$ be a set of $R\ge1$ rows of norm at most $U$, and set
+$c=2-2\tau$, where $7/12\le\tau\le2/3$.  At a common height $t$,
+\begin{align}
+ \sum_{u\in\R}|L(\tau+it,\chi_u)|^4
+ &\ll U^\eps T_0^C
+       \left(U^cR^{1-c}+U^{c+1/6}\right),\label{eq-sparse-fourth}\\
+ \sum_{u\in\R}|M_A(\tau+it,\chi_u)|^2
+ &\ll(UA)^\eps\left(U^cR^{1-c}+A^c+
+ U^{5/6}A^{c-2/3}+U^{1/3}A^{c-1/6}\right),\label{eq-sparse-second}
+\end{align}
+where \eqref{eq-sparse-second} requires $H=U/R\le A$.
+Fixed multiplicative constants or subpower factors in $H$ are harmless.
+\end{lemma}
+
+\begin{proof}
+The part of a divisor-bounded polynomial of norm at most $H$
+is $O(H^{1-\tau+\eps})$ in every row.  Its squared sum on
+$\R$ is $RH^c=U^cR^{1-c}$, up to allowed losses.
+For a column dyad $V>H$, \eqref{eq-dyad} is
+$\K(U,V)V^{c-1}$.  Its row term decreases with $V$, and its
+other slopes $c,c-2/3,c-1/6$ are nonnegative.  Evaluating at
+$H$ and $A$ proves \eqref{eq-sparse-second}.
+
+For \eqref{eq-sparse-fourth}, apply the approximate functional
+equation to $L^2$ and first partition the actual conductor into
+dyads $Q$.  Ignore polynomial height factors temporarily; both
+polynomials have length $Q$.  For the main polynomial, $Q\le H$
+gives the rowwise estimate $RQ^c\le U^cR^{1-c}$.  If $Q>H$,
+split at $H$ as above.  Its other endpoint terms are at most
+$U^c$, $U^{5/6}U^{c-2/3}$ and $U^{1/3}U^{c-1/6}$,
+all bounded by $U^{c+1/6}$.
+
+The dual multiplier has absolute size $Q^{c-1}$ before squaring,
+and the dual coefficient line is $1-\tau=c/2$.  All column
+slopes on that line are positive.  At its upper endpoint, after
+the squared multiplier is inserted, the four large-sieve terms are
+\begin{equation}\label{eq-actual-conductor}
+ UQ^{c-1},\qquad Q^c,\qquad
+ U^{5/6}Q^{c-2/3},\qquad U^{1/3}Q^{c-1/6}.
+\end{equation}
+If $Q\ge H$, the first is at most $UH^{c-1}=U^cR^{1-c}$
+because its conductor exponent is negative; the others are at
+most $U^{c+1/6}$.  If $Q<H$, the entire dual polynomial,
+including its multiplier, has squared rowwise bound $RQ^c$.
+This is again at most $U^cR^{1-c}$.  Thus no negative conductor
+power has been replaced prematurely by a power of $U$.
+The smooth weights, sixth-power removal and dual conjugation are
+handled as in \eqref{eq-dyad}; they cost only the displayed
+polynomial height and subpower factors.
+\end{proof}
+
+\section{The density estimate}\label{sec-density}
+
+For $T\ge1$, let $R(\sigma,T;U)$ count rows whose inducing nonprincipal
+$L$-function has a zero in $\Re s\ge\sigma$, $|\Im s|\le T$.
+We first state the detector in a form that retains the selected set.
+
+\begin{lemma}\label{lem-detector}
+Choose $1\le A<B$, $1/2\le\tau<\sigma<1$, with
+$\sigma-\tau$ bounded below.  Apart from factors
+$(UABT)^\eps T^C$, the polynomial-tail alternative for the
+selected rows is bounded by
+\begin{equation}\label{eq-tail}
+ \B_\sigma=B^{2-2\sigma}+UA^{1-2\sigma}
+ +\sup_{A\le V\le B}V^{1-2\sigma}
+       (U^{1/3}V^{5/6}+U^{5/6}V^{1/3}).
+\end{equation}
+If $R$ selected rows satisfy the integral alternative, then
+\begin{equation}\label{eq-detector}
+ R^3\ll(UABT)^\eps T^C B^{4(\tau-\sigma)}
+ \sup_{|v|\le T+C\log(UABT+3)}
+ \left(\sum_{\R}|L(\tau+iv)|^4\right)
+ \left(\sum_{\R}|M_A(\tau+iv)|^2\right)^2.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Select one zero $\varrho_u=\beta_u+i\gamma_u$ in each row.
+Mellin inversion and a shift to $\Re z=\tau-\beta_u$ give
+\begin{align*}
+ e^{-1/B}+\sum_{\N\mathfrak n>A}
+ a_A(\mathfrak n)\chi_u(\mathfrak n)
+ (\N\mathfrak n)^{-\varrho_u}e^{-\N\mathfrak n/B}
+ =\frac1{2\pi i}\int_{(\tau-\beta_u)}
+ L(\varrho_u+z)M_A(\varrho_u+z)\Gamma(z)B^z\,dz,
+\end{align*}
+where $a_A(\mathfrak n)=\sum_{\mathfrak d\mid\mathfrak n,
+\,\N\mathfrak d\le A}\mu_F(\mathfrak d)$.
+The crossed Gamma residue vanishes at $\varrho_u$; the omitted
+principal row is the only possible $L$-pole.  Each row therefore
+has a large integral or a large tail.  Gamma decay truncates the
+integral at logarithmic distance from $\gamma_u$.  Substituting
+$v=\gamma_u+\Im z$ puts all rows on a common height integral,
+with a uniform envelope because $\beta_u-\tau$ stays away from
+zero and one.  Summing and applying H\"older with exponents
+$4,2,4$ gives
+\[
+ R\ll (UABT)^\eps T^C B^{\tau-\sigma}R^{1/4}
+ \sup_v\left(\sum_{\R}|L|^4\right)^{1/4}
+             \left(\sum_{\R}|M_A|^2\right)^{1/2},
+\]
+which proves \eqref{eq-detector}.
+
+For the tail, dyadic subdivision and partial summation remove
+the selected $\beta_u$.  The one-dimensional Sobolev inequality
+replaces each row-dependent height supremum by an integral of
+$|D_u|^2+|D'_u|^2$ on a slightly larger interval.  Binary blocks
+handle the partial sums; derivatives and blocks cost logarithms.
+At a common ordinate apply \eqref{eq-dyad}.  Maximizing its
+two pure terms at $A,B$ gives \eqref{eq-tail}; the mixed terms
+are left as a supremum.  This is the detector argument
+of~\cite[Section~5]{BGL}, with the kernel \eqref{eq-ls}.
+The exponentially decaying part beyond $B$ changes only allowed
+losses.  At least half the rows satisfy one of the alternatives.
+\end{proof}
+
+\begin{proposition}\label{prop-density}
+For $1/6\le d\le1/3$, let $x=x(d)$ be the unique positive root of
+\begin{equation}\label{eq-quadratic}
+ \Phi_d(x)=6d(6d^2-15d+7)x^2+(54d^2-39d+4)x+2d-2=0.
+\end{equation}
+Then, for some fixed $C$,
+\begin{equation}\label{eq-density}
+ R(2/3+d/2,T;U)\ll U^{k(d)+\eps}T^C,
+ \qquad k(d)=\frac56-dx(d).
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+The quadratic coefficient is positive and the constant is
+negative.  The evaluations
+\[
+ \Phi_d(5/7)=\frac{(6d-1)(150d^2-35d-42)}{49}\le0,
+ \qquad \Phi_d(1)=1+(1-3d)(1+8d-12d^2)\ge1
+\]
+give $5/7\le x<1$.  Put
+\begin{equation}\label{eq-parameters}
+ y=\frac{1-2dx}{1-2d},\qquad
+ D_0=x(1-d)-\frac16,\qquad
+ c=\frac{x(2/3-d)}{D_0},\qquad \tau=1-\frac c2.
+\end{equation}
+Here $D_0\ge13/42$, and
+\[
+ c-\frac23=\frac{1-3dx}{9D_0}\ge0,
+ \qquad \frac56-c=\frac{6x(1+d)-5}{36D_0}\ge0.
+\]
+Also $1\le y\le11/7$, $x\le y$, and
+$\sigma-\tau\ge1/12$ for $\sigma=2/3+d/2$.
+
+Take $A=U^x$, $B=U^y$ and write $q=2\sigma-1=d+1/3$.
+The two mixed terms in \eqref{eq-tail} have exponents
+$1/3+(5/6-q)y$ and $5/6+(1/3-q)x$, both equal to $k$.
+The differences from the other two exponents $1-qx$ and
+$(1-q)y$ are $(2x-1)/6$ and $(2-y)/6$, both nonnegative.
+
+At $R=U^k$, the condition $H\le A$ follows from $D_0>0$.
+The row term in \eqref{eq-sparse-second} balances its first
+mixed term because
+\begin{equation}\label{eq-row-balance}
+ c+(1-c)k=\frac56+(c-2/3)x.
+\end{equation}
+Its gaps from the other two terms are $5/6-2x/3$ and
+$(1-x)/2$.  The row term in \eqref{eq-sparse-fourth} is no
+larger than $U^{c+1/6}$: indeed
+\[
+ D_0-(2x-1)k=2(1-x)(1/3-dx)\ge0
+ \quad\Longrightarrow\quad (1-c)k\le1/6.
+\]
+The exponent on the right of \eqref{eq-detector} is therefore
+$4(\tau-\sigma)y+(c+1/6)+2\{c+(1-c)k\}$.
+It equals $3k$, since
+\begin{equation}\label{eq-final-balance}
+ (1+2c)k=3c+\frac16+(4/3-2c-2d)y
+\end{equation}
+reduces exactly to \eqref{eq-quadratic} after \eqref{eq-parameters}
+is substituted.
+
+This verification bounds the unknown $R$ self-consistently.
+For $R\ge U^k$, the condition $H\le A$ remains true.  Relative
+to their values at $U^k$, each sparse moment grows by at most
+$(R/U^k)^{1-c}$.  Thus \eqref{eq-detector} implies
+\[
+ (R/U^k)^3\ll U^\eps T^C(R/U^k)^{3(1-c)}.
+\]
+Since $c\ge2/3$, this gives \eqref{eq-density}.  For $R<U^k$
+the claim is immediate.  The tail alternative was already bounded.
+\end{proof}
+
+\subsection{The exterior density ranges}
+
+For $0\le d\le1/2$ set
+\begin{equation}\label{eq-exterior}
+ D=2+9d-6d^2,\quad
+ \widehat x=\frac{8d+1}{D},\quad
+ \widehat y=\frac{11d+2}{D},\quad
+ \widehat k=\frac56-d\widehat x.
+\end{equation}
+Then $R(2/3+d/2,T;U)\ll U^{\widehat k+\eps}T^C$.
+To see this, use \eqref{eq-detector} on $\tau=1/2$ with
+$A=U^{\widehat x}$, $B=U^{\widehat y}$.  Here
+$1/2\le\widehat x\le1$, $1\le\widehat y\le3/2$.
+The full fourth moment is $U^{7/6}$, and the second mollifier
+moment is at most $U^{5/6+\widehat x/3}$.  After taking the
+cube root, the integral exponent is
+\[
+ \frac{17}{18}+\frac{2\widehat x}{9}
+             -\left(\frac29+\frac{2d}{3}\right)\widehat y.
+\]
+Substitution makes it and the two mixed tail exponents equal to
+$\widehat k$; the other gaps are again
+$(2\widehat x-1)/6$ and $(2-\widehat y)/6$.
+
+For $1/2\le\sigma\le2/3$, the row count at the endpoint and
+\cite[Corollary~1.5]{DF} give, with $q=2\sigma-1$,
+\begin{equation}\label{eq-low-density}
+ R(\sigma,T;U)\ll U^{1-q/(4-6q)+\eps}T^C.
+\end{equation}
+For $11/12\le\sigma<1$, we use
+\begin{equation}\label{eq-high-density}
+ R(\sigma,T;U)\ll
+ U^{(1-\sigma)(84\sigma-53)/6+\eps}T^C.
+\end{equation}
+For completeness, apply H\"older with exponents $4,4,2$ in the
+integral alternative at $\tau=1/2$.  The fourth mollifier moment
+is bounded by $\K(U,A^2)$, so the resulting detector is
+\[
+ R\ll(UABT)^\eps T^C
+ \left(B^{1-2\sigma}U^{7/12}\K(U,A^2)^{1/2}+\B_\sigma\right).
+\]
+Set $q=2\sigma-1$, $x=(7q-3)/2$, $y=x+7/12$,
+$A=U^x$, $B=U^y$.  Since $q\ge5/6$, the kernel exponent is
+$2x$.  The integral term, the $B$ term and the larger mixed
+tail term have exponent $(1-q)(42q-11)/12$; the other terms
+are smaller.  This proves \eqref{eq-high-density}.
+
+\section{The density envelope and the zero bins}
+
+Use $x(d)$ from \eqref{eq-quadratic} on $[1/6,1/3]$ and
+$\widehat x(d)$ from \eqref{eq-exterior} on its complement
+in $[0,1/2]$.  Denote this piecewise choice by $x_*(d)$ and put
+$k=5/6-dx_*(d)$, $r(d)=d(1-x_*(d))$.
+
+\begin{lemma}\label{lem-envelope}
+For $2/3\le\alpha\le11/12$, with $d=2\alpha-4/3$,
+\begin{equation}\label{eq-envelope}
+ k+2\alpha-\frac12=\frac53+r(d)
+ \le\frac{43}{25}-\frac{m_0}{101250},
+ \qquad m_0=\frac{247341}{71872}>0.
+\end{equation}
+Furthermore, if
+\begin{equation}\label{eq-endpoint}
+ r_\#=\max_{1/6\le d\le1/3}d(1-x(d)),\qquad
+ h_\#=\frac1{5/3+r_\#},\qquad \Delta_\#=\frac{h_\#}{6},
+\end{equation}
+then $k+2\alpha-1/2\le1/h_\#$ throughout the same interval and
+$25/43<h_\#<57/98<7/12$.
+\end{lemma}
+
+\begin{proof}
+For the central interval test $x_0=1-4/(75d)$.  Direct substitution
+and $t=d-1/4$ give
+\begin{align*}
+ 75^2d\Phi_d(x_0)
+ &=202500d^4-224100d^3+66501d^2-3690d-528\\
+ &=202500t^4-21600t^3-\frac{51273}{2}t^2
+                              +198t-\frac{303}{64}\\
+ &\le-\frac{30321}{4}t^2+198t-\frac{303}{64}
+ \le\frac{39204}{30321}-\frac{303}{64}=-m_0,
+\end{align*}
+where $|t|\le1/4$ suffices for the first inequality.  Thus
+$x_0<x(d)$.  Between these two values, $\partial_x\Phi_d<18$;
+the mean value theorem gives
+$d(x-x_0)\ge m_0/101250$ and hence \eqref{eq-envelope}.
+
+For the exterior parameters, the exact identities
+\[
+ \frac1{20}-d(1-\widehat x)
+ =\frac{(1-6d)(2+d-20d^2)}{20D}\ge0\quad(0\le d\le1/6),
+\]
+\[
+ \frac2{39}-d(1-\widehat x)
+ =\frac{(3d-1)(78d^2+9d-4)}{39D}\ge0\quad(1/3\le d\le1/2)
+\]
+give stronger bounds than \eqref{eq-envelope}.  Finally,
+$\Phi_{1/4}(15/19)=81/5776>0$ implies $r_\#>1/19$.
+This exceeds both exterior bounds, so the central maximum controls
+the entire interval.  Combining $1/19<r_\#<4/75$ gives the
+asserted range of $h_\#$.
+\end{proof}
+
+\subsection{The numerator and denominator}
+
+Fix a small grid width $\lambda>0$, a dyad $q_u\asymp U$, and
+a small fixed height exponent $\nu>0$.  Put a nonprincipal row
+in the bin $[\alpha,\alpha+\lambda]$ when its rightmost zero in
+$\Re s\ge1/2$, $|\Im s|\le4U^\nu$ has real part in that interval.
+Rows with no such zero form the floor group.
+
+For a binned row, on the fixed real-part range used below,
+\begin{equation}\label{eq-both}
+ |L_F^S(s,\chi_u)|+|L_F^S(s,\chi_u)|^{-1}\ll U^\eps
+ \qquad(\Re s\ge\alpha+2\lambda,\ |\Im s|\le U^\nu).
+\end{equation}
+Indeed choose nested discs centered at $2+it$ whose largest disc
+stays to the right of $\alpha+\lambda$ and within the zero-free
+rectangle.  A branch of $\log L$ is bounded on a small disc in
+absolute convergence.  The polynomial conductor-height bound and
+Borel--Carath\'eodory bound it by $O(\log U)$ on a larger inner
+disc.  Three-circles interpolation on an intermediate disc reaching
+$\alpha+2\lambda+it$ gives $O((\log U)^\theta)$ with fixed
+$\theta<1$.  Exponentiating gives both parts of \eqref{eq-both}.
+Since $L_F^S(s,\overline{\chi_u})=\overline{L_F^S(\bar s,\chi_u)}$,
+the symmetric rectangle gives the same bounds for $\overline{\chi_u}$,
+in particular the reciprocal bound for the denominator in \eqref{eq-euler}.
+The same argument applies to the floor with left boundary $1/2$.
+
+For $\alpha\le11/12$ choose
+\begin{equation}\label{eq-bin-lines}
+ \xi=\alpha+4\lambda,\qquad
+ w=1-\alpha-2\lambda,\qquad z=1/3+\lambda.
+\end{equation}
+The primitive functional equation sends the numerator at $w+it$
+to the conjugate character at $1-w-it=\alpha+2\lambda-it$.
+The fixed local factors at $S$ are harmless, so \eqref{eq-both} gives
+\[
+ |L_F^S(w+it,\chi_u)|
+ \ll U^{\alpha-1/2+2\lambda+\eps}(2+|t|)^C.
+\]
+Here the conductor exponent is nonnegative, so $Q_u\ll U$ can
+be used directly.  Choose $\nu$ small enough to absorb the height
+factor.  A bin containing $O(U^{k+\eps})$ rows therefore has
+absolute ratio sum bounded by
+\begin{equation}\label{eq-ratio-sum}
+ U^{\ell+O(\lambda)+\eps},\qquad
+ \ell=k+\alpha-\tfrac12.
+\end{equation}
+The numerator and denominator heights can vary independently in
+their central ranges.  Both are controlled by the same zero-free
+rectangle; no independence of a selected set is required.
+
+\section{Contour estimates and completion of the proof}
+
+Fix $25/43\le h\le h_\#$ and write $a=1-h$, $X=Y=Z^a$.
+Since $2a<1$, \eqref{eq-reflection-input} gives
+\begin{equation}\label{eq-probe-bound}
+ I(Z^a,Z^a,Z)\ll Z^{a/2+\eps}.
+\end{equation}
+For rows $U=Z^t$ whose absolute ratio sum has exponent $\ell$,
+\eqref{eq-scalar} gives the relative exponent
+\begin{equation}\label{eq-ledger}
+ \mathcal E-a/2=\xi-1+hz+a(w-1)+t(\ell-z).
+\end{equation}
+Take a grid containing $1/2,2/3,3/4,5/6,11/12$ and sufficiently
+small $\lambda$, and split at $U=Z^{1/6}$ and $U=Z^{h+\lambda}$.
+All intermediate rows use $z=1/3+\lambda$.
+
+The following table gives the complete bounds.  Lines and exponents
+in the table omit $O(\lambda)$ offsets; the actual bin lines are
+\eqref{eq-bin-lines}.  Every bound is relative to $Z^{a/2}$.
+\begin{center}
+\small
+\begin{tabular}{@{}llll@{}}
+\toprule
+Range & $(\xi,w,z)$ & Ratio exponent $\ell$ & Relative exponent\\
+\midrule
+Principal $w$ remainder & $(1,2/3,1/6)$ & $0$ & $\le-1/24$\\
+Principal $z$ remainder & $(1,1,0)$ & $0$ & $0$\\
+$U\le Z^{1/6}$ & $(1,1/100,1/3)$ & $299/200$ & $\le-11/450$\\
+Floor & $(1/2,1/2,1/3)$ & $1$ & $\le-1/8$\\
+$1/2\le\alpha\le2/3$ & $(\alpha,1-\alpha,1/3)$ & $k+\alpha-1/2$ & $\le-1/36$\\
+$2/3\le\alpha\le11/12$ & $(\alpha,1-\alpha,1/3)$ & $k+\alpha-1/2$ & $\le0$\\
+$11/12\le\alpha<1$ & $(\alpha,1/4,1/3)$ & $7k/8+3/8$ & $\le-1/144$\\
+$U>Z^{h+\lambda}$ & $(4,4,6/\lambda+1)$ & $1$ & $\le-2h$\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Here are the contour choices and verifications.  For the principal
+row first take $\xi=1+\lambda$, move $w$ to $2/3$ with
+$z=1/6+\lambda$, and take the pole at $w=1$.  Inside its residue
+move $z$ to $\lambda$ and take the pole at $1/6$.  The first
+remainder has relative exponent $h/2-1/3\le-1/24$, and the
+second has exponent $O(\lambda)$.  These are sequential moves;
+the pair $w=2/3$, $z=\lambda$ is never required.
+
+For small rows take $\xi=1+\lambda$, $w=1/100$.  Pointwise
+convexity and the row count give $\ell=299/200$.  Substitution
+at $t=1/6$ gives the table, since $h\le7/12$.  For the floor,
+take $\xi=1/2+2\lambda$, $w=1/2$ and use \eqref{eq-both}
+and the first moment from \eqref{eq-standard-moments}.
+Its exponent at $t=h$ is $-1+3h/2\le-1/8$.
+
+For bins below $11/12$, \eqref{eq-ledger} and
+\eqref{eq-ratio-sum} simplify at $t=h$ to
+\begin{equation}\label{eq-crucial-exponent}
+ -1+h\left(k+2\alpha-\frac12\right).
+\end{equation}
+In the low range put $q=2\alpha-1$.  The function
+$1-q/(4-6q)+q+1/2$ increases on $[0,1/3]$ and has maximum
+$5/3$, giving $-1/36$.  In the middle range
+Lemma~\ref{lem-envelope} makes \eqref{eq-crucial-exponent}
+nonpositive for $h\le h_\#$.  At $h=25/43$ it is at most
+$-m_0/174150<-1/60000$.
+
+For the highest bins take $\xi=\alpha+2\lambda$, $w=1/4$.
+The reciprocal is controlled by \eqref{eq-both}; H\"older and
+the eighth moment in \eqref{eq-standard-moments} give
+$\ell=7k/8+3/8$, with $k$ from \eqref{eq-high-density}.
+The relative exponent at $t=h$ is
+$\alpha-7/4+h(9/8+7k/8)$.  Its derivative in $\alpha$ is
+negative in this interval for $h\ge25/43$.  Its maximum is
+$-5/6+17h/12\le-1/144$.
+
+In every intermediate group $\ell-z>0$.  In the middle bins,
+$\ell=1+d(1/2-x_*)\ge3/4$; in the highest bins
+$\ell\ge3/8>1/3$.  The largest dyadic endpoint is consequently
+$t=h+\lambda$, changing the bounds by $O(\lambda)$.
+All contours satisfy \eqref{eq-domain}.  On the bin contours
+\eqref{eq-bin-lines}, the potentially tight local Euler inequalities have margins
+$\xi+w-1=2\lambda$ and $\xi+z-5/6\ge5\lambda$.
+
+For large rows move to $\xi=w=4$ and $z=6/\lambda+1$.
+Absolute convergence gives the row exponent one.  Since $z>1$,
+the worst endpoint is $t=h+\lambda$; insertion in
+\eqref{eq-ledger} gives $-2h$.
+
+Finally, for each fixed grid choose $\nu$ sufficiently small
+that the factors $T^C$ in the density and moment estimates,
+with $T=4U^\nu$, cost only $U^{O(\lambda)}$.
+Truncate the original Mellin contours before shifting their central
+segments.  The horizontal joins lie in the zero-free rectangles
+used for \eqref{eq-both}; the remaining tails stay on lines of
+absolute convergence.  The Gaussian and rapidly decreasing
+Mellin weights give any fixed power saving there.  Since
+$U>Z^{1/6}$ for intermediate rows, these savings also control
+the horizontal integrals in the $Z$ aspect.  The small-row and
+large-row contours need only absolute convergence and convexity.
+All fixed decay orders and local data are chosen before $Z$ grows.
+
+The Poisson expansion, the residues and the table now yield
+\[
+ I(Z^a,Z^a,Z)=c_0f_h(Z)+O(Z^{a/2+C\lambda}),
+ \qquad f_h(Z)\ll Z^{a/2+C\lambda}.
+\]
+For $0<Z\le1$, moving the line in \eqref{eq-main-residue}
+arbitrarily far right gives arbitrary power decay.  Its Mellin
+transform therefore continues
+$e^{(s-5/6)^2}H_1(s)/\zeta_F^S(s)$ holomorphically to
+$\Re s>1-h/6+C\lambda$.  By Lemma~\ref{lem-euler} its numerator
+does not vanish in the required region.  Letting
+$\lambda\downarrow0$ proves that $\zeta_F$ has no zeros in
+$\Re s>1-h/6$, including $h=h_\#$; nonpositive limiting
+exponents are sufficient for this open half-plane conclusion.
+
+To finish, let $K$ be arbitrary.  The extension $K(\mu_{12})/K$
+is finite abelian and its Dedekind zeta function factors into
+$\zeta_K$ and nonprincipal, entire Hecke factors.  The strip
+proved for the larger field therefore excludes zeros of
+$\zeta_K$ away from one.  Next, any finite-order Hecke character
+$\eta$ occurs in the zeta factorization of a finite abelian
+extension $E/K$.  The strip for $\zeta_E$ excludes zeros of
+$L_K(s,\eta)$ away from one.  Comparing the nonzero simple
+residues of $\zeta_E$ and $\zeta_K$ gives nonvanishing of each
+nonprincipal factor at one.  This proves Theorem~\ref{thm-main}.
+
+\appendix
+\section{The optimized endpoint}
+
+Here $x(d)$ always denotes the central root in \eqref{eq-quadratic}.
+Set $r=d(1-x)$ and
+\begin{align*}
+ Q(d,r)=d\Phi_d(1-r/d)
+ ={}&36d^4-(36+72r)d^3+(5+126r+36r^2)d^2\\
+ &+(2-45r-90r^2)d-4r+42r^2.
+\end{align*}
+Along the root, $Q_r=-\partial_x\Phi_d<0$.
+On $1/6\le d\le1/3$, $0\le r\le4/75$,
+\[
+ Q_{dd}=432d^2-(216+432r)d+10+252r+72r^2
+ \le-\frac{2622}{625}<0.
+\]
+Indeed this expression increases with $r$ and is convex in $d$;
+its maximum is obtained by setting $r=4/75$ and testing the two
+endpoints in $d$.  At every stationary point of $r(d)$,
+$r''=Q_{dd}/\partial_x\Phi_d<0$, so there is at most one.
+There is an interior maximum because
+\[
+ r(1/6)=1/21<1/19,\quad
+ \Phi_{1/3}(16/19)=-28/361<0,\quad
+ \Phi_{1/4}(15/19)=81/5776>0.
+\]
+Thus the maximum defining $r_\#$ is attained at a unique $d_\#$.
+
+Its value can be enclosed using rational arithmetic alone.
+For rational $d$, bisect the positive root $x(d)$ in $[5/7,1]$.
+The sign of $r'(d)$ is the sign of
+\[
+ g(d,x)=(36d^3-42d)x^2
+ +(72d^3-126d^2+84d-4)x+54d^2-37d+4.
+\]
+Rational interval evaluations of $g$ permit an outer bisection
+of $d_\#$.  The bounds $\partial_x\Phi_d>3$ and
+$|\partial_d\Phi_d|\le38$ give $|r'(d)|<6$ on this interval.
+Hence a root interval $[d_-,d_+]$ and an interval evaluation of
+$r$ at its midpoint enclose $r_\#$ after adding
+$3(d_+-d_-)$ to the upper endpoint.  With 180 outer and 280
+inner bisections, exact rational arithmetic gives
+\begin{align*}
+ 0.253879034133118787&<d_\#<0.253879034133118788,\\
+ 0.053208384468374847&<r_\#<0.053208384468374848,\\
+ 0.096906264531643757&<\Delta_\#<0.096906264531643758.
+\end{align*}
+An exact-arithmetic implementation accompanies the article.
+The numerical enclosure is not needed for the rational width
+$25/258$ or for the exact variational definition \eqref{eq-endpoint}.
+
+\begin{thebibliography}{9}
+\bibitem{OAI}
+OpenAI, \emph{Primitive roots for every admissible integer base},
+4 October 2026, 92 pp., OpenAI Math, family 029.
+\href{https://github.com/openai/math/blob/main/preprints/Primitive-roots-for-every-admissible-integer-base-October-4-2026/primitive-roots-all-integer-bases.pdf}{Official repository manuscript}.
+\bibitem{DF}
+A. de Faveri, \emph{Optimal large sieve for fixed order characters},
+\href{https://arxiv.org/abs/2610.04045}{arXiv:2610.04045v1},
+2 October 2026.
+\bibitem{BGL}
+V. Blomer, L. Goldmakher and B. Louvel,
+\emph{$L$-functions with $n$-th-order twists},
+Int. Math. Res. Not. \textbf{2014}, no.~7, 1925--1955.
+\bibitem{KP}
+D. A. Kazhdan and S. J. Patterson, \emph{Metaplectic forms},
+Publ. Math. IH\'ES \textbf{59} (1984), 35--142.
+\end{thebibliography}
+\end{document}

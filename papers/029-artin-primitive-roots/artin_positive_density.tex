@@ -1,0 +1,630 @@
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern,microtype}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage[colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue]{hyperref}
+\hypersetup{pdftitle={Positive lower density of primitive-root primes},
+ pdfsubject={A short reduction using one large predecessor factor and a common Hecke zero-free strip}}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\newcommand{\ord}{\operatorname{ord}}
+\newcommand{\Li}{\operatorname{Li}}
+\newcommand{\1}{\mathbf 1}
+\newcommand{\supp}{\operatorname{supp}}
+\newcommand{\e}{\mathrm e}
+\newcommand{\B}{\mathcal B}
+\newcommand{\E}{\mathbb E}
+\newcommand{\Q}{\mathbb Q}
+\newcommand{\Z}{\mathbb Z}
+\DeclareMathOperator{\Gal}{Gal}
+\DeclareMathOperator{\disc}{disc}
+\title{Positive lower density of primitive-root primes}
+\author{AI-assisted research draft\thanks{AI assistance: OpenAI ChatGPT was used for mathematical exploration and drafting; OpenAI Codex was used for editing and compilation.}}
+\date{8 October 2026}
+
+\hypersetup{pdfsubject={Research draft}}
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We give a short deduction of positive lower density in Artin's
+primitive root problem from a common Hecke zero-free strip and the
+marked prime-predecessor estimates of OpenAI.  For every integer
+$a$ that is neither $-1$ nor a square, the resulting bound is
+$\#\{p\le X:\ord_p(a)=p-1\}\gg_a X/\log X$.
+The construction uses only primes for which $p-1$ has a factor
+larger than $(p-1)^{1-\eta}$: all other possible index divisors then
+lie in the uniform complete-splitting range, while a bad large
+factor forces a small multiplicative order.  We prove the required
+single-factor statistic in fixed arithmetic progressions, keeping
+the character multiplier separate from the invariant marked core.
+For any common width $0<\delta<1/2$ the proof gives the explicit
+lower coefficient $\alpha_a(Y)[-\log(1-\delta)]-\tau(Y)$, positive
+for all sufficiently large fixed $Y$.  The companion strip theorem
+permits $\delta=25/258$.  No asymptotic formula or existence of a
+natural density is asserted.
+\end{abstract}
+
+\section{The lower-density theorem}
+
+An integer $a$ is \emph{admissible} if $a\ne-1$ and $a$ is not an
+integer square; in particular $|a|>1$.  For $p\nmid a$, put
+\[
+ i_p(a)=\frac{p-1}{\ord_p(a)},\qquad
+ A_a(x,2x)=\#\{x<p\le2x:p\nmid a,\ i_p(a)=1\},
+\]
+and write $A_a(X)$ for the corresponding count with $p\le X$.
+Primes denoted by $p$ and $q$ are rational primes throughout.
+
+We use two analytic inputs.  The first is the following common
+zero-free width, for a fixed number $0<\delta<1/2$:
+\begin{equation}\tag{$H_\delta$}\label{eq:H}
+ L_F(s,\chi)\ne0\quad(\Re s>1-\delta),
+\end{equation}
+for every cyclotomic field $F$ containing $\mu_{12}$ and every
+finite-order Hecke character $\chi$ of $F$; the pole of the
+principal character at $1$ is permitted.  The width is independent
+of $F$ and $\chi$.  This is the form of the input in
+\cite[Theorem~1.2]{OAI}; the companion argument \cite{Strip}
+permits $\delta=25/258$.
+
+The second input consists of the one-sided marked Type~II and
+two-sided correlation estimates of \cite[Sections~3 and 6]{PD},
+together with the graph contracts used in their proofs and the
+coefficient criterion in \cite[Lemma~10.2]{OAI}.  We retain their
+stated bounds and invariance under removing powers of the marking
+primes, including the permitted divisor growth of the invariant
+core.  Appendix~\ref{sec:ap}
+derives the only consequence needed here: a single long-prime
+factor statistic in each fixed reduced progression.  In particular,
+the argument requires neither the full Poisson--Dirichlet limit
+nor a factorization law conditioned on nonabelian splitting.
+
+Let $D$ be the signed fundamental discriminant of $\Q(\sqrt a)$.
+Choose a fixed integer $Y_a\ge3$ large enough that every prime
+factor of $D$ is at most $Y_a$, and that
+\begin{equation}\label{eq:degree-choice}
+ [\Q(\zeta_q,a^{1/q}):\Q]=q(q-1)\qquad(q>Y_a).
+\end{equation}
+An explicit sufficient choice is given in Lemma~\ref{lem:fields}.
+For every integer $Y\ge Y_a$, define
+\begin{align}
+ \alpha_a(Y)
+ &=\frac12\prod_{3\le q\le Y}\frac{q-2}{q-1}
+ \left(1-\mu(|D|)
+       \prod_{\substack{q\mid D\\q>2}}\frac1{q-2}\right),
+ \label{eq:alpha}\\
+ \tau(Y)&=\sum_{q>Y}\frac1{q(q-1)}.
+ \label{eq:tau}
+\end{align}
+An empty product is one.  If $D$ is even, then $\mu(|D|)=0$.
+
+\begin{theorem}\label{thm:main}
+Assume \eqref{eq:H} and the marked analytic estimates stated above.
+For every admissible integer $a$ and every fixed integer $Y\ge Y_a$,
+\begin{equation}\label{eq:lower}
+ \liminf_{x\to\infty}\frac{A_a(x,2x)\log x}{x}
+ \ \ge\ \alpha_a(Y)[-\log(1-\delta)]-\tau(Y).
+\end{equation}
+The same lower bound holds for
+$\liminf_{X\to\infty}A_a(X)/\pi(X)$.  Moreover,
+$\alpha_a(Y)\asymp_a1/\log Y$ and $\tau(Y)\le1/Y$.
+Consequently the right side of \eqref{eq:lower} is positive for
+all sufficiently large fixed $Y$.
+\end{theorem}
+
+\begin{corollary}\label{cor:positive}
+Under the analytic inputs of \cite{OAI,PD,Strip}, every admissible
+integer $a$ is a primitive root for a set of primes of positive
+lower relative density.  In particular, there are $c_a>0$ and
+$x_a$ such that
+\[
+ A_a(x,2x)\ge c_a\frac{x}{\log x}\qquad(x\ge x_a).
+\]
+One may use $\delta=25/258$ in \eqref{eq:lower}.
+\end{corollary}
+
+The proof has three steps.  Fixed congruences remove all index
+primes at most $Y$.  A long-prime factor statistic supplies a
+positive proportion of predecessors with exactly one large factor
+and a small cofactor.  Complete splitting controls the remaining
+small index primes, and a product of the integers $a^j-1$ controls
+the large one.  The arithmetic argument is in
+Sections~\ref{sec:local}--\ref{sec:proof}; the fixed-progression
+transfer of the analytic input is recorded in the appendix.
+
+\section{Admissible congruence classes}\label{sec:local}
+
+Put
+\[
+ M_Y=8\prod_{3\le q\le Y}q
+\]
+and let $\B_{a,Y}$ be the reduced classes $b\pmod {M_Y}$ satisfying
+\begin{equation}\label{eq:classes}
+ \chi_D(b)=-1,\qquad
+ b\not\equiv1\pmod q\quad(3\le q\le Y),
+\end{equation}
+where $\chi_D$ is the primitive quadratic character of discriminant
+$D$.  Since $|D|\mid M_Y$, these conditions are well defined.
+
+\begin{lemma}\label{lem:classes}
+The proportion of reduced classes modulo $M_Y$ in $\B_{a,Y}$ is
+$\alpha_a(Y)$ from \eqref{eq:alpha}.  It is positive and satisfies
+$\alpha_a(Y)\asymp_a1/\log Y$.  Apart from the finitely many primes
+dividing $aM_Y$, every prime in these classes satisfies
+\[
+ \gcd\!\left(i_p(a),\prod_{q\le Y}q\right)=1.
+\]
+\end{lemma}
+
+\begin{proof}
+Before imposing the quadratic condition, the allowed proportion is
+$P_Y=\prod_{3\le q\le Y}(q-2)/(q-1)$.  If $D$ is even, its
+$2$-adic quadratic component is nontrivial on the odd classes
+modulo $8$, and hence has mean zero.  The quadratic nonresidue
+condition retains exactly half the allowed classes.
+
+If $D$ is odd, then
+$\chi_D(b)=\prod_{q\mid D}(b/q)$.  At a prime $q\mid D$, the
+sum of $(b/q)$ over $\mathbb F_q^\times\setminus\{1\}$ equals
+$-1$.  Therefore the mean of $\chi_D$ on the allowed classes is
+\[
+ \mu(|D|)\prod_{q\mid D}\frac1{q-2}.
+\]
+Using $\1_{\{\chi_D=-1\}}=(1-\chi_D)/2$ gives
+\eqref{eq:alpha}.  Its bracket is strictly positive: when the
+M\"obius factor is positive, $|D|$ has at least two distinct
+odd prime factors, so the product in the bracket is less than
+one.  The exceptional value $D=1$ would make $a$ a square.
+
+The identity
+\[
+ \frac{q-2}{q-1}
+ =\left(1-\frac1q\right)
+  \left(1-\frac1{(q-1)^2}\right)
+\]
+and Mertens' theorem give $P_Y\asymp1/\log Y$, since the second
+product converges to a positive limit.  This proves the claimed
+size of $\alpha_a(Y)$.
+
+For a prime in \eqref{eq:classes}, Euler's criterion gives
+$a^{(p-1)/2}\equiv-1\pmod p$.  Thus $i_p(a)$ is odd.  Every
+odd prime $q\le Y$ is absent from $p-1$, and hence from $i_p(a)$.
+This also removes any obstruction caused by $a$ being an odd
+perfect power.
+\end{proof}
+
+\section{Uniform complete splitting}\label{sec:splitting}
+
+For a prime $q$, write
+\[
+ E_q=\Q(\zeta_q),\qquad K_q=E_q(a^{1/q}),\qquad
+ n_q=[K_q:\Q],\qquad D_q=|\disc K_q|.
+\]
+
+\begin{lemma}\label{lem:fields}
+Fix a prime $\ell\mid a$ and put $e_\ell=v_\ell(|a|)$.
+For every prime $q>\max(\ell,e_\ell)$,
+\begin{equation}\label{eq:fields}
+ n_q=q(q-1),\qquad
+ \frac{\log D_q}{n_q}\le2\log q+\log|a|.
+\end{equation}
+Under \eqref{eq:H}, $\zeta_{K_q}$ is zero-free in
+$\Re s>1-\delta$, apart from its pole at $1$.
+\end{lemma}
+
+\begin{proof}
+The prime $\ell$ is unramified in $E_q$, and the valuation of $a$
+at each prime above $\ell$ is $e_\ell$, not divisible by $q$.
+Thus $a$ is not a $q$th power in $E_q$.  Since $E_q$ contains
+$\mu_q$, the nontrivial Kummer extension $K_q/E_q$ has degree $q$.
+The relative discriminant divides the discriminant of the power
+basis for $a^{1/q}$, so
+\[
+ D_q\le q^{q(q-2)}(q^q|a|^{q-1})^{q-1},
+\]
+which gives \eqref{eq:fields}.
+
+To descend the zero-free strip, put
+$F_q=\Q(\mu_{12q})$ and $\widetilde K_q=K_qF_q$.
+Both $\widetilde K_q/F_q$ and $\widetilde K_q/K_q$ are abelian.
+The first abelian factorization writes $\zeta_{\widetilde K_q}$
+as a product of the Hecke functions covered by \eqref{eq:H}.
+The second writes $\zeta_{\widetilde K_q}/\zeta_{K_q}$ as a
+product of entire nonprincipal Hecke functions.  A zero of
+$\zeta_{K_q}$ in the asserted region would therefore contradict
+the first factorization.  This is the descent in
+\cite[Lemma~9.1]{OAI}.
+\end{proof}
+
+\begin{lemma}\label{lem:split-sum}
+Assume \eqref{eq:H}.  Fix $0<\eta<\delta$ and $Y\ge Y_a$.
+Let $S_q(x)$ count primes in $(x,2x]$ splitting completely in
+$K_q$.  Then
+\begin{equation}\label{eq:split-sum}
+ \limsup_{x\to\infty}\frac{\log x}{x}
+       \sum_{Y<q\le(2x)^\eta}S_q(x)\le\tau(Y).
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+For a nonnegative $f\in C_c^\infty((0,\infty))$, the smoothed
+prime-ideal formula of \cite[(9.9)]{OAI} gives, for any number
+field $K$ of degree $n$ and discriminant $D_K$ having the strip,
+\begin{equation}\label{eq:theta}
+ \Theta_{K,f}(x)
+ :=\sum_{\mathfrak p}\sum_{j\ge1}
+       \log N\mathfrak p\,
+       f\!\left(\frac{(N\mathfrak p)^j}{x}\right)
+ =x\int_0^\infty f(t)\,dt
+  +O_f\!\left(x^{1-\delta}(\log|D_K|+n)\right).
+\end{equation}
+The constant is independent of $K$.  Indeed, the Mellin transform
+of $f$ decays faster than any power on fixed strips, and the
+uniform zero count is
+\[
+ \#\{\rho:T\le\Im\rho<T+1\}
+ \ll \log|D_K|+n\log(2+|T|).
+\]
+The zero sum is therefore bounded by the error in
+\eqref{eq:theta}; the residue at zero and the integral on
+$\Re s=-1/2$ have the same bound.  This records the field
+dependence needed when $q$ grows.  Uniformity in the original
+theta construction is not required: the common zero-free region
+and the normalized discriminant bound give uniformity here.
+
+Given $\varepsilon>0$, choose $f\ge1$ on $[1,2]$ with
+$\int f\le1+\varepsilon$.  Every completely split prime in the
+dyad contributes at least $n_q\log x$ to $\Theta_{K_q,f}(x)$.
+Equations~\eqref{eq:fields} and \eqref{eq:theta} imply
+\[
+ S_q(x)\le\frac{(1+\varepsilon)x}{q(q-1)\log x}
+       +O_{a,f}\!\left(
+          \frac{x^{1-\delta}\log(2q)}{\log x}\right).
+\]
+There are at most $(2x)^\eta$ terms, and $\eta<\delta$.
+Their total error is $O_{a,f,\eta}(x^{1-\delta+\eta})
+=o(x/\log x)$.  Taking the limsup and then letting
+$\varepsilon\downarrow0$ proves \eqref{eq:split-sum}.
+\end{proof}
+
+For $p\nmid aq$, the condition $q\mid i_p(a)$ is equivalent to
+complete splitting in $K_q$: it says that $p\equiv1\pmod q$
+and that $a$ is a $q$th power in $\mathbb F_p^\times$.
+All counting exceptions caused by $p\mid a$ are finite.
+
+\section{A single large predecessor factor}\label{sec:large}
+
+Write $P^+(n)$ for the largest prime factor of $n$, with
+$P^+(1)=1$.  We need only the following one-dimensional
+consequence of the prime-predecessor estimates.
+
+\begin{proposition}\label{prop:large}
+Assume the marked analytic input in Section~1.  Fix $M\ge1$,
+a reduced class $b\pmod M$, and $1/2<\beta<1$.  Then
+\begin{equation}\label{eq:large}
+ \liminf_{x\to\infty}\frac{\log x}{x}
+ \#\{x<p\le2x:p\equiv b\pmod M,
+             \ P^+(p-1)>(p-1)^\beta\}
+ \ge\frac{-\log\beta}{\phi(M)}.
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+Let $f\in C_c^\infty((\beta,1))$ and
+$\Phi\in C_c^\infty((1,2))$ satisfy $0\le f,\Phi\le1$.
+Put
+\[
+ T_{x,f}(n)=\sum_{q\mid n}f\!\left(\frac{\log q}{\log x}\right),
+ \qquad
+ C_{x,f}=\sum_q\frac1q
+                 f\!\left(\frac{\log q}{\log x}\right).
+\]
+The fixed-progression interior estimate proved in
+Proposition~\ref{prop:interior} below, together with the prime
+number theorem in this fixed progression, gives
+\begin{align*}
+ &\sum_{\substack{p\equiv b\pmod M}}
+     \Phi((p-1)/x)T_{x,f}(p-1)\\
+ &\hspace{12mm}=
+ \left(\frac1{\phi(M)}\int_1^2\Phi(t)\,dt
+              \int_\beta^1\frac{f(u)}u\,du+o(1)\right)
+ \frac{x}{\log x}.
+\end{align*}
+Here $C_{x,f}\to\int f(u)\,du/u$ by the prime reciprocal sum.
+
+For all sufficiently large $x$, the left side is bounded above
+by the count in \eqref{eq:large}.  Indeed, the compact support
+of $f$ has minimum $\beta+\epsilon$ for some $\epsilon>0$.
+Each counted $q$ then satisfies
+$q\ge x^{\beta+\epsilon}>(p-1)^\beta$; there is at most one
+such factor because $\beta>1/2$.  The compact support of $\Phi$
+also places $p$ strictly inside $(x,2x]$ for large $x$.
+Choose $f$ and $\Phi$ increasing to one on their respective open
+intervals.  Their integrals approach $-\log\beta$ and $1$,
+proving the proposition.  No estimate for the factorization
+boundary at exponent $1$ is needed for this lower bound.
+\end{proof}
+
+\section{Proof of the lower-density theorem}\label{sec:proof}
+
+Fix $0<\eta<\delta$ and a permitted integer $Y$.
+By Proposition~\ref{prop:large} with $\beta=1-\eta$, the primes
+in the classes $\B_{a,Y}$ satisfying
+\begin{equation}\label{eq:candidate}
+ Q:=P^+(p-1)>(p-1)^{1-\eta}
+\end{equation}
+have lower dyadic coefficient at least
+\begin{equation}\label{eq:candidate-mass}
+ \alpha_a(Y)[-\log(1-\eta)].
+\end{equation}
+For such a prime, write $p-1=Qm$.  Since $\eta<1/2$,
+\begin{equation}\label{eq:cofactor}
+ m<(p-1)^\eta\le(2x)^\eta,
+ \qquad Q>(p-1)^{1/2}.
+\end{equation}
+Thus $Q$ occurs only once, and every other prime divisor of
+$p-1$ is at most $(2x)^\eta$.
+
+Lemma~\ref{lem:classes} removes every index prime $q\le Y$.
+If $i_p(a)>1$, a prime divisor of this index consequently falls
+into exactly one of the following two ranges.
+
+First suppose $Y<q\le(2x)^\eta$.  Complete splitting in $K_q$
+and Lemma~\ref{lem:split-sum} show that the union of all these
+exceptions has upper dyadic coefficient at most $\tau(Y)$.
+This bound is taken over all primes, before restricting to
+\eqref{eq:candidate} or to the chosen progressions.
+
+The remaining possibility is $q=Q$.  In that case
+$\ord_p(a)\le m<(2x)^\eta$.  Hence $p$ divides the nonzero
+integer
+\[
+ \prod_{1\le j\le(2x)^\eta}|a^j-1|.
+\]
+Its logarithm is $O_a(x^{2\eta})$, while every counted prime
+is larger than $x$.  All these exceptions together number
+\begin{equation}\label{eq:large-exceptions}
+ O_a\!\left(\frac{x^{2\eta}}{\log x}\right)
+ =o(x/\log x),
+\end{equation}
+because $\eta<1/2$.  This estimate covers the large index prime
+regardless of how close it is to $p$.
+
+Subtracting both exceptional sets from \eqref{eq:candidate-mass}
+proves
+\[
+ \liminf_{x\to\infty}\frac{A_a(x,2x)\log x}{x}
+ \ge\alpha_a(Y)[-\log(1-\eta)]-\tau(Y).
+\]
+The parameters $Y$ and $\eta$ were fixed before $x\to\infty$.
+Now let $\eta\uparrow\delta$ to obtain \eqref{eq:lower}.
+By Lemma~\ref{lem:classes}, $\alpha_a(Y)\asymp_a1/\log Y$;
+and the integer telescoping sum gives
+\[
+ \tau(Y)\le\sum_{n>Y}\frac1{n(n-1)}=\frac1Y.
+\]
+The coefficient is therefore positive once the fixed integer
+$Y$ is sufficiently large.
+
+Finally let $c$ denote the right side of \eqref{eq:lower}.
+If $c\le0$, the asserted global lower bound is immediate.
+If $c>0$, fix $J$ and sum the dyadic lower bounds over
+$(X/2^j,X/2^{j-1}]$, $1\le j\le J$.  The prime number theorem
+gives
+\[
+ \liminf_{X\to\infty}\frac{A_a(X)}{\pi(X)}
+ \ge c\sum_{j=1}^J2^{-j}=c(1-2^{-J}).
+\]
+Letting $J\to\infty$ proves the global claim and completes
+Theorem~\ref{thm:main}.
+\qed
+
+\begin{remark}
+The proof uses the common strip only to ensure $\eta<\delta$
+in the sum of complete-splitting errors.  Any positive common
+width therefore gives positive lower density.  A wider strip
+increases the explicit coefficient, but the precise value
+$25/258$ is not needed for positivity.  The argument controls
+all index divisors inside a deliberately restricted family of
+predecessors; it does not estimate the unrestricted large-index
+tail required for the full Artin asymptotic.
+\end{remark}
+
+\appendix
+\section{A fixed-progression interior statistic}\label{sec:ap}
+
+This appendix proves the fixed-modulus extension actually used in
+Proposition~\ref{prop:large}.  All equation and proposition numbers
+in this appendix attached to \cite{PD} refer to its
+24 September 2026 version.  Its graph and marked Type~II estimates
+are retained as analytic inputs.  We verify the changes caused by
+the progression, including the shared-label character cancellation.
+
+\begin{proposition}\label{prop:interior}
+Fix $M\ge1$, $(b,M)=1$, a smooth compactly supported
+$f:(0,1)\to\mathbb R$, and
+$\Phi\in C_c^\infty((0,\infty))$.  With $T_{x,f}$ and
+$C_{x,f}$ as above, the marked estimates of \cite{OAI,PD} imply
+\begin{equation}\label{eq:interior}
+ \sum_{\substack{p\equiv b\pmod M}}
+ \Phi((p-1)/x)
+       \bigl(T_{x,f}(p-1)-C_{x,f}\bigr)
+ =o_{M,b,f,\Phi}(x/\log x).
+\end{equation}
+The modulus is fixed before $x$ tends to infinity.
+\end{proposition}
+
+We first establish the required twisted correlation.  Use the
+notation of \cite[Theorem~6.1]{PD}: $F_x$ is its centered
+predecessor statistic, $G$ is its invariant core, and $W_1$ is
+its marked weight.  The core satisfies
+\[
+ G(v)=G(v^*),\qquad
+ |G(v)|\le(\log x)^C\mathrm d(v^*)^C
+\]
+for fixed $C$, where $\mathrm d$ is the divisor function and
+$v^*$ removes every prime-power factor belonging to the active
+marking groups.
+
+\begin{lemma}\label{lem:character}
+For a Dirichlet character $\chi\pmod M$, extended by zero away
+from units, the same estimate holds after inserting
+$\chi(w+1)$ at the second endpoint:
+\begin{equation}\label{eq:twisted}
+ \sum_{w\ge1}\frac{\Psi(w/x)}w
+ F_x(w)\chi(w+1)G(w+1)W_1(w)W_1(w+1)
+ \ll_{A,M}(\log x)^{-A}.
+\end{equation}
+The displayed invariance and divisor-growth hypotheses are
+imposed on $G$ itself.
+\end{lemma}
+
+\begin{proof}
+All active marking primes eventually exceed $M$.  In the
+physical pairing of \cite[Section~6.2]{PD}, the positions obey
+$n'=n+D$.  Multiply the target endpoint by $\chi(n')$ and
+the edge coefficient by $\overline{\chi(D)}$.  To preserve the
+graph bound, expand
+\[
+ \overline{\chi(D)}=\sum_{h\bmod M}c_h\e(hD/M),
+ \qquad \sum_h|c_h|\le\sqrt M,
+ \qquad \e(t)=e^{2\pi it}.
+\]
+Multiplication of an edge by $\e(hD/M)$ is the unitary
+conjugation $U_h^{-1}A_\zeta U_h$, where
+$U_h v(n,\mathbf p)=\e(hn/M)v(n,\mathbf p)$.
+Each Fourier term is therefore bounded by the original
+\cite[Proposition~6.2]{PD}, applied to modulated endpoint
+vectors.  Their suprema and norms do not increase; the first
+endpoint remains independent of the chosen marking lists.
+The residual ideal family and its comparison kernels are the
+original ones.  Thus their hypotheses and logarithmic precision
+are unchanged.
+
+Now remove the shared labels as in \cite[(6.14)]{PD}:
+\[
+ n=D_Rw,\qquad n'=D_R(w+D_C),\qquad D=D_RD_C.
+\]
+Since the label products are units modulo $M$, the inserted
+factors reduce exactly to
+\begin{equation}\label{eq:cancellation}
+ \chi(n')\overline{\chi(D)}
+ =\chi(D_R)\chi(w+D_C)
+     \overline{\chi(D_RD_C)}
+ =\chi(w+D_C)\overline{\chi(D_C)}.
+\end{equation}
+No dependence on the shared product remains.  Collision and
+square-exception estimates still hold, since all multipliers
+have modulus at most one.
+
+For the raw pattern, $D_C=1$, giving \eqref{eq:twisted}.
+For a comparison pattern, write $D_C=D_AD_B$ as in
+\cite[(6.17)]{PD}.  The factors
+$\overline{\chi(D_A)}$ and $\overline{\chi(D_B)}$ are absorbed
+into the arbitrary bounded free-tuple tests in (6.18).
+The target sequence in (6.19) becomes
+$V(v)=\chi(v)G(v)W_t^b(v)$, with the same energy bound.
+That sequence is used only through its energy after the shared
+labels have been removed; the original fixed divisor-moment
+bounds still apply because $|\chi|\le1$.  The bilinear Fourier and local Mellin
+estimates in Sections~6.3--6.6 still obtain their cancellation
+from the unchanged first endpoint $F_x$.  The comparison terms
+are consequently negligible to the required logarithmic
+precision, proving the lemma.
+\end{proof}
+
+\begin{proof}[Proof of Proposition~\ref{prop:interior}]
+The one-factor case of \cite[Section~7]{PD} extracts the
+centered statistic from the preceding correlation.  We give
+the changes for the fixed progression.
+
+\emph{Initial mass and presieving.}
+Impose the nonnegative condition $u+1\equiv b\pmod M$ in
+\cite[Lemma~7.2]{PD}.  A presieving condition $r\mid u+1$
+is incompatible with it if $(r,M)>1$.  Otherwise, for a
+long-prime product $\ell$ and a divisor-model term $d'$ with
+$(\ell d',r)=1$, the CRT count replacing (7.9) is
+\[
+ \sum_{\substack{u+1\equiv b\pmod M\\r\mid u+1,\ \ell d'\mid u}}
+ \Phi(u/x)
+ =\frac{x}{Mr\ell d'}\int_0^\infty\Phi(t)\,dt
+   +O_{\Phi,M}(1).
+\]
+If $(\ell d',r)>1$, there are no solutions.  The factors
+$\ell,d'$ are eventually coprime to $M$, since their prime
+factors tend to infinity.  No condition on $(b-1,M)$ is needed.
+The summed rounding errors and divisor-model comparisons are
+unchanged apart from fixed constants.  The base mass gains
+$1/M$, while deleting sieve primes dividing $M$ multiplies the
+local sieve product by $M/\phi(M)$.  The net normalization is
+$1/\phi(M)$; the two centered main terms still cancel.
+
+\emph{Replacing composite prime slots.}
+Expand
+\[
+ \1_{\{v\equiv b\pmod M\}}
+ =\frac1{\phi(M)}\sum_{\chi\bmod M}
+                       \overline{\chi(b)}\chi(v).
+\]
+In each prime-to-rough replacement, retain $\chi(m)$ in the
+current prime slot $m$.  The coefficient criterion in
+\cite[Lemma~10.2]{OAI}, used in the proof of the one-sided
+estimate, is stable under this fixed twist.  Indeed, cancellation
+against a testing character $\psi$ is replaced by cancellation
+against $\chi\psi$, whose zero extension is a character of
+modulus at most $\operatorname{lcm}(M,\operatorname{mod}\psi)$.
+If the latter testing modulus was at most $(\log x)^B$, the
+new one is at most $(\log x)^{B+1}$ for large $x$.  The
+coefficient bounds, support restrictions, and allowed Mellin
+twists are unchanged.  Thus the same arbitrary logarithmic
+precision is available for each of the finitely many characters.
+
+After all replacements the character product is the single
+factor $\chi(v)$, with $v=u+1$.  Keep it outside the invariant
+core in \cite[(7.26)]{PD}.  For fixed $v$ it is unchanged by
+the allocation of active prime factors among slots.  All
+failed-allocation, square, and candidate-deletion bounds use
+absolute values, so their estimates are unchanged.  The final
+correlation (7.29) now contains $\chi(u+1)$ and is bounded by
+Lemma~\ref{lem:character}.  This proves the progression version
+of the centered marked estimate (7.30).
+
+\emph{Removing the marks.}
+The prime mean-square estimate (7.33) bounds its restriction to
+this progression, since the summands are nonnegative.  With
+$B$ disjoint marking arrays, Cauchy--Schwarz therefore gives
+the same $O_M(B^{-1/2})$ loss as in (7.34), with the fixed
+number of marking groups absorbed in the constant.  First
+let $x\to\infty$ for fixed array data, then let $B\to\infty$,
+and finally increase the fixed sieve depth, as in Section~7.6.
+The centered discrepancy tends to zero.  The argument applies
+to smooth one-factor tests by the same partial summation and
+Mellin separation used in (7.1).  This is \eqref{eq:interior}.
+\end{proof}
+
+\begin{thebibliography}{9}
+
+\bibitem{OAI}
+OpenAI,
+\emph{Primitive roots for every admissible integer base},
+4 October 2026, OpenAI Math, family 029.
+\href{https://github.com/openai/math/blob/main/preprints/Primitive-roots-for-every-admissible-integer-base-October-4-2026/primitive-roots-all-integer-bases.pdf}{Repository PDF}.
+
+\bibitem{PD}
+OpenAI,
+\emph{The Poisson--Dirichlet law for prime predecessors},
+24 September 2026, OpenAI Math.
+\href{https://github.com/openai/math/blob/main/preprints/The-Poisson-Dirichlet-Law-for-Prime-Predecessors-September-24-2026/paper.pdf}{Repository PDF}.
+
+\bibitem{Strip}
+\emph{A common zero-free strip for Hecke $L$-functions},
+companion manuscript, 2026.
+
+\end{thebibliography}
+\end{document}
