@@ -8,7 +8,7 @@ import subprocess
 ROOT = Path(__file__).resolve().parents[1]
 TARGETS = {
     '030': ['papers/030-modularity/modularity_cm_totally_real.tex'],
-    '159': ['papers/159-szemeredi-exponents/math159_one_level_bound.tex'],
+    '159': ['papers/159-szemeredi-exponents/math159_single_exponential.tex'],
     '029': [
         'papers/029-artin-primitive-roots/hecke_zero_free_strip.tex',
         'papers/029-artin-primitive-roots/artin_positive_density.tex',

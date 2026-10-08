@@ -56,14 +56,14 @@
       "sha256": "de2eab916e1438d6d99b7c3a8d9dfd484c624d47d436e6024329ddc9e5ab3edc"
     },
     {
-      "path": "papers/159-szemeredi-exponents/math159_one_level_bound.pdf",
-      "bytes": 352645,
-      "sha256": "3a5cc9254641c5b233aa0a51bf4bab0329d6878e30fd6b04911d7e4826113efc"
+      "path": "papers/159-szemeredi-exponents/math159_single_exponential.pdf",
+      "bytes": 472345,
+      "sha256": "9140baedc389bee3cddd89481d950ed22346d12046f0244d2991f65734d918be"
     },
     {
-      "path": "papers/159-szemeredi-exponents/math159_one_level_bound.tex",
-      "bytes": 40024,
-      "sha256": "4c97767accc2c4f3ca131ef9bc247fdcf919b57d8efb449375e641a9787ead2d"
+      "path": "papers/159-szemeredi-exponents/math159_single_exponential.tex",
+      "bytes": 90212,
+      "sha256": "c8143f27330db50cede2b3dbcaa660bf628431541cd5dab6f2c21c9c2654a24c"
     },
     {
       "path": "papers/172-euclidean-ramsey/algebraic_spherical_configurations.pdf",

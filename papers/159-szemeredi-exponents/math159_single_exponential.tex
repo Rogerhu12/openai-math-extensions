@@ -1,0 +1,1926 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[margin=25mm]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{microtype}
+\usepackage{booktabs,tabularx,array,longtable}
+\usepackage{xcolor}
+\usepackage[colorlinks=true,linkcolor=blue!40!black,citecolor=blue!40!black,
+  urlcolor=blue!40!black]{hyperref}
+\hypersetup{pdftitle={A Single-Exponential Exponent for Arithmetic Progressions},
+  pdfsubject={Quantitative proof modification with an explicit dependency audit},
+  pdfauthor={}}
+\setlength{\parindent}{1.2em}
+\setlength{\parskip}{2pt}
+\setlength{\emergencystretch}{2em}
+\allowdisplaybreaks[1]
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newcommand{\M}{\mathcal M}
+\newcommand{\E}{\mathbb E}
+\newcommand{\Z}{\mathbb Z}
+\newcommand{\R}{\mathbb R}
+\newcommand{\g}{\mathfrak g}
+\newcommand{\h}{\mathfrak h}
+\newcommand{\n}{\mathfrak n}
+\newcommand{\Ad}{\operatorname{Ad}}
+\newcommand{\ev}{\operatorname{ev}}
+\newcommand{\Lip}{\operatorname{Lip}}
+\newcommand{\wt}{\operatorname{wt}}
+\newcommand{\corr}{\operatorname{corr}}
+\newcommand{\poly}{\operatorname{poly}}
+\newcommand{\im}{\operatorname{image}}
+\newcommand{\one}{\mathbf 1}
+
+\begin{document}
+\begin{center}
+{\Large\bfseries A Single-Exponential Exponent\\[3pt]
+for Arithmetic Progressions}\\[7pt]
+{\normalsize A quantitative proof modification for OpenAI/math 159}\\[5pt]
+{\small October 8, 2026}
+\end{center}
+
+\begin{abstract}
+This note quantifies the exponent in the density bound of
+\emph{Quasipolynomial Bounds for Arithmetic Progressions}
+(OpenAI/math, September 23, 2026). Relative to that manuscript's
+analytic framework, we obtain
+\(\varepsilon_k=\exp(-k^C)\), for an absolute constant \(C\).
+The proof keeps a polynomial geometric degree and replaces two
+sequential inverse-theorem chains by degree descents. A direct
+Cauchy--Schwarz calculation integrates supplied derivative correlators,
+while effective nilpotent cube completion removes one vertex in
+relative detection. Separating structural dimension from logarithmic
+precision controls the remaining branching arguments. The geometric
+and analytic modifications and the final numerical schedule are given
+explicitly, relative to the source results listed below.
+\end{abstract}
+
+\section{The statement and the scope of the proof}\label{sec:result}
+
+For integers \(k\ge3\), let \(r_k(N)\) be the largest cardinality of a
+subset of \(\{1,\ldots,N\}\) containing no nonconstant \(k\)-term
+arithmetic progression. All logarithms are natural. Write \(\M\) for the
+198-page manuscript \cite{openai}; its section and page numbers below
+refer to that version.
+
+\begin{theorem}[Quantitative consequence of the source framework]\label{thm:main}
+Subject to the analytic results of \(\M\) specified below, there is an
+absolute constant \(C>0\) such that for every \(k\ge3\) there are
+constants \(K_k,c_k>0\) satisfying
+\begin{equation}\label{eq:main}
+ r_k(N)\le K_k N\exp\!\left[-c_k(\log N)^{\varepsilon_k}\right],
+ \qquad \varepsilon_k=\exp(-k^C),\qquad N\ge3.
+\end{equation}
+\end{theorem}
+
+\paragraph{Imported results.}
+We use the bottom absolute-patch theorem (\(\M\), Lemma 2.2), the
+sampler and rank-transfer contracts (Sections 3--4 and Appendices F--H),
+the comparison and exact-marking framework (Sections 5--8 and Appendices
+A--E and I), the extraction of Section 9, and the density-increment
+construction and parameter order of Section 10. We retain their
+analytic conclusions, including the prescribed dependencies of warm
+bounds. The algebraic modifications and the dependence of the numerical
+powers on the fixed orders are the subjects of this note. This is a
+proof relative to that manuscript, not a replacement proof or an
+independent verification of all its analytic arguments.
+
+The external inverse input is the proof of Leng--Sah--Sawhney
+\cite{lss}, using Leng's equidistribution result \cite{leng}. Its
+published fixed-order notation does not by itself specify the
+order-dependence needed here; Section~\ref{sec:inverse} records the
+additional budget calculation. The supplied-derivative integration statement needed for the
+improvement is proved in Proposition~\ref{single:integration}.
+
+\paragraph{Budget conventions.}
+A growing budget contains dimensions, logarithmic rational heights,
+logarithmic Lipschitz bounds, logarithmic inverse errors and correlations,
+and logarithmic scale requirements. Order-dependent positive factors
+\(K_q\) may be arbitrarily large: they are coefficients, not powers of
+the growing budget. We retain every power of that budget and every
+successive substitution of one such bound into another. Every exponent
+implicit in \(O(1)\) below is absolute. For example, a map
+\(x\mapsto K_q(2+x)^b\), applied successively \(m\) times, has
+sufficient degree \(b^m\); calling \(m\) fixed for a fixed \(q\)
+does not justify dropping it from an estimate in \(q\).
+
+Set
+\[
+ s=k-2,\qquad D=256k^2,\qquad p=2+\log(1/\alpha)
+\]
+for a starting density \(\alpha\). The original multiplicative density
+gain requires \(T\le K_kp\) rounds. At weight \(h\), the determining
+data consist of integer coordinates \(b_h\), a rational value space
+\(W_h\), and targets
+\[
+ C_h(u,b_{<h})\in W_h,\qquad \deg_{\wt} C_h\le h.
+\]
+The spatial variable has weight one and \(b_h\) has weight \(h\).
+The paired determining cutoffs force a unique padded integer tuple.
+Writing \(Q_h=\log(2/w_h)\), a bound is \emph{warm at \(h\)} if it
+may use dimensions, \(p\), and already chosen data at weights strictly
+above \(h\), but none of the incoming \(Q_i\) for \(i\le h\).
+A preliminary bound at \(h\) may also use \(Q_h\). Once retained as
+history, such data are warm at every subsequent layer \(j<h\).
+
+The principal bounds proved below are
+\[
+ D=O(k^2),\qquad
+ \max_{r\le D+2}I_r,\ \max_{q\le D}R_q,\ F,B
+       \le\exp(D^{O(1)}).
+\]
+Here \(I_r\) is an inverse-theorem budget exponent, \(R_q\) is the
+relative-detector exponent of Section~\ref{sec:relative}, and \(F\) controls the
+fresh absolute rank, and \(B\) controls the source's local polynomials
+and their descending numerical schedule. The last density calculation
+uses the original rank ledger.
+
+\section{A persistent record with quadratic degree}\label{sec:macro}
+
+A completed active return has two kinds of controlled factors: a slow
+factor in normalized coordinates and a rational factor in integer
+coordinates. Keeping these factors on their original sides allows the
+middle orbit to retain its original degree.
+
+For a filtered Lie group, call a polynomial \emph{jointly filtered} when
+each monomial of weighted degree \(a\) in its logarithm has coefficient
+in the \(a\)-th Lie layer. Constants lie in the first layer. Integer
+and normalized labels have weight one. A \emph{marking} is the fixed
+projection \(\pi:G\to Y\) recording the determining equations.
+
+\begin{lemma}[Ordered active return]\label{lem:active}
+In the setting of Theorem 8.2 of \(\M\), suppose the input orbit is
+jointly filtered in all actual parameters and its marking is a fixed
+filtered polynomial \(P_Y(X)\) of the site variables. The group and
+marking may themselves be finite charged families in older dummy
+variables, which are coefficients rather than actual arguments.
+The return can be chosen in the form below, with each of \(E,C,R\)
+jointly filtered in the original filtration:
+\begin{equation}\label{eq:ECR}
+ g^\sharp(X,\theta,\widetilde t,z)
+   =E(X,\theta,z)\,C(X,z)\,R(X,\widetilde t,z),
+ \qquad
+ \pi E=\pi R=1,\quad \pi C=P_Y(X).
+\end{equation}
+Here \(X\) collects the site variables, \(z\) the short labels, and
+\(\theta,\widetilde t\) the normalized and integer long labels.
+The factor \(C\) has no long-label argument; \(E\) has controlled coefficients
+in normalized site, residual, and label coordinates; and \(R\) has
+controlled common denominator in raw integer coordinates. No
+coefficient bound is required for \(C\). The original score slice,
+both expected-payoff representative identities, and the field
+estimates are retained.
+\end{lemma}
+
+The additional induction proving the lemma is given in
+Section~\ref{sec:active}. We first show how its format closes the macro
+argument.
+
+\begin{lemma}[Transport of entire residual features]\label{lem:transport}
+At successive active layers, a historical normalized real label can be
+stored as an affine expression in the current normalized spatial
+coordinates and named higher residuals. At final reassembly every such
+feature has weighted degree at most \(s\). Unfrozen historical short
+integer labels have a finite menu of whole site functions, with
+preliminary cost at their creation layer and warm cost at every lower
+layer. These statements concern the exactly marked payoff and retain
+both of its zero cases. Only active layers create these histories.
+Old determining slots of weight \(h>s\) remain in the canonical
+passive site multipliers and are not included among these features.
+\end{lemma}
+
+\begin{proof}
+Fix one edge at layer \(j\), and write its parent higher raw target as
+\(C_h^P(u,b_j,\ldots,b_{h-1})\), where \(j<h\le s\); lower variables already
+fixed at this parent have been absorbed into \(u\). The edge has an
+affine spatial map \(\psi(t)\) and an exact integer current lift
+\(B_j^\psi(t)=\beta_j^\psi(t)+b_{j,0}\). By the definition of the
+stopped tree in \(\M\), Section 3.5, p.~23, the child targets are
+defined by the formal identity
+\begin{equation}\label{eq:target-transport}
+ C_h^\psi(t,b_{j+1},\ldots,b_{h-1})
+ =C_h^P(\psi(t),B_j^\psi(t),b_{j+1},\ldots,b_{h-1}).
+\end{equation}
+Undo any fixed triangular determining reindexings on both sides, using
+their recorded exact inverses. For the named raw residuals
+\(\rho_h=b_h-C_h-\ell_h\), it follows that
+\begin{equation}\label{eq:residual-transport}
+ \rho_h^\psi(t,b_{>j})
+ =\rho_h^P(\psi(t),B_j^\psi(t),b_{>j}).
+\end{equation}
+The centered residual used by the sampler is an affine translate and
+sign change of this feature:
+\(y_h=-\rho_h+(b_{h,0}-c_h-\ell_h)\).
+
+Use the fixed prepared offsets \(\ell_h\) in these residuals;
+newly selected smaller-box centers remain cutoff parameters. The
+canonical tuple is defined on one fixed prepared padded chart:
+take its true current raw lift, then the successive higher padded
+lifts, using the prepared offsets rather than path-dependent new
+centers. Outside that chart use the common zero extension.
+In the next external field, replace an old residual \emph{as an entire
+feature} by its parent version evaluated at this canonical tuple.
+On actual paths this agrees by \eqref{eq:residual-transport}. On an
+exactly marked return, the determining transformation is the parent
+transformation, and a contributing determining cutoff forces that same
+canonical tuple. Keep the whole integer tuple sum. Each inadmissible
+tuple contributes zero to both expressions; for an admissible tuple
+all substituted features agree. If no padded tuple exists both payoffs
+are zero. This proves separate equality for the two unsigned payoffs.
+Off the scoring locus this is a definition of the external field, just
+as in \(\M\), Lemma 7.5; no claim that rounding is a polynomial is made.
+
+During the next micro return, the previous spatial coordinates are
+parameter labels. After the current macro extraction and freezing of
+nonpivot parameters, \(\M\), (9.4), expresses these normalized real
+labels affinely in \(u/H\), \(y_j/v_j\), and the normalized active
+sheet coordinates. The latter are linear in the same residual frame.
+The normalized extra inactive labels are also affine in that frame
+after their product columns have been fixed, by (9.2). Update only
+these affine spatial features, and transport the already named higher
+residuals by \eqref{eq:residual-transport}. This proves the affine
+feature invariant by induction. At final reassembly insert
+\(\rho_h=b_h-C_h(u,b_{<h})-\ell_h\); it has weighted degree at most
+\(h\le s\). In particular, one never composes an arbitrary degree-\(h\)
+child target directly with a degree-\(j\) pivot, which could have
+degree \(hj\).
+
+For the integer menu, an unfrozen extra short label created at \(h\)
+has the form \(w(u)=\lambda\beta_h^{\rm can}(u)+c\), with integral
+\(\lambda,c\). Lemma 3.1 and (3.1) of \(\M\) give
+\[
+ \|\lambda\|\le \exp(\poly(d_h))K_i,
+ \qquad K_i\le k_i/v_h.
+\]
+For a short axis, \(k_i\), \(v_h^{-1}\), and the product-column
+offset have preliminary bounds. Keep the row in the original raw
+coordinates by undoing representation reindexings. If one writes
+\(\beta_h=b_h-b_{h,0}\), the additional offset is controlled as well:
+\(\lambda\) annihilates \(W_h\), \(c_h\in W_h\), and the
+feasible-center relation (3.6) controls \(b_{h,0}-c_h-\ell_h\).
+For \(m_h\) labels and \(\|\lambda\|,|c|\le R_h\), there are at most
+\[
+ (2R_h+1)^{m_h(d_h+1)}
+\]
+row-and-offset lists. Their logarithmic count is polynomial in the
+structural dimensions and the preliminary budget. These lists specify
+\emph{whole functions} at the fixed later parent. No regularity or
+coefficient bound on the canonical site map is used. Annihilation of
+\(W_h\) also bounds the values throughout its padded chart. All these
+costs are warm at \(j<h\).
+
+For physical reassembly replace canonical integers only in these
+external features by the formal summation integers. The equality just
+proved holds on the full chart and exact-inactive scoring locus. This
+is the locus on which the two representative identities are required
+in (9.8) of \(\M\); apply them before freezing stochastic constants.
+\end{proof}
+
+\begin{proposition}[Persistent macro record]\label{prop:macro}
+Starting from an absolute patch of degree \(s\) and rank \(d_0\), the
+macro argument can retain the original \(d_0\) absolute slots and a
+middle orbit of joint degree at most \(s\). Its final physical formula
+has absolute-weight ceiling at most \(s(s+1)\). The representation,
+field, score, and extraction contracts of \(\M\) are preserved, with
+warm costs at each later layer. The padded ceiling \(D=256k^2\)
+therefore suffices.
+\end{proposition}
+
+\begin{proof}
+\textit{The retained data.}
+Store the return as \(E_{\rm hist}CR_{\rm hist}\), and use only \(C\)
+as the next active orbit. Historical integer short labels remain
+formal coefficient variables, with \emph{one total-charge cap} \(s\)
+over all their blocks. Raw and normalized copies of a short label
+always use the same variable and its fixed normalizing divisor.
+Historical long labels remain in the outer factors. A deep
+coefficient lattice evaluates into the pointwise lattice at every
+integer short label; arbitrary real labels have no such property.
+Before the next positive-filtration recursion, normalize any
+degree-zero family constant as in the proof of
+Lemma~\ref{lem:active}.
+
+A newly promoted determining coordinate retains its original weight
+in \(C\). In outer-factor coefficients use its canonical site value:
+the left factor uses the bounded normalized residual frame, and the
+right factor uses raw integer coordinates. Exact marking identifies
+these values at every tested point. Fix the integral determining
+reindexings before recording history, and keep their exact
+triangular inverses. They preserve the original determining degrees.
+Later congruence restrictions have their creation-layer costs, hence
+warm costs at every lower layer.
+
+\textit{Ordered representation.}
+Normalize the middle factor only. For an integral triangular
+reindexing \(T\) of the absolute tuple, the correct expression is
+\begin{equation}\label{eq:reindex}
+ E_{\rm hist}(CT)(T^{-1}R_{\rm hist}T).
+\end{equation}
+This is the old physical map followed by \(T\), which permutes the
+complete integer tuple sum. Conjugation by the integral map preserves
+controlled rational denominators; its numerator need not be bounded.
+Coefficientwise reduction gives \(CT=Sg\), where \(S\) is the bounded
+full-weight map. It is independent of the historical variables:
+their positive degree excludes them from a full-weight slot term.
+If \(g=E_{\rm new}C_{\rm new}R_{\rm new}\), collect the result as
+\begin{equation}\label{eq:collect}
+ \bigl(E_{\rm hist}\Ad_S E_{\rm new}\bigr)
+ (SC_{\rm new})
+ \bigl(R_{\rm new}R'_{\rm hist}\bigr),
+ \qquad R'_{\rm hist}=T^{-1}R_{\rm hist}T.
+\end{equation}
+Only bounded maps conjugate slow factors. Rational right factors
+stay on the right. The triangular subgroup in which determining
+transformations have no absolute arguments is bracket closed;
+forgetting the absolute slots is strong, since a determining shear
+lifts while fixing them. Thus this normalization preserves the
+exact determining projection.
+
+\textit{The quotient fields.}
+At site \(u\), define the field on the coefficient-family quotient by
+the original cutoff sum evaluated on
+\begin{equation}\label{eq:field}
+ E_{\rm site}(u)\,S\,
+       \ev_{w(u)}(Y)\,R_{\rm site}(u).
+\end{equation}
+Canonical site substitution occurs only in the external coefficients
+and in \(\ev_{w(u)}\). All original determining and absolute integer
+variables are still summed. On an exactly marked orbit, any nonzero
+determining cutoff forces the unique canonical tuple. Hence both
+payoffs agree exactly with the originals, including their zero
+cases.
+
+A common deep coefficient lattice, further deepened for the rational
+right factors, makes \eqref{eq:field} well defined. On bounded group
+representatives, the left map and \(S\) are bounded; the right map
+can be reduced to a bounded right-coset representative determined by
+its denominator and coefficient residues. The triangular inverse
+in the representation argument then bounds all contributing integer
+tuples and derivatives. Bounded-range integer evaluation has
+controlled Lipschitz norm. This gives the required Lipschitz bound,
+independently of the unrestricted coefficients of \(C\).
+Triangular uniqueness preserves the cap one.
+
+\textit{The two field meshes.}
+After extraction, product-column labels are frozen. The only
+historical short labels that remain variable are integral affine
+maps from extra inactive rows. Those rows annihilate the prepared
+value space. The chart estimate has the form
+\[
+ \|z_i\|\le \exp(\poly(d))K_i,\qquad K_i\le k_i/v,
+\]
+where \(v\) is the chart width. For a short axis, its scale \(k_i\),
+the integral offset, and its values throughout the fixed padded
+chart have preliminary bounds. The factor \(v^{-1}\) is included
+in that bound. At every later layer all these costs are warm.
+The fixed determining polynomials therefore turn the finite
+row-and-offset menu into a finite menu of entire functions
+\(u\mapsto w(u)\).
+
+Transport historical real labels by Lemma~\ref{lem:transport}, keeping
+each higher residual intact until physical reassembly. They are affine
+expressions in the current normalized spatial coordinates and named
+higher residuals. They are bounded on the same padded chart, even when
+they leave a formerly selected unit interval. Retain the original
+smooth cutoffs and score slice; no new moving sharp indicator is
+inserted. Outside this fixed padded chart use the zero extension
+from the representation construction of \(\M\).
+
+At one site, mesh bounded left values, full-weight coefficients,
+bounded integer evaluations, right cosets, and inherited cutoff
+parameters. For a mesh uniform over all sites, mesh the bounded
+left \emph{coefficient vectors}, the finite whole-function short
+menu, rational coefficient residues, and the inherited field
+parameters. The canonical site functions are fixed throughout.
+These give the distinct point-value and full-field meshes required
+by Definition 8.1 of \(\M\).
+
+First pigeonhole the finite tuple of actual historical denominators
+and cover moduli, then take their product and a fixed deepening.
+Its logarithm is a sum of warm budgets. Taking the least common
+multiple of all integers below an upper bound is unnecessary.
+After product-column freezing, historical raw labels are affine
+in raw spatial and determining integers and the remaining extra
+inactive labels. Later integer sections may have arbitrarily large coefficients;
+they change only the rational numerators, which are recorded
+modulo the common deep grid. The same divisibility gives the
+long-label periods. Selection pays a warm loss in the fraction of
+available productive paths; every retained path keeps its original
+full score and slice.
+
+These history costs may depend on the creation-layer width and are
+only preliminary there. They are not inserted into that layer's warm
+relative width loss. The boundary estimates of \(\M\), pp.~71--72,
+use the cap one for arbitrary unsigned payoffs; the averaging on
+pp.~73--74 uses the total selection measure; and domain localization
+on pp.~74--75 does not approximate the polynomial payoff. Its
+Lipschitz bounds apply to the normalized pivot and interval tests.
+In particular, the micro proof's preliminary short threshold is
+distinct from the warm small-axis cutoff used for exact domain
+localization. Larger axes use their normalized affine interval tests.
+
+\textit{Extraction and the final degree.}
+For a macro comparison, reassemble the physical formula. On its
+scored locus, replace canonical integers in external coefficients
+by their corresponding integer summation variables. Exact marking
+and the original cutoffs identify the expressions. Current
+auxiliary labels now enter only through this polynomial formula,
+and both expected representative identities apply before the
+stochastic constants are frozen. Section 9 of \(\M\) uses these
+identities, the original slice and masks, cap one, exact
+determining and inactive equations, and a degree ceiling. It
+does not require bounds on coefficients or spatial derivatives
+of the returned physical polynomial. Its extraction and
+localization therefore apply with the original payoffs.
+
+Every recorded historical-label substitution has final
+spatial/determining weighted degree at most \(s\). For a monomial
+of original absolute-input weight \(h'\) and other charge \(d\),
+the joint invariant gives \(h'+d\le h\), where \(h\le s\) is
+its absolute destination weight. Give each absolute slot the
+temporary weight \((s+1)h\). Simultaneous substitution gives
+\begin{equation}\label{eq:quadratic}
+ (s+1)h'+sd\le (s+1)(h'+d)\le(s+1)h.
+\end{equation}
+This reweights absolute inputs and destinations together.
+Consequently the physical ceiling is \(s(s+1)\).
+
+These temporary weights are used for extraction and final
+compression. The next middle orbit still uses the original
+weights, with determining slots and historical integer variables
+formal; its outer factors again enter the fields. This closes
+the induction without repeated degree inflation. No family or
+partner coordinate becomes an absolute slot, so the root rank
+is still \(d_0\), independent of old numerical widths.
+
+Finally, \(m\) historical variables of total charge at most \(s\)
+have at most
+\[
+ \binom{m+s}{s}\le(m+1)^s
+\]
+monomials per scalar coordinate. There are at most \(s\) macro
+layers and \(s\) internal degree reductions per return.
+Rational systems, coefficient arrays, and finite meshes are
+handled simultaneously. The added operations have polynomial
+sequential depth in \(s\); their quantitative bounds are included
+in Section~\ref{sec:numerical}.
+\end{proof}
+
+\section{The charged active return}\label{sec:active}
+
+We prove Lemma~\ref{lem:active} by supplementing the degree induction
+of Theorem 8.2 of \(\M\). The point is to retain total degree when
+short variables become coefficient variables, while each recursive
+child still has strictly smaller positive degree.
+
+\begin{proof}[Proof of Lemma~\ref{lem:active}]
+\textit{Charged families and positive normalization.}
+Record rational coefficient spaces \(A_{d,\ell}\), decreasing in both
+indices, with
+\[
+ [A_{d,\ell},A_{e,m}]\subset A_{d+e,\ell+m},\qquad
+ A_{0,\ell}=A_{1,\ell},\qquad A_{r+1,\ell}=0,
+\]
+and one finite total-charge cutoff in \(\ell\).
+Initially \(A_{d,\ell}=\g_{\max(d,\ell)}\), with
+\(\g_0=\g_1\). Promoting a short block to a dummy \(w\) replaces
+the array by
+\begin{equation}\label{eq:family}
+ A'_{d,\ell}
+   =\left\{\sum_\beta w^\beta a_\beta:
+                 a_\beta\in A_{d,\ell+|\beta|}\right\}.
+\end{equation}
+The positive layers are \(\exp A'_{i,i}\), and the
+degree-zero group is \(\exp A'_{0,0}\). Quotients use images
+of these spaces, and refinements use the actual intersections
+before taking images. Every raw and normalized occurrence of a
+promoted label is changed simultaneously, including those in
+marks and ancestor factors.
+
+Perform the common-site marking correction before fast-algebra
+selection. A coefficientwise ordinary filtered section commutes
+with evaluation at the actual short label, so the inserted
+correction evaluates to the identity. Normalize the fixed marked
+constant by a bounded left factor and a rational right factor.
+The normalized mark takes values in the positive marked group.
+Let \(c=g(0,0;w)\) be the constant family element after this
+marked normalization.
+The remaining constant coset modulo the positive group can now
+be removed in the kernel: choose a positive-layer lift \(c_1\)
+of its marked image, and split the difference
+\(n_0=cc_1^{-1}=e_N\gamma_N\) into a bounded kernel element
+and a kernel lattice element. Replace the family orbit \(g\) by
+\(e_N^{-1}g\gamma_N^{-1}\), retaining both factors for restoration.
+This lies in the positive group because its constant coset
+does. These are family-group operations, so all charge bounds
+are retained. A deep source lattice with the prescribed image
+handles the marked rational factor; its numerator need not be
+bounded.
+
+\textit{Refiltration with the old degree retained.}
+The degree-zero action is made compatible with the refiltration
+by adjoining to the detected fast algebra the rational graded
+ideal
+\[
+ S_i=\im\!\left(A'_{i+1,i}\longrightarrow
+                    A'_{i,i}/A'_{i+1,i+1}\right).
+\]
+The bracket rule makes degree-zero conjugation trivial modulo
+\(S_i\), and \(S_r=0\). Thus saturation preserves the detected
+top and its injective marked projection, while the resulting
+refiltration is normalized by the degree-zero group.
+
+Write \(G_i\) for the old positive layers and \(H_i\) for
+the refiltration from Lemma 7.6 of \(\M\). The prescribed
+full factors preserve old joint degree: a grade-\(i\) symbol
+correction is lifted into \(G_i\); the off-space substitution
+preserves weighted degree; and the constant adjustment sees
+only old grade one, the higher short degrees already lying
+in \(G_2\subset H_1\). A pure-long grade-\(i\) symbol is independent
+of the short variables, since every coefficient of positive
+short degree lies in old \(G_{i+1}\); its kernel lift therefore
+preserves total degree. Filtered multiplication and conjugation
+preserve these bounds. The refiltered input therefore satisfies
+\begin{equation}\label{eq:mixed}
+ [v^\alpha z^\beta]\log h
+       \in \h_{|\alpha|}\cap\g_{|\alpha|+|\beta|},
+ \qquad \h_0=\h_1.
+\end{equation}
+Here \(v\) denotes the long variables and \(z\) the current
+short variables.
+
+Since \(G_{i+1}\subset H_i\subset G_i\), the layers
+\[
+ H_1\supset G_2\supset H_2\supset G_3\supset\cdots
+\]
+form one rational flag, with its strong image in the marked
+group. A rational section adapted to this flag preserves the
+required intersections. It gives a fixed exact lift \(p(X,z)\)
+of the refiltered mark with
+\[
+ [X^\gamma z^\beta]\log p\in
+       \h_d\cap\g_{d+|\beta|},\qquad d=\wt\gamma.
+\]
+Only this interleaved local flag is used; historical charge is
+already encoded in the coefficient-family group.
+
+\textit{One lower-degree child.}
+Let \(q:H\to Q=H/H_r\), and let \(N\) be the actual
+kernel of the marking on \(H\). Top injectivity identifies
+\(N\) with the kernel of the quotient marking via \(q|_N\).
+Promote the current short block to a new dummy \(w\) and form
+\begin{align*}
+ \mathcal Q_i
+   &=\left\{\sum_\beta w^\beta a_\beta:
+           a_\beta\in q(\h_i\cap\g_{i+|\beta|})\right\},\\
+ \mathcal N_i
+   &=\left\{\sum_\beta w^\beta n_\beta:
+           n_\beta\in q(\n\cap\h_i\cap\g_{i+|\beta|})\right\}.
+\end{align*}
+At index zero use \(\h_0=\h_1\) and \(\g_0=\g_1\).
+These are images of the displayed intersections.
+The bracket relation
+\([\mathcal Q_i,\mathcal N_j]\subset\mathcal N_{i+j}\)
+defines the split rational family
+\(\mathcal N\rtimes\mathcal Q\), marked by its second
+coordinate. Its canonical section is \(a\mapsto(1,a)\).
+The map \((n,a)\mapsto(na,a)\) embeds it into two copies of the
+quotient family, so it is a rational nilpotent group.
+Both degree-\(r\) spaces vanish, so its positive group has
+degree at most \(r-1\).
+
+The local pair
+\[
+ \bigl(qh\,(qp)^{-1},\,qp\bigr)
+\]
+has the required kernel coefficients by \eqref{eq:mixed}.
+Correct its marking to the common site with the canonical
+section, and apply the degree-zero normalization above.
+The resulting input is jointly filtered in all actual
+variables: substituting a weight-\(d\) site monomial can
+produce actual degree \(a\le d\), and a dummy degree \(b\)
+is charged in the old layer \(\g_{d+b}\subset\g_{a+b}\).
+Apply the induction to this single child, leaving \(w\)
+unevaluated.
+
+Restore the child's preliminary degree-zero factors, so its
+exact second coordinate is \(qp(X,w)\). Multiplying by the
+inverse of its canonical marked section isolates the kernel
+family. Lift this family through \((q|_N)^{-1}\), multiply
+by \(p(X,w)\), and evaluate \(w=z\). Its degree-\(a\),
+dummy-degree-\(b\) coefficients lift into
+\(\n\cap\h_a\cap\g_{a+b}\). Thus reconstruction restores
+the original joint degree exactly, including synchronized
+normalized copies. A common deep coefficient lattice
+evaluates inside the pointwise lattice at every integer
+\(z\). Fields pull back through the homomorphism
+\((n,a)\mapsto na\); pullback preserves supremum meshes,
+and bounded short evaluation has controlled Lipschitz cost.
+No metric bound on the particular marked lift \(p\) is used.
+
+\textit{Ordered factors and the original score.}
+Keep the child return in the full split marked group.
+The joint-fiber reconstruction \(T\) is equivariant for
+actual kernel factors:
+\[
+ T\bigl((e,1)c(r,1)\bigr)=\widetilde e\,T(c)\,\widetilde r.
+\]
+Indeed the two sides have the same quotient and exact
+mark, and the joint embedding is injective. The lifts
+\(\widetilde e,\widetilde r\) are rational and filtered.
+Collect them through the prescribed bounded left and
+rational right factors of \(\M\). For the local notation
+\(K_E\rho(E_F)\) and \(\rho(R_F)K_R\), this gives
+\[
+ E=K_E\Ad_{\rho(E_F)}(\widetilde e),\quad
+ C=\rho(E_F)T(c)\rho(R_F),\quad
+ R=\Ad_{\rho(R_F)^{-1}}(\widetilde r)K_R.
+\]
+The left conjugation has bounded normalized coefficients,
+and the right one has controlled rational denominator.
+The middle has no long-label argument.
+
+If \(L\) is the marking restorer of \(\M\), use
+\(E(LC)R\). It has the required marking everywhere and
+agrees with \(LECR\) on the full exact-inactive forecasting
+locus, where \(L=1\). That is the locus of both original
+payoffs and their representative identities. At an earlier
+central quotient, lift the outer factors separately in
+the actual kernel and lift the middle separately.
+Any difference from the original selected lift is removed
+by the independent central Haar average. Restore the
+initial degree-zero factors and project away partners.
+The marking and joint degree are exact, and the expected
+payoffs, original slice, and additive analytic errors
+are those of \(\M\).
+
+At degree zero the scalar-comparison base case applies.
+Every positive step has one strictly smaller-degree child.
+This proves the lemma. All additional operations are
+simultaneous rational linear algebra, bounded-degree
+coefficient constructions, and one split product per step.
+\end{proof}
+
+
+\section{The external inverse budget}\label{sec:inverse}\label{sec:numerical}
+
+For degree \(r\), let \(I_r\) be an admissible exponent such that a
+\(U^{r+1}\)-norm lower bound \(\delta\) for a one-bounded
+\(f:[N]\to\mathbb C\) supplies a correlating
+degree-\(r\) nilsequence with
+\begin{equation}\label{eq:inverse-budget}
+ d+\log M+\log(2+\|F\|_{\Lip})+\log(1/\corr)
+ \le K_r\bigl(2+\log(1/\delta)\bigr)^{I_r}.
+\end{equation}
+During constructions of vector-valued nilcharacters we include the
+\emph{logarithm} of their output dimension in the budget. It need not
+be the dimension of a nilmanifold.
+
+\subsection{Uniform coordinate and counting operations}
+
+\begin{lemma}[Bulk operations]\label{lem:bulk}
+Let \(q\) bound the nilpotence degree, filtration nesting length,
+total multidegrees, and orbit-variable count in an operation of
+\cite{leng,lss}. Put \(X=2+d+\Lambda\), where \(d\) includes all
+growing manifold-coordinate and Lie-generator counts. Vector-output
+dimensions and numbers of Fourier alternatives and charts enter
+only through their logarithms in \(\Lambda\). The latter also includes
+the other logarithmic numerical data just specified. The nonrecursive
+rational, coordinate, metric, Fourier, and universal-group operations
+used below admit bounds
+\[
+ X_{\rm out}\le K_q X^{H_q},\qquad H_q\le\exp(q^{O(1)}).
+\]
+Joint linear algebra and the fixed-grid lattice constructions are
+treated as single operations. The bound does not charge the sizes of
+unrestricted polynomial-orbit coefficients.
+\end{lemma}
+
+\begin{proof}
+For an \(m\)-by-\(n\) rational matrix of logarithmic height \(L\),
+clear the denominators jointly, at logarithmic cost at most \(mnL\).
+Maximal minors and Cramer's rule bound kernels, images, sections, and
+intersections by a fixed polynomial in \(m+n\) times \(1+L\).
+Stack simultaneous conditions before elimination. A basis of a nested
+flag is selected from its spanning lists, followed by one change of
+basis; its height need not be recursively powered once per dimension.
+
+The BCH formula has bracket length at most \(q\). A coordinate
+expansion uses at most \(K_q(1+d)^{O(q)}\) indexed terms. A triangular
+inverse through at most \(q\) nesting blocks has degree at most
+\(q^q\). Thus even expanding every needed coefficient array gives
+at most
+\[
+ K_q(1+d)^{\exp(O(q\log(q+1)))}
+\]
+entries. Denominator clearing, differentiation, coefficient extraction,
+and rational elimination on these arrays have the asserted bound.
+The same coordinate polynomials compare the metrics on bounded
+fundamental representatives. Their Lipschitz constants have logarithm
+bounded by \(K_q(1+d)^{\exp(q^{O(1)})}(1+\Lambda)\).
+Here one must not power a budget along an arbitrarily long path in
+the group metric. There is a direct bound for its entire product.
+Write its increments as \(\exp(Y_i)\) and put
+\(S=\sum_i\|Y_i\|\). In the tensor algebra truncated at degree
+\(q\), the degree-\(a\) coefficient mass of the product of these
+exponentials, and then of its logarithm, is bounded by \(K_qS^a\).
+Evaluating the Lie words gives
+\[
+ \left\|\log\prod_i\exp(Y_i)\right\|
+ \le K_qM^{K_q}(1+d)^{O(q)}\sum_{a=1}^q S^a.
+\]
+Coordinate conversion bounds \(S\) polynomially in the total
+coordinate path length with an order-controlled degree. Taking the
+infimum over paths yields the metric-to-coordinate bound at once.
+Polynomial difference factorization gives the converse bound and
+weak left-translation estimates. Thus the number of path segments
+does not enter the degree of a budget polynomial.
+
+For a rational subgroup, define its Lie algebra by one integer
+matrix and use the common weak-lattice denominator. A bounded
+lattice point close enough to this rational subspace must lie in
+it: a nonzero defining linear form has magnitude at least the
+reciprocal common denominator. Its separation threshold has a
+logarithmic bound of the same type. Below that threshold the
+quotient displacement belongs to the subgroup lattice; above it,
+use bounded diameter divided by the threshold. This proves the
+subgroup and quotient metric comparisons without dimension descent.
+
+Two apparently longer lattice loops deserve explicit mention.
+In \cite[Lemma B.11]{leng}, one first fixes a weak-lattice integer
+\(Q_0\), and all the resulting basis coefficients have height at
+most \(Q_0^2\). In \cite[Lemma 10.4]{lss}, the common divisibility
+constants and weak-lattice inclusions are fixed before collecting
+the words. Arbitrarily many collections therefore do not create
+arbitrarily many budget powers. Rational powers and periodicity use
+the same fixed nesting blocks and joint coefficient denominators
+\cite[Lemmas B.13--B.14]{leng}.
+
+A free nilpotent group on \(m\) generators of positive weights and
+allowed total weight at most \(q\) has a spanning word list of size
+at most
+\[
+ \sum_{a=1}^q 4^a m^a\le K_q(1+m)^q.
+\]
+Relations within a fixed word type change order-dependent
+coefficients; the growing generator count is explicitly retained
+in this dimension estimate. The rational operations just proved
+then apply to the universal constructions in Section 10 and
+Lemma C.6 of \cite{lss}.
+
+On a \(d\)-dimensional torus, Fourier truncation at Lipschitz
+constant \(L\) and error \(\eta\) has logarithmic term count
+\(O(d^2(\log(2+d)+\log(2+L)+\log(1/\eta)))\).
+Finite chart partitions have the corresponding logarithmic count.
+The common-function step in \cite[Lemma 6.2]{lss} selects a member
+of such a fixed partition; it does not enumerate a net of all
+Lipschitz functions. Structure-constant selection costs a polynomial
+in \(d\) and \(\log M\). Tensor products add logarithmic output
+dimensions. Neither these coordinates nor all Fourier alternatives
+are made into separate nilmanifold factors.
+
+The partition construction in \cite[Lemma B.3]{lss} has one child
+on the quotient by the last degree layer. At a fixed coordinate
+precision \(\eta\), the fibre chart counts have total logarithm
+\(O(d\log(C/\eta))\). Local metric comparisons and the product
+rule give their Lipschitz bounds; there are at most \(q\) degree
+levels. A bump of width \(\eta\) is assigned the valid derivative
+bound \(O(\eta^{-1})\). Nilcharacter embedding (Lemma B.4) uses
+this partition once. The shear construction (the deferred proof
+of Lemma 11.3) has rational word and clock-module bases. Clock
+derivatives copy or kill a word rather than lengthening it; its
+function is an old function times cutoff factors. The product
+rule charges their number and the logarithm of the seam width.
+No iteration in that width is required.
+
+This also accounts for the rational quotient and pullback helpers
+3.10 and 10.5--10.12 of \cite{lss}, and its degree-rank
+factorization in Appendix B. Their homomorphisms are linear in
+first-kind coordinates; kernels, images, ideals, and the required
+changes of basis are the simultaneous matrix operations above.
+The coefficient and scalar helpers in \cite[Appendix A]{leng}
+use the same operations. Its scalar Weyl, Vinogradov, and
+extrapolation estimates have losses of the form
+\(\eta^{-C_q}\) or \(Q^{C_q}\); after logarithms their unspecified
+scalar constants are coefficients. They are not powers of the
+growing logarithmic budget. Its refined bracket estimates have
+explicit factors polynomial in the growing dimensions after
+logarithms. The Fourier step in C.6 of \cite{lss} can use the
+torus truncation of \cite[Lemma A.5]{leng} in the controlled
+local coordinates just described.
+
+The additive-combinatorial primitive \cite[Lemma A.1]{lss} already
+has absolute polynomial-logarithmic powers, including its growing
+dimension. It can therefore be inserted as one bulk operation. Its
+internal character-selection count need not be interpreted as a
+sequence of new generic budget powers. Combining this finite list
+of coordinate and counting constructions proves the lemma.
+\end{proof}
+
+\subsection{Affine numerical dependence in equidistribution}
+
+\begin{lemma}[The complete equidistribution operation]\label{single:equid}
+Let \(q\) bound the degree, central step, filtration nesting and
+number of orbit variables in Leng's Theorem~4. Let \(d\) be the
+input Lie dimension and let \(\Lambda\ge2\) contain the logarithmic
+structural, Lipschitz, rationality and inverse-correlation data, together
+with relative scale losses and requested side cutoffs. It does not
+include the unrestricted orbit coefficients or \(\log N\).
+The logarithmic output data and sufficient side requirements are at most
+\[
+ K_q(1+d)^{E_q}\Lambda,\qquad E_q\le\exp(q^{O(1)}).
+\]
+The groups supplied to its recursive calls have dimension at most
+\(K_qd\), independently of \(\Lambda\). Thus the complete theorem
+is one combined-budget operation of degree \(\exp(q^{O(1)})\).
+\end{lemma}
+
+\begin{proof}
+We refine Lemma~\ref{lem:bulk} by separating \(d\) and
+\(\Lambda\). Joint denominator clearing, minors and rational
+sections have logarithmic height linear in the original logarithmic
+height. Coordinate arrays have at most
+\(K_q(1+d)^{\exp(q^{O(1)})}\) entries, and their coefficients
+are sums of products of order-bounded length. The entire-product
+metric estimate and the fixed-lattice separation argument used above
+retain this linear dependence. Fourier selection costs the logarithm
+of its number of alternatives, which is a structural polynomial times
+the logarithmic Lipschitz and error data.
+
+The scalar Weyl, Vinogradov and extrapolation estimates in
+\cite[Appendix A]{leng} use order-only powers of the numerical
+heights, errors and retained-scale reciprocals. The refined bracket
+bounds in Section~3 have factors of the form
+\((\delta/(d^{O(d)}M))^{-O(1)}\); after logarithms, their
+\(d\log d\) term is a structural polynomial. Their vector
+versions have \(O_q(d)\) coordinates. Simultaneous character
+factorization, rationality pigeonholing and the period and progression
+operations in Appendices A--B have the same affine dependence.
+Consequently a nonrecursive stage has the bound
+\[
+ \Lambda_{\rm out}\le K_q(1+d)^{H_q}\Lambda,
+ \qquad H_q\le\exp(q^{O(1)}).
+\]
+Its coefficient arrays are charged in \(H_q\). They are not the
+Lie dimension passed to the next theorem call: the actual groups are
+squares, subgroups and quotients. A square has dimension at most
+\(2d\), and at most \(O(q)\) squares occur on a recursive path.
+
+The two calls in Case~2 of \cite[Section~4]{leng} are sequential,
+so they must both be retained. Write \(e(a,b)\) for the structural
+power at polynomial degree \(a\) and central step \(b\), and
+\(e_1(a,b)\) for Case~1. Case~1 has one smaller-central-step
+child and the simultaneous recovery operations just listed, hence
+\[
+ e_1(a,b)\le e(a,b-1)+C H_q.
+\]
+Case~2 first invokes the theorem on a normalized square of degree
+\(a-1\). It then refilters a subgroup of the original group,
+selects a rational progression, and invokes Case~1 with the updated
+numerical data. The latter input still has Lie dimension at most
+the original \(d\). Its two numerical bounds compose as
+\[
+ \Lambda_1\le K_q(1+d)^{e(a-1,b)+CH_q}\Lambda,
+ \quad
+ \Lambda_2\le K_q(1+d)^{e_1(a,b)}\Lambda_1.
+\]
+Thus the structural powers add:
+\[
+ e(a,b)\le e(a-1,b)+e(a,b-1)+C'H_q.
+\]
+The abelian base has power \(O(H_q)\). A Pascal majorant gives
+\(e(a,b)\le C''H_q2^{a+b+2}\) for \(a,b\le q\), proving
+the result. In particular, no power of \(\Lambda\) has been
+composed once per node of this branching calculation.
+\end{proof}
+
+\subsection{The non-inverse dependency graph}
+
+\begin{lemma}[One order of the original inverse proof]\label{lem:external-body}
+With its two lower-order inverse calls removed, an order-\(r\)
+construction in \cite{lss} has logarithmic-budget degree
+\[
+ F_r\le\exp(r^{O(1)}).
+\]
+\end{lemma}
+
+\begin{proof}
+The operation count is by recursive indices, not by the number of
+statements with fixed-order notation. One may take a common order
+parameter \(q=O((r+1)^2)\). The ordinary degree-rank chains have
+length \(O(r^2)\). The multidegree constructions use at most
+\(O(r)\) variables with coordinate degrees at most \(O(r)\), hence
+total degree \(O(r^2)\). In particular, Lemma C.6 is used only on
+these downsets, not on an arbitrary downset from its general statement.
+
+Here is a concrete inventory for Appendix C. Write \(R(\mathbf a)\)
+for the coordinate downset below \(\mathbf a\). The two-variable
+splittings in Lemma 7.5, Lemma 12.1, and Section 12, Step 5, use
+\(R(0,r-1)\) and \(R(r-1,r-2)\). The five-variable splitting at
+the end of Lemma 7.5 uses
+\[
+ R(r-1,0,0,0,0),\qquad R(r-2,r-1,r-1,r-1,r-1).
+\]
+The three-variable errors in Section 12, Steps 1--2, use unions of
+rectangles with coordinate degrees at most \(r-1\); a union of
+four is handled by three binary splittings. Polarization uses the
+multilinear box \(\{0,1\}^r\) and at most \(r+1\) actual variables.
+All these downsets therefore have total degree \(O(r^2)\) and at
+most \(\exp(O(r\log(r+1)))\) indices.
+
+\begin{center}
+\small
+\begin{tabularx}{\linewidth}{@{}p{.25\linewidth}X@{}}
+\toprule
+Appendix C operation & Dependent construction \\
+\midrule
+Transitivity and pullback, C.1--C.2 &
+Products, Taylor substitution, and at most one subgroup basis; all
+multiindices are handled together.\\[3pt]
+Cancellation, translation, dilation, roots, C.3 &
+Two-copy subgroup, one quotient, and boundedly many basis operations.
+The root case calls the dilation case once.\\[3pt]
+Additivity, C.4 &
+One three-copy subgroup, a Taylor identity, one basis, and one quotient.\\[3pt]
+Multilinearization, C.5 &
+One root call, at most \(2^q\) independent subgroup bases, a direct
+sum, one B.4 call, and a final graph subgroup and quotient.\\[3pt]
+Splitting, C.6 &
+Bases for the original multiindex layers, at most \(q\) total-degree
+stages, one universal group, one B.3 call, and two quotients.\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+The representation step left implicit in C.6 has a direct bulk
+implementation. With \(g(0)=1\), write its logarithm in monomials
+with coefficients in the prescribed multiindex layers. At total
+degree \(a\), express all such coefficients in the fixed layer
+bases and multiply by the inverse product of the corresponding
+one-parameter factors. Since lower degrees have already vanished,
+BCH commutators affect only degrees greater than \(a\). At most
+\(q\) stages finish the representation. Its arbitrary real orbit
+coefficients are not complexity inputs. The resulting universal
+group has at most \(|J|d\) generators and dimension at most
+\(K_q(1+|J|d)^q=K_r(1+d)^q\), as required by the bulk lemma.
+There is no recursive C.5 or C.6 invocation. The subgroup bases
+indexed by subsets or multiindices come from the same original
+data, before taking a common product.
+
+We now count actual dependency depth, taking the complete
+Leng equidistribution theorem as one operation by
+Lemma~\ref{single:equid}. Its two sequential branches have already
+been paid inside that lemma. The central-target reductions in
+\cite[Theorem 5.4]{lss} take at most \(q\) successive steps, and
+Corollary~5.5 invokes that result once. The partition in Lemma B.3
+and the converse estimate in Lemma B.5 each have one smaller-degree
+child. Neither makes a new forward inverse call.
+
+The seven stages of the sunflower construction, Lemma 8.3, are
+sequential. Lemma 9.1 first uses that output and then makes a new
+Lemma 7.5 and Corollary 5.5 invocation, followed by its fixed linear
+algebra and the absolute-degree approximate-homomorphism primitive.
+These successive uses are retained. Lemma 6.3 is then applied at most
+\(r-1\) times, each time to the preceding rank's output. The
+universal-group and extraction constructions of Sections 10--11
+have at most \(q\) total-degree stages and a fixed acyclic helper
+list. Section 12 has a fixed list of main stages using these results.
+
+The large independent families require a different count. All subset
+bases in C.5, all multiindex bases in C.6, and all factors in a
+polarization expansion are constructed from the data prescribed
+before their stage. If a stage has \(T\) factors and target error
+\(\eta\), use error \(\eta/(10T)\) for every factor, expand the
+whole expression, and make its correlation selection once. Products
+of expansions use the product of their coefficient masses. They do
+not pass a newly selected correlation threshold from one factor to
+the next. The number of such factors is order-dependent, at most
+\(\exp(q^{O(1)})\). Their direct product dimension is charged, but
+this multiplies the input dimension by an order-dependent coefficient;
+it does not apply a new budget power once per factor.
+
+Multilinear expansion can be performed variable by variable with at
+most \(O(q^2)\) addition levels; within a level the factors are
+handled as above. The C.6 representation has its \(q\) true
+sequential total-degree cancellations. Powers such as \(r!\) and
+\(r^r\) affect rational coefficients and tensor output dimensions,
+not the filtration degree or the number of inverse calls. The actual
+multidegrees remain those in the inventory above.
+
+A conservative bound on the resulting dependency depth is
+\(C_0(q+1)^6\), where \(C_0\) is absolute. This covers the
+\(O(q^3)\) sunflower/linearization blocks, their rank iteration,
+and the remaining fixed nesting of degree and quotient operations.
+Taking \(H_q\le\exp(q^{O(1)})\) to include the full
+equidistribution operation, the complete body degree satisfies
+\[
+ F_r\le(2H_q)^{C_0(q+1)^6},\qquad
+ \log F_r\le r^{O(1)}.
+\]
+This estimates the actual constructions, including their parallel
+assemblies, rather than interpreting an unspecified \(O_r(1)\).
+\end{proof}
+
+\subsection{Integration of supplied derivative correlations}
+
+We replace the last forward inverse call in Section~12 of \cite{lss}
+by a recursion which retains its already constructed lower-degree
+correlators. The following elementary calculation supplies the precise
+recursive input. Set
+\(\Delta_t^+A(n)=A(n+t)\overline{A(n)}\).
+
+\begin{lemma}[Mixed correlations supply derivative correlations]
+\label{single:cs-witness}
+Let \(A\) be one-bounded on \([L]\), extended by zero, let
+\(B\) be one-bounded on \([2L]\), and let \(\psi_h\),
+\(h\in[L]\), be one-bounded sequences. Suppose
+\[
+ \frac1L\sum_{h=1}^L
+ \left|\frac1L\sum_{n=1}^L A(n)B(n+h)\psi_h(n)\right|
+ \ge\rho.
+\]
+If \(L\ge4\rho^{-2}\), there are sequences \(\Xi_t\),
+\(1\le t<L\), each a product of two translated or conjugated
+members of the original family, or zero, such that
+\[
+ \frac1L\sum_{t=1}^{L-1}
+ \left|\frac1L\sum_{n\in\Z}\Delta_t^+A(n)\Xi_t(n)\right|
+ \ge\rho^2/8.
+\]
+At least \(\rho^2L/16\) positive shifts have correlation at
+least \(\rho^2/16\). If the \(\psi_h\) are degree-\(a\)
+nilsequences on manifolds of dimension at most \(d\), the
+\(\Xi_t\) have the same degree and dimension at most \(2d\).
+No regularity in the shift parameter is required.
+\end{lemma}
+
+\begin{proof}
+Choose unit phases \(c_h\) to make the sum of the inner
+correlations real and at least \(\rho L^2\). With \(m=n+h\),
+Cauchy--Schwarz removes \(B\) and gives
+\[
+ \rho^2L^4\le2L\sum_{m=1}^{2L}
+ \left|\sum_{h=1}^L c_h A(m-h)\psi_h(m-h)\right|^2.
+\]
+Expand the square and average in its second shift \(u\).
+For some \(u\in[L]\), taking absolute values termwise yields
+\[
+ \sum_{t\in u-[L]}
+ \left|\sum_{n\in\Z}\Delta_t^+A(n)
+       \psi_{u-t}(n+t)\overline{\psi_u(n)}\right|
+ \ge\rho^2L^2/2.
+\]
+The zero-shift term is at most \(L\), so the nonzero terms
+total at least \(\rho^2L^2/4\). For \(t=-v<0\), substitute
+\(n=m+v\) and conjugate; the witness for \(\Delta_v^+A(m)\)
+becomes \(\overline{\psi_{u+v}(m)}\psi_u(m+v)\).
+At most two terms fold to one positive shift. Keep the larger
+correlation, losing at most a factor two. The asserted average
+and the density of shifts follow. The zero extension belongs to
+\(A\), not to a nilsequence witness. Product groups and fixed
+orbit translations prove the last assertion without estimating
+any orbit coefficient.
+\end{proof}
+
+For the omitted small case \(L<4\rho^{-2}\), the mixed
+hypothesis implies \(\E|A|^2\ge\rho^2\). Parseval on
+\(\Z/L\Z\) gives a linear phase with correlation at least
+\(\rho/\sqrt L\ge\rho^2/2\). Its logarithmic budget has the
+required bound. This also handles small-interval alternatives below.
+
+\begin{proposition}[Supplied derivative integration]\label{single:integration}
+For \(r\ge2\), suppose a one-bounded \(f:[N]\to\mathbb C\),
+extended by zero, has one-bounded degree-\((r-1)\) nilsequences
+\(\theta_h\), \(h\in[N]\), satisfying
+\[
+ \E_{h\in[N]}
+ \left|\E_{n\in[N]}\Delta_h^+f(n)\theta_h(n)\right|\ge\rho.
+\]
+Let \(X\ge2\) bound their dimensions, all logarithmic numerical
+data, and \(\log(1/\rho)\). Then \(f\) correlates with a
+degree-\(r\) nilsequence whose dimension and logarithmic numerical
+and inverse-correlation budget is at most \(K_rX^{J_r}\), where
+\[
+ J_r\le\exp(r^{O(1)}).
+\]
+The witnesses may use different manifolds and arbitrary polynomial
+orbits, subject only to the common budget.
+\end{proposition}
+
+\begin{proof}
+Let \(F_r\) be the complete non-inverse body degree from
+Lemma~\ref{lem:external-body}, enlarged by an absolute power to
+include the elementary lemma and the final products. For \(r=2\),
+the fixed-degree converse estimate of \cite[Lemma B.5]{lss} and
+the Gowers derivative identity give a \(U^3\) lower bound with
+inverse logarithm \(X^{O(1)}\). The established fixed-order
+\(U^3\) inverse theorem supplies a finite absolute \(J_2\).
+
+For \(r\ge3\), threshold the supplied correlations and begin
+\cite[Lemma 6.2]{lss} immediately after its initial inverse call.
+All subsequent steps accept the witnesses as data: normalization
+at zero, selection of common structure constants and filtration,
+selection from the fixed function partition, vertical Fourier
+selection, and nilcharacter embedding. In particular, no net of
+all Lipschitz functions is used. They produce precisely the
+degree-rank correlation structure of Definition~6.1 of that paper.
+
+Apply its Lemma~6.3 through the rank descent and then its
+Section~12 symmetrization. Those statements require this correlation
+structure, not a fresh Gowers-norm hypothesis. At the end of
+Section~12, before its last use of the converse estimate, the scalar
+coordinate selection gives
+\[
+ \E_h\left|\E_n A(n)B(n+h)\psi_h(n)\right|\ge\rho',
+ \qquad \deg\psi_h\le r-2.
+\]
+Divide by the controlled supremum bounds. The interval and shift
+ranges can be padded by zeros as in the original proof. Apply
+Lemma~\ref{single:cs-witness} to obtain supplied derivative
+correlations for \(A\), and apply the present assertion at
+degree \(r-1\). Its output is a degree-\((r-1)\) correlator
+for \(A\), exactly the object required in the last paragraph of
+the original proof. Multiplication by its already known degree-\(r\)
+factor, substitution, and residue-class recombination finish the
+argument. The earlier converse invocation in Section~12, Step~3,
+is retained and is part of \(F_r\).
+
+If an intermediate size condition fails, \(\log N\) is bounded
+by the current body budget. The supplied correlation gives a lower
+bound on \(\E|f|^2\); Parseval then supplies a linear-phase
+correlator with logarithmic cost \(O(\log N+\log(1/\rho))\).
+Thus this alternative is within the same budget. The only recursive
+integration call in the main alternative is the one at \(r-1\).
+Charging the product of the before- and after-recursion body degrees
+inside \(F_r\), a sufficient recurrence is
+\[
+ J_r\le F_r(1+J_{r-1}).
+\]
+Since \(\log F_r\le r^{O(1)}\), summation of logarithms
+proves the asserted bound.
+\end{proof}
+
+\begin{proposition}[Single-exponential inverse budget]\label{prop:inverse}
+The exponents in \eqref{eq:inverse-budget} may be chosen with
+\[
+ I_r\le\exp(r^{O(1)}).
+\]
+\end{proposition}
+
+\begin{proof}
+The \(U^2\) Fourier argument gives \(I_1=1\), and the fixed
+order \(r=2\) has a finite absolute exponent. For \(r\ge3\),
+the derivative identity and the degree-\((r-1)\) inverse theorem
+give the input to Proposition~\ref{single:integration}, with budget
+\(K_r(2+\log(1/\delta))^{I_{r-1}}\). The derivative norm and
+shift-density thresholds are powers \(\delta^{C_r}\), whose
+logarithms introduce coefficients only. Therefore
+\[
+ I_r\le(1+I_{r-1})(1+J_r).
+\]
+Taking logarithms and summing the bounds on \(\log(1+J_r)\)
+gives \(\log(1+I_r)\le r^{O(1)}\). Both stages of the original
+argument have been accounted for; the second now uses a proved
+integration interface with the supplied lower-degree correlators.
+\end{proof}
+
+\section{Relative detection by cube degree}\label{sec:relative}
+
+Throughout Sections~\ref{sec:relative}--\ref{sec:library}, let
+\(\mathcal H_D\le\exp(D^{O(1)})\) be a common degree
+allowance for the elementary coordinate, mask, and completion
+operations. Section~\ref{sec:library} enlarges it to include the
+source's nonrecursive operations. It contains no forward inverse
+or relative-detector invocation.
+
+\subsection{Effective cube completion}\label{single:completion-section}
+
+The following statement concerns ordinary integer cubes.  It is uniform
+in the coefficients of the polynomial orbit.
+
+\begin{lemma}[Deletion of one cube vertex]\label{single:completion}
+Let \(q\ge2\), let \(G_0=G_1=G\), \(G_q=1\), and let
+\(Y=G/\Gamma\) have dimension \(d\) and an adapted Mal'cev basis of
+complexity \(M\ge2\).  Let \(F:Y\to\mathbb C\) be one-bounded and
+\(L\)-Lipschitz, where \(L\ge1\), and let \(0<\eta<1/2\).
+For any vertex \(i\in\{0,1\}^q\), there are coefficients \(c_a\)
+and one-bounded Lipschitz functions \(F_{a,\omega}:Y\to\mathbb C\),
+for \(\omega\ne i\), such that every adapted polynomial map
+\(g:\Z^n\to G\) satisfies
+\begin{equation}\label{single:completion-expansion}
+ \left|F(g(x+i\cdot h)\Gamma)
+ -\sum_a c_a\prod_{\omega\ne i}
+       F_{a,\omega}(g(x+\omega\cdot h)\Gamma)\right|\le\eta
+\end{equation}
+for all \(x,h_1,\ldots,h_q\in\Z^n\).
+The functions and coefficients are independent of \(g\).  With
+\(X=2+d+\log M+\log L+\log(1/\eta)\), they may be chosen so that
+\begin{equation}\label{single:completion-budget}
+ \log\!\left(2+\sum_a|c_a|\right)
+ +\max_{a,\omega}\log\bigl(2+\Lip(F_{a,\omega})\bigr)
+ \le K_qX^{\exp(q^C)}.
+\end{equation}
+Each individual factor uses the original nilmanifold of dimension
+\(d\) and has degree at most \(q-1\).
+\end{lemma}
+
+\begin{proof}
+Reflections and permutations of cube coordinates reduce the assertion
+to deletion of the all-ones vertex.  Identify vertices with subsets of
+\([q]\).  For \(S\subseteq[q]\), write \([a]_S\) for the element of
+\(G^{\{0,1\}^q}\) equal to \(a\in G_{|S|}\) at vertices containing
+\(S\), and equal to the identity elsewhere.  The upper-face cube group
+\(\mathcal C\) consists of the ordered products
+\[
+ c=\prod_{S\subsetneq[q]}[a_S]_S,\qquad a_S\in G_{|S|},
+\]
+where the ordering extends inclusion.  The full face is absent because
+\(G_q=1\).  Face commutators satisfy
+\([[a]_S,[b]_T]=[[a,b]]_{S\cup T}\); commutator closure of the
+filtration therefore gives this product description.  Successive
+proper vertex values recover all \(a_S\), so deletion defines an
+injective homomorphism
+\[
+ \Pi:\mathcal C\longrightarrow P:=G^{2^q-1}
+\]
+onto a closed rational subgroup \(H\).  Filtered polynomial maps send
+integer cubes into \(\mathcal C\): their successive face coefficients
+lie in \(G_{|S|}\), by the iterated-difference definition of a
+polynomial map, and the last coefficient lies in \(G_q=1\).
+
+\textit{The full lattice.}
+If all proper vertex values of \(c\) belong to \(\Gamma\), triangular
+recovery gives \(a_S\in\Gamma\cap G_{|S|}\); their product at the
+missing vertex also belongs to \(\Gamma\).  Consequently
+\begin{equation}\label{single:completion-lattice}
+ \Pi(\mathcal C\cap\Gamma^{\{0,1\}^q})
+       =H\cap\Gamma^{2^q-1}.
+\end{equation}
+Thus deletion is injective on the nilmanifold quotients as well.
+There is an explicit adapted basis: if \(X_j\) has filtration weight
+\(w_j\), take \(\one_{[S]}\otimes X_j\),
+\(|S|\le w_j\), \(S\subsetneq[q]\), ordered first by the original
+Mal'cev index \(j\).  Its dimension is at most \(2^qd\).
+Copies of the same \(X_j\) commute, and at a vertex \(T\) the
+\(j\)-th second-kind coordinate is exactly
+\[
+ z_j(T)=\sum_{\substack{S\subseteq T\\ |S|\le w_j}}t_{j,S}.
+\]
+Integer Boolean M\"obius inversion on proper vertices shows that its
+integer-coordinate lattice is precisely
+\(\mathcal C\cap\Gamma^{\{0,1\}^q}\).  Brackets go to later
+original Mal'cev indices; their coefficients are inherited from the
+original structure constants.
+
+\textit{Effective inverse and external lattice gap.}
+Put \(A_q=\exp(q^{C_0})\), increasing the absolute \(C_0\) below,
+and let
+\[
+ R=\exp\!\left[K_q(1+d)^{A_q}(1+\log M)\right].
+\]
+We claim that completion on the image in \(Y^{2^q-1}\) is
+\(R\)-Lipschitz, after enlarging \(K_q,C_0\).
+In first-kind coordinates, \(\log H\) is defined, separately in
+each original coordinate \(j\), by the integral equations saying
+that its proper-vertex values form a Boolean polynomial of degree
+at most \(w_j\).  Each equation has coefficients \(0,\pm1\) and
+at most \(2^q\) terms.  M\"obius inversion also gives an integral
+linear inverse for \(\Pi\) on this subspace.
+
+All BCH and coordinate-change expressions have bracket length at most
+\(q-1\).  Listing the bracket words, clearing the at most \(d^3\)
+input structure-constant denominators, and bounding these polynomials
+and their derivatives on bounded coordinate boxes gives bounds of
+the form \(R\).  Their number and coordinate degrees are at most
+\(K_q(1+d)^{A_q}\); this uses no repeated substitution indexed by
+the dimension.  In particular, for every
+\(\gamma\in\Gamma^{2^q-1}\), its first-kind coordinates have a
+common denominator at most \(R\), independently of the magnitudes
+of its integer second-kind coordinates.  If \(\gamma\notin H\),
+one defining integral equation for \(\log H\) therefore has
+absolute value at least \(R^{-1}\) at \(\log\gamma\).
+
+Represent two points of the cube nilmanifold by \(a,b\) in its
+coordinate fundamental box.  Their images, and
+\(\Pi(b)^{-1}\Pi(a)\), have bounded coordinates of the preceding
+form.  If the quotient images are \(\epsilon\)-close, some ambient
+lattice element \(\gamma\) makes \(\Pi(a)\) and
+\(\Pi(b)\gamma\) at most \(2\epsilon\) apart.  Coordinate and
+bounded-translation estimates imply
+\[
+ \bigl\|\log\gamma-
+       \log(\Pi(b)^{-1}\Pi(a))\bigr\|\le R\epsilon.
+\]
+For \(\epsilon\) below an explicitly bounded reciprocal power of
+\(R\), the external lattice gap forces \(\gamma\in H\).
+Equation~\eqref{single:completion-lattice} then makes this an actual
+cube-lattice correction.  The linear inverse and coordinate estimates
+bound the intrinsic quotient distance by \(R^{O(1)}\epsilon\).
+For larger \(\epsilon\), use the bounded diameter of the cube
+fundamental box and divide by that explicit threshold.  Evaluation
+at the missing vertex is a homomorphism with a \(0,1\) Lie matrix,
+so it has the same type of metric bound.  Absorbing these fixed powers
+proves the claimed global completion bound.  This argument supplies
+the effective inverse; qualitative compactness alone would not do so.
+
+\textit{Uniform tensor interpolation.}
+Let \(m=2^q-1\), and let \(K\subseteq Y^m\) be the compact image
+of deletion.  The function \(F\circ\mathrm{completion}\) on \(K\)
+is one-bounded and \(LR\)-Lipschitz in the maximum product metric.
+Extend its real and imaginary parts by the McShane formula and project
+radially onto the closed unit disk.  The resulting function
+\(\widetilde F:Y^m\to\mathbb C\) is one-bounded and
+\(C LR\)-Lipschitz.
+
+Choose a \(\delta/2\)-net \(z_1,\ldots,z_J\) in \(Y\), where
+\(\delta=\eta/(10CLR)\).  Mal'cev coordinate boxes give
+\[
+ \log J\le K_q(1+d)^{A_q}
+             (1+\log M+\log(1/\delta)).
+\]
+Set \(b_j(y)=\max(0,1-d_Y(y,z_j)/\delta)\) and
+\(\phi_j=b_j/\sum_l b_l\).  The denominator is at least \(1/2\),
+so \(0\le\phi_j\le1\), \(\sum_j\phi_j=1\), and
+\(\Lip(\phi_j)\le CJ/\delta\).
+For \(a=(a_1,\ldots,a_m)\), take
+\(c_a=\widetilde F(z_{a_1},\ldots,z_{a_m})\) and use
+\(\phi_{a_j}\) at the \(j\)-th retained vertex.  The tensor
+partition is a convex combination of unit-disk coefficients, so the
+\emph{entire sum} is one-bounded on all of \(Y^m\).  A nonzero
+term has its center tuple within
+\(\delta\) of the input tuple.  Its uniform approximation error is
+therefore at most \(\eta\).  Also \(|c_a|\le1\) and
+\(\sum_a|c_a|\le J^m\).  The displayed net estimate and
+\(\log R\) prove~\eqref{single:completion-budget}, after increasing
+the absolute exponent.  Restriction to \(K\) proves
+\eqref{single:completion-expansion}.
+\end{proof}
+
+For cyclic variables evaluated in integer representatives, the lemma is
+used only after fixing a sufficiently short box tuple and its wrap
+pattern.  The resulting virtual integer cube has vertex representatives
+\(u_\omega=y_\omega-a_\omega P\), with fixed integer wrap vectors
+\(a_\omega\).  Apply the lemma to \(g'(y)=g(y-a_iP)\).
+A retained factor is then evaluated at
+\(g(u_\omega+(a_\omega-a_i)P)\), a fixed translation of its
+polynomial orbit.  Such a translation changes neither the nilmanifold
+nor the Lipschitz function.  Box selection and boundary errors are
+accounted for separately; no dependence on \(P\) or on orbit
+coefficients enters Lemma~\ref{single:completion}.
+
+\subsection{One inverse call at each cube order}
+
+\begin{proposition}[Relative detection by degree descent]\label{single:relative}
+The conclusion of \(\M\), Lemma 5.2, admits a budget exponent
+\(R_q\) satisfying, after an absolute enlargement of the
+nonrecursive allowance \(\mathcal H_D\),
+\begin{equation}\label{single:relative-rec}
+ R_1\le \mathcal H_D,\qquad
+ R_q\le \mathcal H_D(I_{q-1}+1)(R_{q-1}+1)\quad(2\le q\le D).
+\end{equation}
+The output remains warm. Required errors in the bounded-grid and
+spatial marginal estimates have logarithmic budgets of the same
+type and are charged to the cold record. In particular,
+\(R_q\le\exp(D^{O(1)})\).
+\end{proposition}
+
+\begin{proof}
+For \(q=1\), independent group sites give the detector mean, so
+the niltest is constant. Assume henceforth that \(q\ge2\).
+Use a product of cyclic groups
+\(H=\prod_a\Z/P_a\Z\), where \(P_a\) is prime and
+\[
+ 4qH_a\le P_a\le8qH_a.
+\]
+Thus \(P_a>q\), and box/group normalizations cost at most
+\(K_q^n\). The proof of \(\M\), Lemma 5.1, uses representative
+wrap cells and leading symbols, so this change of comparable
+moduli preserves its bounded-grid and marginal conclusions.
+
+Put the detector at vertex \(0\). Retain the inverse-free
+densification on pp.~37--38 of \(\M\): it makes every other
+factor one-bounded, leaving \(|F_0|\le B_{\rm cap}\nu\) and a correlation
+\(\delta_0\) with
+\[
+ \log(1/\delta_0)\le K_q(1+\log B_{\rm cap}+\log(1/\delta)).
+\]
+The repeated Cauchy--Schwarz and interpolation steps here act
+affinely on these logarithms. Their number changes \(K_q\).
+
+Choose the opposite vertex \(i=\mathbf1\). Its conditional
+dual \(D_i\) obeys \(|D_i|\le2B_{\rm cap}\), by pairwise uniformity
+of distinct group-cube sites. The current correlation gives
+\(\E|D_i|^2\ge\delta_0^2\). Insert \(D_i\) at that vertex
+and use Gowers--Cauchy--Schwarz and \(\|F_0\|_{U^q}\le2B_{\rm cap}\),
+the latter following from the majorant moments. Consequently
+\[
+ \|D_i/(2B_{\rm cap})\|_{U^q}\ge\delta_0^2/(4B_{\rm cap}^2).
+\]
+One ordinary inverse call replaces vertex \(i\) by a
+one-bounded degree-\((q-1)\) nilsequence \(T\), retaining
+correlation \(\rho\). Its dimension, logarithmic complexity,
+and \(\log(1/\rho)\) have degree
+\(\mathcal H_D(I_{q-1}+1)\) in the original growing budget, after
+enlarging \(\mathcal H_D\).
+
+\textit{Localization and the missing mask.}
+Partition every representative coordinate at every vertex into
+discrete intervals of representative diameter less than
+\(P_a/(100q)\), allowing singletons, with boundary cutoffs
+placed halfway between adjacent grid points. There are at most \(K_q^n\) tuples of
+cells. One retains correlation \(\rho_1\ge\rho/K_q^n\).
+Keep their indicators as one-site factors. For proper vertices
+define the virtual integer cube
+\[
+ y_\omega=u_0+\sum_a\omega_a(u_{e_a}-u_0).
+\]
+The short cells fix
+\(y_\omega-u_\omega=a_\omega P\) for every proper
+\(\omega\); their proper-subcube faces determine these offsets
+without the missing vertex. The selected full tuple also fixes
+\(y_i-u_i=a_iP\), with all offsets bounded in terms of \(q\).
+
+Smooth the \(i\)-th indicator from inside and multiply it into
+\(T\). This is essential: an arbitrary indicator left at \(i\)
+would prevent deleting that vertex. Its error is bounded by
+\[
+ \E|F_0(u_0)|\one_{\partial I_i}(u_i)
+ \le2B_{\rm cap}\,\mathbb P(u_i\in\partial I_i),
+\]
+again by pairwise uniformity. A relative transition width
+\(\theta\) with \(B_{\rm cap} n\theta\ll\rho_1\) suffices. For
+sub-grid widths the half-grid endpoints permit exact agreement
+on the discrete grid. Realize the selector on circles of period
+\(K_qP_a\), large enough that its only supported lift in the
+possible range of \(y_i-a_iP\) is the selected real cell.
+It adds \(n\) dimensions and has logarithmic Lipschitz cost
+\(O_q(\log(1/\theta))\); no \(\log P_a\) cost is needed.
+
+Apply Lemma~\ref{single:completion} to this modified nilsequence
+on the common orbit \(t\mapsto g(t-a_iP)\). On the other
+vertices its arguments are the fixed translates
+\(u_\omega+(a_\omega-a_i)P\), which do not change orbit
+complexity. The identity remains valid on the entire region
+defined by the other vertex masks: if the selector contributes,
+\(y_i-a_iP\) is in its chosen real cell and is congruent to
+\(u_i\), so it equals \(u_i\); conversely the selected cells
+fix the required offset whenever \(u_i\) lies there. Otherwise
+both masked values vanish. Thus deleting \(i\) introduces no
+extra scoring region, and uses no periodicity of \(g\).
+
+Request uniform completion error \(\eta\ll\rho_1/B_{\rm cap}\).
+Its cube-average error is at most \(2B_{\rm cap}\eta\). If \(M\)
+is the coefficient mass of the completion expansion, one term
+retains correlation \(\sigma\ge\rho_1/(2M)\). All its
+proper-vertex factors are one-bounded; only the detector is
+sparse. Every new one-site nilsequence has the dimension of the
+single inverse-output group, including the selector circles.
+The possibly large number of summands contributes \(\log M\),
+not a product of that many nilmanifolds.
+
+\textit{A lower-order cube norm.}
+For \(t=1,\ldots,q-1\), group the remaining nonzero vertices
+by Hamming weight \(t\). The direction
+\(v_t=(t,-1,\ldots,-1)\) annihilates their linear forms,
+whereas its value at the detector form is \(t\), invertible
+on \(H\). Cauchy--Schwarz along these \(q-1\) directions
+therefore gives, for arbitrary \(F\) and one-bounded \(f_\omega\),
+\[
+ \left|\E_{x,h}F(x)
+   \prod_{\omega\ne0,\mathbf1}f_\omega(x+\omega\cdot h)\right|
+ \le\|F\|_{U^{q-1}(H)}.
+\]
+Indeed the final detector arguments are
+\(x+\sum_t\epsilon_t t h'_t\); changing the independent
+variables \(t h'_t\) gives the usual cube norm. No independence
+of the directions \(v_t\) is required. Other factors are removed
+by their pointwise bounds, so no new linear-forms condition on
+\(\nu\) is used.
+
+Write the resulting detector as \(F_0T_0\one_{I_0}\).
+Its \(U^{q-1}\)-norm is at least \(\sigma\). Apply the
+smaller-order relative statement to its diagonal cube, of
+correlation at least \(\sigma^{2^{q-1}}\). In the original
+notation retain \(J_0\) and replace only the arbitrary bounded
+input \(P_0\) by \(P_0T_0\one_{I_0}\). The returned
+degree-\((q-2)\) niltest multiplied by \(T_0\) is an
+ordinary degree-\((q-1)\) niltest.
+
+Finally smooth the root mask at the already determined correlation
+scale. Lemma 5.1's spatial/chart marginal bound gives the error
+\[
+ \E|F_0|\,|\one_{I_0}-W_{I_0}|
+ \le B_{\rm cap}\E\nu\one_{\partial I_0}
+ \le B_{\rm cap}\bigl(O_q(n\theta)+\epsilon_{\rm cold}\bigr).
+\]
+Half-grid endpoints again cover sub-grid widths. This uses no
+pointwise bound for \(\nu\). Put this degree-one mask into
+the final niltest. The case \(q=1\) is the direct mean argument.
+
+To return to the atom in \(\M\), Theorem 3.4, use its unchanged
+chart-measure normalization on pp.~39--40. In that notation,
+\(\chi=1\) on the support of \(J_0\) and \(a_\chi/m_j\) is warm,
+so the returned atom is \(J_0\) times the degree-\((q-1)\) niltest.
+All output choices above are warm; only the marginal and grid
+comparison errors enter the late cold requests.
+
+There is one ordinary inverse call, one completion operation,
+and one smaller-order relative call. Products and all required
+errors have the same ordered budgets, proving
+\eqref{single:relative-rec}. Taking logarithms of that recurrence
+and using Proposition~\ref{prop:inverse} gives
+\(\log(R_q+1)\le D^{O(1)}\), as claimed.
+\end{proof}
+
+
+\section{The source-local numerical schedule}\label{sec:library}
+
+\begin{proposition}[Local polynomial degrees]\label{prop:local}
+For the construction above and the imported analytic framework, the
+fresh absolute rank is at most \(K_kp^F\), independently of the
+incoming path dimension. A common degree \(B\) bounds all nested
+structural path-dimension polynomials, the width-increment
+polynomials after eliminating the intermediate numerical records,
+and the root logarithmic cost and side-requirement polynomials.
+One may choose
+\begin{equation}\label{eq:FB}
+ 1\le F\le B,\qquad 2\le B\le\exp(D^{O(1)}).
+\end{equation}
+At weight \(i\), the width increment may use only incoming
+\(Q_j\) with \(j>i\). Root requirements may use all widths.
+\end{proposition}
+
+\begin{proof}
+There are two separate estimates: the degree of a nonrecursive
+operation in its growing inputs, and the number of successive
+substitutions of such estimates. We record both.
+
+\textit{Nonrecursive operations.}
+Include every growing dimension and coordinate count in a common
+budget \(x\). Joint rational operations and bounded-degree
+coefficient arrays satisfy Lemma~\ref{lem:bulk}, with an order
+parameter polynomial in \(D\). A degree-\(D\) polynomial in
+\(n\) growing variables has at most \((n+1)^D\) coefficients.
+In contrast, the Boolean jet of degree \(h\) on a cube of order
+\(q\) has at most
+\[
+ j(h,q)=\sum_{a=0}^{\min(h,q)}\binom qa\le2^q
+\]
+coordinates per axis. Its fixed order-dependent size is not a new
+inverse-theorem order or a new determining weight.
+
+The remaining elementary analytic bounds also have uniform
+polynomial degrees. The lattice-extraction bound in \(\M\), Lemma B.2,
+has the explicit form
+\[
+ C_* =\delta^{-1}\bigl(C(n+m)R\bigr)^{C(n+m)};
+\]
+its logarithm is polynomial in the dimensions and the logarithmic
+requests. The chart matrices in Appendix F have logarithmic norm
+\(O(d^3)\). For the real sublevel estimate in Appendix G, the
+reciprocal exponent is \(Nd\); the one-axis minor uses at most
+\(j(h,q)h(q+1)\) variables and degree at most \(j(h,q)(h-1)\).
+Its order-dependence is therefore at most \(\exp(D^{O(1)})\).
+The simultaneous Jacobian is block diagonal. Applying the estimates
+axiswise and summing errors adds the logarithm of the number of
+axes; it does not multiply the polynomial degrees of all minors.
+The many-multiples induction in Lemma G.3 has a recurrence
+\(C_a\le K(4C_{a-1}+10)\), with an absolute \(K\), and hence
+exponential dependence on the distinguished monomial degree.
+
+The modular estimates in Appendix H use differencing loss
+\(2^{1-h}\) and a block count of size
+\(K_h(C+m+1)\). Those block counts are structural and are fixed
+before numerical accuracy. Its exceptional-prime argument tests
+individual prime powers and product witnesses. The large integer
+depending only on \(h\) enters as an additive constant in a
+logarithmic height, not as a power of \(x\). Likewise flag
+truncation in Section 7.4 has
+\(\log Q_d\le 2\log T\log Z/\log2\), a product of two
+growing logarithms. No step takes the product of all moduli below
+an accuracy cutoff. If a growing Fourier derivative order is
+needed, choose the initially free smooth cutoffs as standard
+Gevrey bumps with derivative constants bounded by
+\(C^{a+1}(a!)^2\). Their logarithms are polynomial in \(a\);
+scaling adds \(a\) times the scale logarithm.
+
+The selected-plane construction has an explicit structural
+dimension bound as well. For \(\ell\) parameter directions and
+output degrees \(d_i\le D\), its equation and derivative counts are
+\[
+ J=\sum_i\left[\binom{\ell+d_i}{d_i}-1\right],\qquad
+ J'=\sum_i\binom{\ell+d_i-1}{d_i-1}.
+\]
+The moment and derivative failure estimates in the proof of
+Lemma 6.1, pp.~48--49, are satisfied by a free dimension
+\(K_D(\ell+J+J'+1+\log(1/c_*))\).
+Thus it is polynomial in the structural inputs with degree
+\(O(D)\). Hensel lifting has an exact normalized count at every
+prime-power depth and does not update a global budget at each depth.
+
+For the degree-one comparison, the dependence on the fixed slack
+must also be separated from the polynomial degree. In \(\M\),
+pp.~101--107, the moments are \(O_\epsilon(x)\) and
+\(\log M=O_\epsilon(x)\). The largest regularity amplification
+\(M^{2q}\) has logarithm \(O_\epsilon(x^2)\), so one can choose
+the regularity error \(\exp[-K_\epsilon x^2]\). The dependent
+random choice then has inverse-density logarithm
+\(O_\epsilon(x^2)\). Formula (C.4) gives per-round rank increase
+\(O_\epsilon(x^8)\) and logarithmic width loss
+\(O_\epsilon(x^2+\log(2+d))\). After \(O_\epsilon(x)\) rounds,
+rank, width logarithm, and mass logarithm have powers at most
+\(9,3,12\), respectively. Smoothing the Bohr tests fits within
+\(K_\epsilon(2+x)^{64}\). The long concentration-peeling loop is
+paid by the telescoping potential (C.8), with the allowed successor
+shapes fixed beforehand. Thus changing the slack at later degrees
+changes coefficients only. Positive counting in Appendix D has
+at most \(s\) axis compressions and, before those compositions,
+an initial logarithmic cap budget of degree \(s+2\).
+
+These observations, together with the joint-array operations of
+Sections~\ref{sec:macro}--\ref{sec:active}, give a nonrecursive
+degree bound
+\begin{equation}\label{eq:H}
+ \mathcal H_D\le\exp(D^{O(1)}).
+\end{equation}
+Fourier modes, finite menus, and empirical model terms contribute
+their full logarithmic counts. Selected pivot partners contribute
+their structural product-group dimension. This dimension is an
+input to the next operation; it is not dropped from the bound.
+
+\textit{Parallel major refinements with sharp output records.}
+The remaining apparent exponential chains are the tensor restoration
+in Lemma 4.7 and the degree tuples in backward rank transfer.
+Their full call trees have exponentially many nodes, but only
+degree-decreasing edges carry a new cold inverse output.
+
+To see this, use the actual arithmetic conclusion of \(\M\),
+Lemma 4.6, rather than its looser polynomial-logarithmic summary:
+if \(d'\) clears the substituted rational polynomial, its
+denominator divides \(d'D_0\). This holds for all tensor entries
+at once with a common denominator. Primitive extension and
+coefficient-one extraction preserve that denominator. A local
+denominator may initially vary with the productive path, so
+one should not assert divisibility by a single initial integer
+without first selecting it. Instead, for the logarithmic bound
+\(r_t\) of the current common denominator, a safe update is
+\begin{equation}\label{single:sharp-den}
+ r_{t+1}\le A_D(n)\bigl(1+r_t+\log D_0+\Lambda_{>j}\bigr).
+\end{equation}
+Here \(A_D\) is a structural polynomial of degree at most
+\(\exp(D^{O(1)})\), and \(\Lambda_{>j}\) contains permitted
+higher-layer lattice data. In the native primitive coordinates
+the coefficient of \(r_t\) can be taken to depend only on \(D\);
+the displayed bound safely allows joint coordinate changes.
+Taking a product of two denominators adds their logarithms.
+There is no new power of \(r_t\).
+
+The real conclusion of Lemma 4.7 is equally sharp: the coefficient
+norm \(B_{\rm slow}\) is multiplied by a dimension-controlled factor,
+independently of the I.1 output complexity. The factors in (4.6)
+are canceled by the final normalized \(z^\alpha\) multiplication.
+Thus its logarithmic norm has an affine update of the same kind
+as \eqref{single:sharp-den}. All scalar entries are processed
+jointly. The number \(L\) of degree stages or degree tuples
+depends only on \(D\), not on the structural dimension. Even
+allowing \(L\le\exp(D^{O(1)})\), iterating these affine
+updates gives a structural power at most
+\[
+ L\deg A_D\le\exp(D^{O(1)}).
+\]
+It does not give \((\deg A_D)^L\) as a power of the
+precision variables. Fixed-order multipliers may be absorbed
+into \(K_D\).
+
+In Lemma 4.7, pp.~32--33, the parent first calls I.1 and fixes
+\(K'\), its threshold, and its preliminary height data. Every
+extra-sheet-degree child is then invoked \emph{starting with this
+same \(K'\)}. A child may internally restrict to \(K''\),
+but extends its resulting identity back to its input \(K'\).
+The next sibling receives the sharp slow/rational identity and
+its common denominator, not that child's \(K''\), cold height,
+or inverse-output complexity. The forward bound and denominator
+bound hold on all the original productive path substitutions,
+so subtraction does not require passing a newly selected internal
+path family to the next sibling. Forecast the sharp affine
+envelope for every sibling, use that common input bound, and take
+the maximum of their late requirements.
+
+A parent-to-child edge really does carry the parent's newly
+frozen sides and \(K'\) description, and is counted. Its
+weighted degree decreases by at least one. Put
+\(I=\max_{r\le D+2}I_r\) and \(R=\max_{q\le D}R_q\).
+One I.1 block has a degree bound
+\[
+ V_D\le[2\mathcal H_D(I+R+1)]^{D^{C_0}}
+\]
+for an absolute \(C_0\). Here the block consists of the original
+translation-group realization, the F.2 Property~2 and Appendix~H
+detector, the B.1 degree descent, the I.3--I.4 algebraic
+reconstruction, and the joint scalar components. Their genuine
+dependency depth is polynomial in \(D\); they do not call
+Lemma 4.7 or backward rank transfer. Thus this definition has no
+dependence on the refinement being estimated. If \(E_d\) denotes
+the resulting degree at weighted degree \(d\), a sufficient
+recurrence is therefore
+\begin{equation}\label{single:major-depth}
+ E_0\le \mathcal H_D,\qquad
+ E_d\le \mathcal H_DV_D\bigl(1+\max_{e<d}E_e\bigr),
+ \qquad E_d\le(2\mathcal H_DV_D)^{O(d)}.
+\end{equation}
+The full tensor tree remains paid through its joint counts and
+affine coefficient envelope; it is not treated as a serial list
+of new I.1 precision powers.
+
+At an ancestor in pp.~33--35, at most \((D+1)^D\) degree tuples
+are processed. Exact separation identifies the new slow tensor
+with the old local slow tensor, and the new rational tensor with
+the old rational tensor, \emph{before} multiplying by deviation
+or raw monomials. This prevents the unrestricted coefficients of
+later determining maps from entering the next residual budget.
+The sharp records again satisfy \eqref{single:sharp-den}; higher
+widths enter through at most \(D\sum_{i>j}\log((w_i\epsilon_i)^{-1})\).
+No cold I.1 output from one tuple is needed for the next.
+
+Degree-zero pairs can require a productive-fraction selection.
+For \(r\) tensor entries, denominator bound \(Q\), and bounded
+difference radius \(C\), their number has logarithm at most
+\[
+ O\bigl(r^2\log(2+Q)+r\log(2+C)\bigr)
+\]
+in fixed higher-layer primitive coordinates. A translate of the
+bounded region has the same bound. These losses add over the
+order-bounded tuple list; they depend on its sharp affine envelope,
+not on earlier I.1 output complexities. Forecast their total once
+and use a common input fraction for every tuple. Internal further
+selections remain inside the already pruned modular-good branch;
+they do not require a new \(D_0\) based on the smaller fraction.
+These selections prove existence of the split and, as stated at the end
+of p.~35 of \(\M\), are not propagated as ancestor coefficient
+or denominator costs. All late side requirements are nevertheless
+retained, by taking their maximum and passing the full cold record
+to lower layers. There are at most \(D\) genuine ancestor passages.
+
+\textit{The remaining schedule.}
+Appendix B has one smaller-degree child and at most \(D\) grade
+corrections. Appendix C has two successive modeling phases and
+one smaller-degree comparison; its second phase is uniform over
+the first list. Appendix E has at most \(D\) fixed-map budget
+levels. Appendices G--H have degree-index product-block estimates
+and the explicit fourteen-stage schedule. I.6 has \(D\) degree
+descents and \(D\) grade corrections, with pivot partners requested
+together. I.15 has one smaller-old-weight child. Extraction and
+the added geometry have at most polynomially many layer and
+degree descents. Rank cuts use joint row systems and additive
+costs, as in Section 4.6 and I.11--I.12 of \(\M\).
+
+The four-stage numerical order of \(\M\), Section 10.3, is
+unchanged. The full record \(U_j\) includes current preliminary
+and late costs and passes them to lower layers. It does not feed
+them back into that layer's width increment. Eliminating these
+records takes \(D\) further descending substitutions. Structural
+path-variable counts and precision-dependent model dimensions
+are included in their respective inputs throughout.
+
+After flattening the fixed helper graph, the genuine nonlinear
+depth is \(D^{O(1)}\). The order-bounded enumerations just
+analyzed contribute joint structural degrees and affine losses
+within \(\mathcal H_D\le\exp(D^{O(1)})\). Proposition~\ref{single:relative}
+replaces the old cube-vertex chain. A sufficient common bound is
+\begin{equation}\label{eq:local-bound}
+ F,B\le[2\mathcal H_D(I+R+1)]^{D^{O(1)}}
+       \le\exp(D^{O(1)}).
+\end{equation}
+This includes all nested structural path-dimension polynomials.
+The fresh-rank independence is the bottom absolute rule,
+\(\M\), Lemma 2.2, obtained from additive relative rank with
+zero old rank. Width increments retain the strict higher-layer
+dependence of the original contracts. This proves the proposition.
+\end{proof}
+
+
+\section{Finite-horizon density iteration}\label{sec:iteration}
+We give the complete final calculation, including a separate allowance
+for the structural path-variable counts.
+
+\begin{proof}[Proof of Theorem~\ref{thm:main}]
+Let \(F,B\) be the exponents in Proposition~\ref{prop:local}, enlarged
+so that \(1\le F\le B\) and \(B\ge2\). The bottom rule creates at
+most \(K_kp^F\) fresh absolute coordinates per round, independently
+of the incoming path dimension. All dimensions are forecast before
+any numerical precision is chosen.
+
+\textit{Dimensions and cuts.}
+In one preparation round the original dimension ledger of \(\M\),
+Proposition 10.2, is
+\[
+ H_D=d_D,\qquad H_i=d_i+H_{i+1}^2,\qquad
+ d_i^{\rm out}\le d_i+d_0+H_{i+1}^2,
+\]
+with \(H_{D+1}=0\). A cut at \(i\) decreases \(\dim W_i\);
+only exports from above can replenish this dimension. Thus \(H_i\)
+bounds its cut count within the round, including restarted tests.
+Over \(T\le K_kp\) rounds starting from no slots, sufficient
+exponents for the dimension envelopes are
+\[
+ a_D=F+1,\qquad a_i=1+2a_{i+1},\qquad
+ a_i=(F+2)2^{D-i}-1.
+\]
+Indeed the additional factor \(p\) pays the number of rounds;
+descending induction bounds both the incoming dimensions and the
+within-round \(H_i\). Therefore
+\[
+ a_0=2^D(F+3)
+\]
+bounds all coordinate counts and the cumulative number of cuts as
+\(K_kp^{a_0}\). The structural path-column constructions are
+polynomials in these counts of degree at most \(B\), by the local
+budget proposition. We consequently use the common structural forecast
+\begin{equation}\label{eq:structural-a}
+ d_*\le K_kp^a,\qquad a=B\,2^D(F+3).
+\end{equation}
+The extra factor \(B\) explicitly pays for these path variables and
+coefficient arrays formed from width-independent structural variables.
+Precision-dependent model and partner dimensions are included in the
+local numerical operations, not in \(d_*\). Thus this structural
+forecast introduces no dependence on a width.
+
+\textit{Widths and root requirements.}
+The strict higher-layer dependence of the local width polynomials gives
+\[
+ Q_i^{\rm out}\le Q_i+
+ K_k\left(2+p+d_*+\sum_{j>i}Q_j\right)^B.
+\]
+Starting with trivial widths, let \(K_kp^{v_i}\) bound the width
+logarithm at \(i\) throughout the proposed run. We may take
+\begin{equation}\label{eq:v-rec}
+ v_D=1+Ba,\qquad v_i=1+Bv_{i+1}\quad(i<D).
+\end{equation}
+Here \(v_{i+1}\ge a\), and each added one again pays the sum over
+rounds. Hence \(v_1\le(2B)^Da\). Evaluating the root-cost and
+side-requirement polynomials and summing over the run gives total
+logarithmic cost at most \(K_kp^A\), where
+\begin{equation}\label{eq:A}
+ A=1+Bv_1\le(2B)^{D+1}a.
+\end{equation}
+No current or lower width is substituted into its own increment.
+
+Since \(F\le B\) and \(\log B\le D^{O(1)}\),
+\eqref{eq:structural-a}--\eqref{eq:A} imply
+\begin{align*}
+ \log A
+ &\le(D+2)\log(2B)+D\log2+\log(F+3)\\
+ &\le D^{O(1)}=k^{O(1)}.
+\end{align*}
+Increasing one absolute constant \(C\), uniformly also for the finitely
+many small orders, we obtain
+\begin{equation}\label{eq:single-A}
+ A\le\exp(k^C).
+\end{equation}
+
+\textit{The contradiction and inversion.}
+Use one fixed starting budget \(p\), enlarging its order-dependent
+coefficient if necessary so all temporary density thresholds exceed
+\(e^{-K_kp}\). Reserve \(T\le K_kp\) rounds so that the target
+\((\alpha/2)(1+\eta_k)^T\) reaches one, where \(\eta_k>0\) is
+the retained multiplicative gain. The cost bound above sustains all
+rounds whenever
+\[
+ \log N\ge K_k\bigl(2+\log(1/\alpha)\bigr)^A.
+\]
+The original certificate is impossible at target at least one, since
+its positive payoff is pointwise at most its enlarged negative
+baseline. This is the finite-horizon argument of \(\M\),
+Proposition 10.4; endpoint and side-rounding costs were included above.
+
+Taking \(\alpha=r_k(N)/N>0\) and using the contrapositive yields
+\[
+ \alpha< e^2\exp\!\left[-K_k^{-1/A}(\log N)^{1/A}\right].
+\]
+The case \(\alpha=0\) is immediate. By \eqref{eq:single-A},
+\(1/A\ge\exp(-k^C)\). Since \(\log N>1\) for \(N\ge3\),
+decreasing this exponent and renaming the positive order-dependent
+constants proves \eqref{eq:main}.
+\end{proof}
+
+\begin{thebibliography}{9}
+\small
+\bibitem{openai}
+OpenAI, \emph{Quasipolynomial Bounds for Arithmetic Progressions},
+September 23, 2026, 198 pp., OpenAI/math, family 159.
+\href{https://github.com/openai/math/blob/main/preprints/Quasipolynomial-Bounds-for-Arithmetic-Progressions-September-23-2026/paper.pdf}{Source manuscript}.
+\bibitem{lss}
+J. Leng, A. Sah, and M. Sawhney,
+\emph{Quasipolynomial bounds on the inverse theorem for the Gowers
+\(U^{s+1}[N]\)-norm},
+\href{https://arxiv.org/abs/2402.17994v3}{arXiv:2402.17994v3}.
+\bibitem{leng}
+J. Leng, \emph{Efficient Equidistribution of Nilsequences},
+\href{https://arxiv.org/abs/2312.10772v5}{arXiv:2312.10772v5}.
+\end{thebibliography}
+\end{document}

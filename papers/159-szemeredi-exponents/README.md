@@ -1,6 +1,8 @@
 # 159 — A single-exponential progression exponent
 
-**Research draft** · [PDF](math159_one_level_bound.pdf) · [TeX](math159_one_level_bound.tex)
+**Research draft** · [PDF](math159_single_exponential.pdf) · [TeX](math159_single_exponential.tex)
+
+This 23-page manuscript, dated 8 October 2026, replaces the earlier `math159_one_level_bound` draft. The earlier draft omitted a chain of inverse-theorem calls; the replacement treats supplied-derivative integration in Section 4.4 and relative detection by cube-degree descent in Section 5. The earlier files remain in the Git history.
 
 ## Main result
 
@@ -12,7 +14,7 @@ r_k(N)\le K_kN\exp[-c_k(\log N)^{\varepsilon_k}],
 \qquad N\ge3.
 ```
 
-The exponent has single-exponential dependence on the progression length $`k`$. The absolute constant $`C`$ and the positive constants $`K_k,c_k`$ are not given numerical values. Section 5 derives the density bound from the estimates in Sections 2–4.
+The exponent has single-exponential dependence on the progression length $`k`$. The absolute constant $`C`$ and the positive constants $`K_k,c_k`$ are not given numerical values. Section 7 derives the density bound from the geometric and analytic modifications in Sections 2–6.
 
 ## Comparison with OpenAI 159
 
@@ -20,8 +22,8 @@ The main theorem of [OpenAI 159](https://github.com/openai/math/blob/adc7f1241b4
 
 ## Depends on
 
-- **OpenAI 159's analytic inputs.** Section 1 of this manuscript lists the following inputs from OpenAI 159: the absolute-patch theorem (Lemma 2.2), the sampler and rank-transfer estimates (Sections 3–4 and Appendices F–H), the field and active-return framework (Definition 8.1 and Theorem 8.2), exact extraction (Section 9), and the compression and descending numerical schedule (Section 10).
-- **The inverse-theorem argument and quantitative nilsequence estimates.** Section 4.1 of this manuscript modifies the quantitative induction in [Leng–Sah–Sawhney, arXiv:2402.17994v3](https://arxiv.org/html/2402.17994v3), using [Leng, arXiv:2312.10772v5](https://arxiv.org/html/2312.10772v5). It also uses the additive-combinatorial and fixed $`U^3`$ base-case results of Sanders, Milićević, Leng, and Jamneshan–Tao cited there. The single-exponential parameter estimate is derived in this manuscript.
+- **OpenAI 159's analytic inputs.** Section 1 of this manuscript lists the absolute-patch theorem (Lemma 2.2), the sampler and rank-transfer contracts (Sections 3-4 and Appendices F-H), the comparison and exact-marking framework (Sections 5-8 and Appendices A-E and I), extraction (Section 9), and the density-increment construction and parameter order (Section 10). Their analytic conclusions and prescribed dependencies of warm bounds are retained.
+- **The inverse-theorem argument and quantitative nilsequence estimates.** Section 4 of this manuscript gives an additional order-dependent budget calculation for the proof of [Leng-Sah-Sawhney, arXiv:2402.17994v3](https://arxiv.org/html/2402.17994v3), using [Leng, arXiv:2312.10772v5](https://arxiv.org/html/2312.10772v5). Proposition 4.5 gives the supplied-derivative integration statement, and Section 5 treats cube completion and relative detection.
 
-The additional algebraic and quantitative arguments are given in Sections 2–4. [Pinned references](../../docs/SOURCES.md) record the upstream versions.
+The additional algebraic and quantitative arguments are given in Sections 2–6. The proof is relative to the listed source framework and does not independently verify all of its analytic arguments. [Pinned references](../../docs/SOURCES.md) record the upstream versions.
 
