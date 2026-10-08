@@ -1,0 +1,1872 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=25mm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern,microtype,amsmath,amssymb,amsthm,mathtools,booktabs,array}
+\usepackage{xcolor,mathrsfs}
+\usepackage{needspace}
+\usepackage[colorlinks=true,allcolors=blue!45!black]{hyperref}
+\hypersetup{pdftitle={A seven-eighths theorem for Hecke characters over arbitrary number fields},pdfsubject={Research draft}}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{hypothesis}[theorem]{Analytic input}
+\theoremstyle{remark}\newtheorem{remark}[theorem]{Remark}
+\newcommand{\N}{\mathrm N}
+\newcommand{\Rea}{\operatorname{Re}}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\one}{\mathbf 1}
+\newcommand{\dd}{\,d}
+\newcommand{\bpsi}{\beta_\psi}
+\newcommand{\Packet}{\mathscr F_\omega}
+\newcommand{\OO}{\mathcal O}
+\newcommand{\Xcal}{\mathcal X}
+\newcommand{\Mcal}{\mathcal M}
+\newcommand{\Qcal}{\mathcal Q}
+\numberwithin{equation}{section}
+
+\title{A seven-eighths theorem for Hecke characters\\
+over arbitrary number fields\\[3pt]
+\large Original source results, field transfer, and one closure for each fixed infinity type}
+\author{AI-assisted research draft\thanks{AI assistance: OpenAI ChatGPT was used for mathematical exploration and drafting; OpenAI Codex was used for editing and compilation.}}
+\date{8 October 2026}
+\begin{document}
+\maketitle
+\begin{abstract}
+Relative to the original theta constructions and canonical analytic
+proofs in OpenAI's quasi-Riemann and primitive-roots papers, every
+unitary Hecke character over every number field has a zero-free
+half-plane $\Rea s>7/8$. We prove the necessary transfer to ideal
+norms, unit quotients, and a fixed arbitrary infinity type. In
+particular, the general-field marked inverse and paired fourth
+moments are consequences of the cited constructions and the transfer
+arguments supplied here, rather than additional hypotheses.
+The proof passes from $F$ to $K=F(\zeta_{12})$ and works with
+finite-order twists of one fixed character and its conjugate.
+A single-row sixth-power amplification gives $11/12$ for this
+family; the original dynamic fourth-moment capacity then closes
+directly at $7/8$. The real losses and slot system are fixed before
+the target conductor, while height orders and constants may depend
+on it. The long original canonical proofs are retained as source
+inputs and are not independently re-proved in full. No earlier
+extension manuscript is used as a theorem source.
+\end{abstract}
+
+\section{Main theorem}
+
+The two primary sources are OpenAI's original quasi-Riemann paper
+\cite{Q}, denoted Q, and its primitive-roots paper \cite{P}, denoted P.
+We distinguish the original analytic work that is cited from the
+field and infinity-type transfer proved in this paper.
+
+\begin{hypothesis}[Original source results]\label{hyp-source}
+Retain the theta construction and local identities of P,
+Sections 3 and 5--7 and Appendix A, and the physical estimates,
+zero detection, and canonical moment arguments of Q,
+Sections 4--18, with the finite-seminorm, strict-width, common-mask,
+and polynomial-height assertions established there.
+The full canonical constructions and reductions are used, not just
+the published zero-free theorems. Their extension to a general field
+and a fixed unitary infinity type is proved below.
+\end{hypothesis}
+
+The usual Hecke functional equation, class field theory, and the
+number-field quadratic and higher-order large sieves enter through
+the classical results used in Q and P. No earlier extension
+manuscript is an additional input.
+
+\begin{theorem}[Arbitrary number fields]\label{thm-main}
+Under Source Input~\ref{hyp-source}, let $F$ be any number field.
+Every continuous unitary Hecke character
+$\psi:F^\times\backslash\mathbb A_F^\times\longrightarrow S^1$
+satisfies
+\begin{equation}\label{eq-main}
+ \boxed{L_F(s,\psi)\ne0\qquad(\Rea s>7/8).}
+\end{equation}
+Finite and infinite order are both allowed, with arbitrary infinity
+type. A pole for a unitary norm character is permitted. Additional
+deleted Euler factors do not change the assertion. The boundary is
+independent of the field, conductor, infinity type, and height;
+implied constants and lower thresholds need not be uniform in these
+data.
+
+For a prescribed $\psi$, the proof uses only the fixed-type family
+\eqref{eq-packet} over $K=F(\zeta_{12})$, with
+$\omega=\psi\circ N_{K/F}$. It requires no estimate uniform over
+all infinity types and no additional general-field moment hypothesis.
+\end{theorem}
+
+For a character in the normalization
+$\Psi(\mathfrak a)=\psi(\mathfrak a)(\N\mathfrak a)^u$,
+$u\in\mathbb R$, one has $L_F(s,\Psi)=L_F(s-u,\psi)$.
+Thus the corresponding boundary is $u+7/8$. In particular,
+an algebraic character with ideal-value absolute size
+$(\N\mathfrak a)^{w/2}$ has boundary $w/2+7/8$ in its
+unnormalized variable.
+
+There is one analytic closure:
+\[
+ \text{marked inverse moment}\ \Longrightarrow\ 11/12
+ \ \Longrightarrow\ \text{dynamic fourth moment and closure}
+ \ \Longrightarrow\ 7/8.
+\]
+The transfer is established in Section~\ref{sec-inputs} and
+Appendix~\ref{app-transfer}; the descent from $K$ to $F$ is
+elementary after standard Hecke continuation. The source-relative
+qualification concerns the original long analytic constructions,
+not a separate assumption of their desired general-field conclusion.
+
+\section{Field reduction and the fixed-type family}\label{sec-reduction}
+
+\subsection{Abelian descent}
+
+The extension $K=F(\zeta_{12})$ is abelian over $F$, has degree at
+most four, and is totally imaginary. It need not be cyclotomic over
+$\mathbb Q$. The distinction matters: the cyclotomic scope of P,
+Theorem 1.2, does not by itself cover this $K$.
+
+We use ideal-value normalization for norm twists:
+$\N_K^{it}(\mathfrak a)=(\N\mathfrak a)^{it}$.
+Such a twist replaces $L_K(s,\eta)$ by $L_K(s-it,\eta)$.
+
+\begin{lemma}[Descent, including possible poles]\label{lem-descent}
+Let $K/F$ be a finite abelian extension and let $\psi$ be a unitary
+Hecke character of $F$. If $L_K(s,\psi\circ N_{K/F})$ has no zeros
+in $\Rea s>\sigma_0$, where $\sigma_0>0$, then
+$L_F(s,\psi)$ has no zeros there.
+\end{lemma}
+
+\begin{proof}
+Let $G=\operatorname{Gal}(K/F)$, and regard $\widehat G$ as a group
+of finite-order Hecke characters of $F$ by class field theory.
+Choose a finite set $S$ containing all ramified primes and all
+conductors involved. With the corresponding primes omitted upstairs,
+\begin{equation}\label{eq-descent}
+ L_K^S(s,\psi\circ N_{K/F})
+       =\prod_{\chi\in\widehat G}L_F^S(s,\psi\chi).
+\end{equation}
+One can verify this directly on the absolute half-plane. If an
+unramified prime $\mathfrak p$ has Frobenius order $f$, it has
+$|G|/f$ primes above it, each of norm $(\N\mathfrak p)^f$.
+The values $\chi(\operatorname{Frob}_{\mathfrak p})$ run through
+the $f$-th roots of unity, each $|G|/f$ times. Hence the two Euler
+factors agree. Meromorphic continuation gives \eqref{eq-descent}
+everywhere. The omitted Euler polynomials are nonzero in
+$\Rea s>0$.
+
+If all factors on the right are holomorphic at $s_0$, a zero of any
+one of them gives a zero on the left. The only remaining possibility
+is a pole. By the standard Hecke pole classification \cite{Tate},
+at most one factor has a pole at $s_0$, and then
+$\psi\chi_0=\N_F^{it}$ and $s_0=1+it$. Its pullback is
+$\N_K^{it}$, so the left side and the $\chi_0$ factor both have
+a simple pole. Taking meromorphic orders in \eqref{eq-descent},
+\[
+ -1=-1+\sum_{\chi\ne\chi_0}
+              \operatorname{ord}_{s_0}L_F^S(s,\psi\chi).
+\]
+Every term in this sum is nonnegative, hence zero. No zero of
+another factor can cancel the pole. This proves the assertion
+on the whole half-plane, including its intersection with $\Rea s=1$.
+\end{proof}
+
+\subsection{One family for each fixed infinity type}
+
+We now fix a totally imaginary number field $K$ containing
+$\mu_{12}$, and one unitary Hecke character $\omega$ of $K$.
+Let
+\begin{equation}\label{eq-packet}
+ \Packet=
+ \{\theta\,\omega^e\N_K^{it}:
+          e\in\{-1,0,1\},\
+          \theta\text{ finite order},\ t\in\mathbb R\}.
+\end{equation}
+All finite-order characters are included by $e=0$. This family is
+closed under finite-order twisting, conjugation, and vertical
+translation of its $L$-functions. These are exactly the operations
+on live Hecke denominators in the argument. Extracted coefficients
+such as $\omega(\mathfrak b)^3$ do not require a live background
+$\omega^3$; Section \ref{sec-inverse} makes this distinction explicit.
+
+The real parts of zeros are unchanged by the parameter $t$, so
+it may be omitted when taking suprema. After the starting bound is
+proved, set
+\begin{equation}\label{eq-common-B}
+ B=B_{K,\omega}:=
+ \sup\left(\{1/2\}\cup
+   \{\Rea\rho:\eta\in\Packet,\ L_K(\rho,\eta)=0,\
+                            1/2\le\Rea\rho\le1\}\right).
+\end{equation}
+The contradiction will use this one supremum for both the target
+and its companion denominators. It will never substitute a
+target's individual zero supremum for the common family boundary.
+
+\section{Transfer of the original constructions}\label{sec-inputs}
+
+All sums below use ideal norms. We write $q_{\mathfrak a}=\N\mathfrak a$.
+The symbols $u,n,p$ in the source-compatible formulas denote ideal
+indices with the specified finite class and unit sectors, or their
+allowed generators in the $S$-integer presentation of P, Section 3.
+They do not mean all algebraic integers of bounded absolute norm.
+The latter set can be infinite because of units.
+
+Fix $S$ large enough to include the archimedean places, the primes
+over $6$, the fixed finite data, and representatives that trivialize
+the $S$-ideal class group. Use P's character-equivariant integration
+and periodization modulo $U_S^6$. In particular, the continuous
+unit phases of $\omega$ are retained. Only the finite power-class
+and ray tables are subjected to finite Fourier inversion.
+Zero extensions of residue symbols remain in every formula.
+
+\begin{proposition}[Quantitative field and type transfer]\label{hyp-main}
+Under Source Input~\ref{hyp-source}, fix $K\supset\mu_{12}$ and
+a unitary Hecke character $\omega$. The following three conclusions
+hold for the family \eqref{eq-packet}. We use $\mathsf T$, $\mathsf I$,
+and $\mathsf P$ as names for these consequences.
+\begin{enumerate}
+\item[\(\mathsf T\).]
+The normalized cubic theta and Poisson constructions have the
+general-field form of P, Sections 3 and 5--7 and Appendix A,
+and the fully marked physical probe has the norm estimates of
+Q, Sections 5--16. This includes the actual unit-quotient profiles,
+finite local scalars, whole-index masks, all principal and zero
+orbits, and the full compensated Euler correction. More precisely,
+it supplies the normalized functions \eqref{eq-signal},
+the principal assertions \eqref{eq-principal-approx}--\eqref{eq-contraction},
+the low estimate \eqref{eq-low}, and the row decomposition
+\eqref{eq-E-general} with the principal, small-row, and absolute
+large-row estimates specified in Section \ref{sec-close}.
+The zero detector and witness construction of Q, Section 8,
+also hold with these norm scales. This transfer includes neither an improved row count nor a new
+zero-free boundary.
+
+\item[\(\mathsf I\).]
+The canonical marked inverse estimate \eqref{eq-MI} holds with
+Q, Section 17's strict widths, allowed bounded coefficients,
+common masks, moving-puncture capacity, and finite-seminorm
+profile rules. Its row indexing admits sixth-power amplification
+with the original zero extensions. In particular, the independent
+scales in \eqref{eq-two-scale} are available; the amplification
+proof below explains this consequence of the unmarked estimate
+and ideal counting.
+
+\item[\(\mathsf P\).]
+The paired ordinary fourth moment \eqref{eq-fourth} holds for
+$3/4\le\kappa\le5/6$, with capacity
+$n_1+n_2+6\kappa z\le m+q$, the zero-slot endpoint,
+and the exceptional-row and common-mask conventions in
+Section \ref{sec-fourth}. Its prime-cancellation premise is only
+that finite-order Hecke characters have the common boundary
+$(1+\kappa)/2$. The corresponding reciprocal and prime bounds
+are used in the quantitative form of Q, Section 4.
+\end{enumerate}
+Each statement includes its finite-seminorm and polynomial-height
+assertions, with the real choices in the following paragraph.
+\end{proposition}
+
+\begin{proof}[Location of the proof]
+Proposition~\ref{prop-theta-transfer} establishes the general-field
+arithmetic calibration. Lemmas~\ref{lem-general-arch} and
+\ref{lem-orbit-gram} give the exact fixed-type reflection, masked
+Poisson formula, and full additive Gram estimate. The finite marked
+reflection and the two canonical inductions are transferred in
+Appendix~\ref{app-transfer}. Lemma~\ref{lem-directed} verifies the
+permitted infinite-type backgrounds, and the proof of
+Proposition~\ref{prop-fourth} checks ordinary reflection, prime
+pairing, and centered exceptional cancellation. These arguments use
+the full source reductions and supply every field-dependent
+replacement; they do not infer the moments from a large sieve alone.
+\end{proof}
+
+\subsection{The order of uniformity}
+
+On compact admissible ranges of real parameters, for every prescribed
+positive real loss, the width decrements, slot mesh, and finite slot
+system in Proposition~\ref{hyp-main} can be chosen depending on $K$, the fixed
+infinity type of $\omega$, and those losses, before the later
+finite-order target twist and its conductor are selected.
+Adding finitely many excluded primes may change constants and
+thresholds but not these real choices.
+In the fourth moment the mesh is chosen before, and independently
+of, the fixed number of slots. Its eventual seminorm orders and
+constants may depend on that number.
+
+Implied constants, finite seminorm and Sobolev orders, height degrees,
+height ceilings, and lower thresholds may depend on the full fixed
+target and $S$. The external tail orders are chosen after the
+height exponent. The transfer proofs give no additional
+degree-dependent or $S$-dependent power of the scale $Z$:
+fixed-degree unit logarithms consume a prescribed small loss,
+and higher-dimensional Poisson decay is obtained by increasing
+fixed derivative orders. The bounded induction depth depends
+on the strict real margins; finite sector multiplicities change
+constants and thresholds. Appendix~\ref{app-transfer} records
+the resulting order of choices.
+
+Thus the argument does not require estimates uniform over all
+infinity types, all fields, or all conductors. It requires a common
+real saving within the later finite-order twists of one already
+fixed infinity type. These are the quantifiers used in
+Section \ref{sec-close}.
+
+\subsection{General-field theta calibration}
+\label{subsec-theta-transfer}
+
+\begin{proposition}[Field transfer of the theta construction]
+\label{prop-theta-transfer}
+Fix $K\supset\mu_{12}$.  Retain the original cubic theta construction
+and local normalizations of \cite[Proposition 5.1 and Appendix A]{P}.
+Its arithmetic realization, Gaussian smoothing, annular reflection,
+and local Euler algebra apply over $K$ to every fixed unitary target,
+after the conjugation choice of Lemma~\ref{lem-general-arch}.
+These are consequences of that source construction, rather than
+additional general-field analytic assumptions.
+\end{proposition}
+
+\begin{proof}
+Choose $S$ to contain the primes over $6$, the trace-character
+ramification, the target's finite conductor, the source's fixed local
+data, and primes generating the ideal class group.  Then
+$R=\mathcal O_{K,S}$ is principal.  Adelic additive duality and the
+product formula identify $R$ with its annihilator in $K_S$ and give
+it covolume one in the self-dual normalization, exactly as in
+\cite[Lemma 3.1]{P}; the argument does not use a cyclotomic extension.
+
+Put $[K:\mathbb Q]=2r$ and $s_f=|S_f|$.  For $\ell=2,3$, local
+Kummer theory and the $S$-unit theorem give
+\[
+ \dim_{\mathbb F_\ell}K_S^\times/K_S^{\times\ell}=2s_f+2r,
+ \qquad
+ \dim_{\mathbb F_\ell}R^\times/(R^\times)^\ell=s_f+r.
+\]
+The second space injects into the first: a unit locally an
+$\ell$th power at $S$ defines a Kummer extension unramified outside
+$S$ and split at $S$, hence an everywhere unramified abelian extension
+classified by the trivial $S$-ideal class group.  Hilbert reciprocity
+makes the image isotropic.  Also $-1=\zeta_{12}^6$ is a sixth power,
+so the sextic Hilbert pairing is alternating.  The image is therefore
+Lagrangian, and it has an isotropic complement $B$.  Combining the
+$2$- and $3$-parts gives the allowed generators of
+\cite[Lemma 3.2]{P}, unique modulo $\Gamma=(R^\times)^6$.
+Compactness of $K_S^1/\Gamma$ supplies balanced representatives.
+
+For the cubic Gauss correction set
+$\Lambda_K=\Lambda_{\mathbb Q(\sqrt{-3})}\circ N_{K/\mathbb Q(\sqrt{-3})}$.
+At a prime of residue degree $f$, Davenport--Hasse lifting gives
+$J_{q^f}=(-1)^{f-1}J_q^f$; the prime Jacobi identity consequently gives
+$\gamma_2(\mathfrak p)^3=-\Lambda_K(\mathfrak p)$.
+Each complex coordinate of the relative norm contributes either $z$
+or $\bar z$, so the angular weights of $\Lambda_K$ are $\pm1$.
+The quadratic correction follows from the Weil-index product formula
+on the same isotropic complement.  This proves the identities of
+\cite[Lemma 3.4]{P} over $K$, without a Galois or CM assumption.
+The Kazhdan--Patterson specialization used in \cite[Appendix A]{P}
+is over a general number field containing the required roots of unity:
+its $(2,3,2)$ scalar quotient and exceptional datum are local, while
+rational compatibility follows from reciprocity and the product
+formula.  An everywhere-local cube is a global cube by the Kummer
+extension and Chebotarev argument given there.  Thus no cyclotomic
+restriction enters this specialization of the retained construction.
+
+For an infinite-order target, only its smooth local unit restrictions
+are cut off at finite places.  They have open kernels even if their
+uniformizer values have infinite order.  Lemma~5.3 of \cite{P}
+therefore supplies a common cutoff inside these kernels and the
+sixth powers.  The target itself is never expanded in a finite
+Fourier table.  At infinity use Lemma~\ref{lem-general-arch}, keeping
+all relative radial parameters.  Its exact orbit substitution puts
+the whole target value on the completed ideal index, and its Mellin
+calculation supplies the Gaussian and arbitrary annular tests.
+In particular no extra norm phase is introduced in the physical
+scale monomial.  The exterior residue fields have
+$q_{\mathfrak p}\equiv1\pmod{12}$, so all remaining local digit,
+Gauss, and Euler computations of \cite[Sections 6--7]{P} are unchanged.
+\end{proof}
+
+
+\subsection{The archimedean interface over a general field}
+\label{subsec-general-arch}
+
+Let $K\supset\mu_{12}$ be fixed, with $[K:\mathbb Q]=2r$.
+Use the theta representation, rational splitting, and coefficient
+normalizations constructed in the arithmetic part of
+Proposition~\ref{prop-theta-transfer}.
+The following local and norm-sheet calculation uses
+\cite[Proposition 5.1 and Appendix A]{P}, retaining every fixed
+angular and relative radial parameter.
+
+Put $R=\mathcal O_{K,S}$ and $\Gamma=(R^\times)^6$, with $S$ enlarged
+as in \cite[Section 3]{P}.  Let $\mathscr L$ be the actual unitary
+$S$-period character, including the Gauss correction, so
+$\mathscr L(\Gamma)=1$.  At a complex place write
+\[
+ \mathscr L_v(z)=\omega_{m_v}(z)|z|_v^{i\tau_v},\qquad
+ \omega_m(z)=(z/|z|_{\rm ord})^m,
+ \qquad m_v\in\mathbb Z,\quad\tau_v\in\mathbb R.
+\]
+The relative parameters $\tau_v$ are retained; a single global norm
+twist need not remove them.  The Gauss correction has angular
+exponents $b_v\in\{1,-1\}$ by \cite[Lemma 3.4]{P}.
+In the ideal-character convention, the period weights are
+$m_v=k_v-b_v$ for target angular weights $k_v$.
+Replacing the target by its conjugate if necessary ensures
+$m_v\ne0$ at at least one place: the two vectors
+$(k_v-b_v)_v$ and $(-k_v-b_v)_v$ cannot both vanish.
+Finite-order children do not change these weights.
+
+\begin{lemma}[Fixed-type norm-sheet reflection]\label{lem-general-arch}
+Assume the preceding nonzero angular condition.  The theta period has
+an exact reflected transform for every smooth test supported in a
+fixed compact subinterval of $(0,\infty)$.  Its archimedean transform,
+including each fixed finite-$S$ branch, satisfies
+\[
+ |(x\partial_x)^h\Phi_{\kappa,V}(x)|
+ \ll_{K,\mathscr L,A,h}\mathcal S_J(V)
+       \min\{x^{1/4},x^{-A}\},
+ \qquad J>4rA+h+1,
+\]
+where $\mathcal S_J$ is a finite smooth seminorm on that interval.
+For the fixed Gaussian test the same Mellin identity applies;
+its constants may depend on the fixed type.  A moving norm phase $V(x)x^{iT}$
+costs at most $(1+|T|)^J$ in this estimate.
+\end{lemma}
+
+\begin{proof}
+At a complex place let $\phi^\circ$ be spherical and choose the
+additive coordinate as in \cite[Section 5.2]{P}.  The holomorphic
+and antiholomorphic upper-root operators $E,\bar E$ can be normalized
+with the same scalar so that they multiply the Whittaker function
+by $z,\bar z$, respectively; this is (5.10) of \cite{P}.
+Take $\phi_m=E^m\phi^\circ$ for $m\ge0$, and
+$\phi_m=\bar E^{-m}\phi^\circ$ for $m<0$.
+With $a_v=(|m_v|+1)/2$, the local Whittaker function is
+\[
+ W_{\phi_{m_v}}(a(z))
+   =|z|_v^{a_v}\omega_{m_v}(z)
+     K_{1/3}(c_v|z|_v^{1/2}),\qquad c_v>0,
+\]
+after a common spherical normalization.
+The complexified compact Lie algebra annihilates $\phi^\circ$;
+in particular $(F-\bar E)\phi^\circ=0$.
+Since $F$ and $\bar E$ commute, $F^j\phi^\circ=\bar E^j\phi^\circ$.
+Write $\mathcal K_v$ for the maximal compact subgroup. Then
+$w\in\mathcal K_v$ and $\operatorname{Ad}(w)E=-F$, giving the exact identity
+\[
+                    \pi(w)\phi_m=(-1)^{|m|}\phi_{-m}.
+\]
+Thus each complex place is treated independently; no common angular
+weight or single global derivative is used.
+
+At the finite places choose the Whittaker cutoff $\one_U$ from
+\cite[Lemma 5.3]{P}, with $U$ contained in the sixth powers and in
+$\ker\mathscr L$.  Write
+$X_u=\{y\in K_S^\times:|y|_S=u\}$ with the sheet measure of
+\cite[(5.15)]{P}.  The unreflected profile is
+\[
+ V_0(u)=\int_{X_u}\one_U(y_f)
+       \prod_{v\mid\infty}t_v^{a_v-i\tau_v}
+                          K_{1/3}(c_v\sqrt{t_v})\,d_u^\times y,
+ \qquad t_v=|y_v|_v.
+\]
+Using $\widehat f(s)=\int_0^\infty f(x)x^s\,dx/x$, absolute Fubini
+and the Bessel integral give, initially for $\Re s>-1/3$,
+\[
+ \widehat V_0(s)=C_0 A_0^s
+   \prod_{v\mid\infty}\prod_{\epsilon=\pm1}
+      \Gamma(a_v+s-i\tau_v+\epsilon/6),
+ \qquad C_0\ne0,\quad A_0=\prod_v4/c_v^2>0.
+\]
+For a reflected branch $\kappa$, the character in the profile is
+$\mathscr L$, rather than $\mathscr L^{-1}$, and the vector is
+$\pi(w)\phi$.  Consequently the exact Mellin multiplier is
+\begin{equation}\label{eq-general-arch-ratio}
+ \mathcal R_\kappa(s)
+ :=\frac{\widehat H_\kappa(s)}{\widehat V_0(-s)}
+ =C_\kappa A_0^{2s}B_\kappa(s)
+  \prod_{v\mid\infty}\prod_{\epsilon=\pm1}
+   \frac{\Gamma(a_v+s+i\tau_v+\epsilon/6)}
+        {\Gamma(a_v-s-i\tau_v+\epsilon/6)} .
+\end{equation}
+Here $B_\kappa$ is a finite sum of finite-place Mellin factors.
+For every $\delta<1/3$, (5.13) of \cite{P} makes it holomorphic
+on $\Re s>-\delta$ and bounded on each closed vertical substrip.
+The original finite factor is the nonzero constant $\operatorname{vol}(U)$;
+no arbitrary finite Mellin factor is divided out.
+Gamma poles have real part at most $-a_v+1/6\le-1/3$.
+Taking $1/4<\delta<1/3$, the multiplier is therefore holomorphic
+through the line $\Re s=-1/4$.  Stirling's formula cancels the
+exponential factors separately at each place, since the imaginary
+arguments in each quotient are opposite.  On a fixed vertical line
+in this region,
+\[
+        |\mathcal R_\kappa(\sigma+it)|
+             \ll_{K,\mathscr L,\sigma}(1+|t|)^{4r\sigma}.
+\]
+
+For completeness, this multiplier belongs to an exact period
+identity, not merely a formal local transform.  One integrates on
+$X_u/\Gamma$, which is compact by the $S$-unit theorem.
+Rotating at a place with $m_v\ne0$ kills both constant terms,
+because their inducing character is radial; this is the argument
+of \cite[(6.8)]{P}.  The absolute bounds of
+\cite[Lemma 5.4]{P} apply unchanged to the fixed unitary character.
+Choose a measurable fundamental domain $\Omega_u\subset X_u$ for
+$X_u/\Gamma$. Orbit unfolding is the identity
+\[
+ \sum_{\gamma\in\Gamma}\int_{\Omega_u}
+ \one_B([y])\mathscr L(y)^{-1} f(\gamma Ay)\,d_u^\times y
+ =\mathscr L(A)\int_{X_{q_Au}}\one_B([A]^{-1}[v])
+                    \mathscr L(v)^{-1}f(v)\,d^\times v,
+\]
+as in \cite[(6.13)]{P}.  On the unreflected cutoff $[v]=1$
+and $[A]\in B$, so the remaining class indicator is one.
+Thus ideals are counted once, and no count of their infinitely many
+unit associates is substituted for a norm-sheet integral.
+The two expansions give the completed Mellin functional equation.
+Its continuation is justified by the rapid decay at opposite ends
+after constant-term removal; reciprocal gamma factors are entire.
+The convergent expansions on opposite half-planes and
+Phragmen--Lindelof then give polynomial growth on fixed strips.
+
+Mellin inversion now yields the reflected kernel
+\[
+ \Phi_{\kappa,V}(x)=\frac1{2\pi i}\int_{(\sigma)}
+       \widehat V(-s)\mathcal R_\kappa(s)x^{-s}\,ds.
+\]
+Shift to $\sigma=-1/4$ or $\sigma=A$ and integrate by parts $J$
+times in the Mellin transform of $V$.  This proves the estimate.
+Finally $\mathcal S_J(Vx^{iT})\ll(1+|T|)^J\mathcal S_J(V)$.
+One keeps this fixed-type reflection and changes the test; one does
+not rebuild Gaussian deconvolution kernels for each $T$.
+\end{proof}
+
+The field degree increases the fixed seminorm order $J$, but adds
+no norm-length exponent to this lemma.  Once all internal seminorm
+orders have been fixed, a height $T_1=Z^\tau$ with sufficiently small
+fixed $\tau>0$ absorbs its polynomial cost; the external tail order
+is chosen afterwards.  The Poisson and row estimates are transferred next, and the
+canonical moment reductions are completed in
+Appendix~\ref{app-transfer}. These use the same finite-seminorm
+profile class as the reflection lemma.
+
+\subsection{Poisson and additive correlation}
+\begin{lemma}[Norm-form Poisson and the additive Gram estimate]\label{lem-orbit-gram}
+Fix a number field $K\supset\mu_{12}$ and fixed arithmetic data as in
+P, Section~3. Let $R=\mathcal O_{K,S}$, and choose a finite-index power
+subgroup $\Gamma\subset R^{\times6}$ on which the relevant finite
+characters are trivial. Put $T=K_S^1$. The masked Poisson operations
+in Q may be performed on $\Gamma$-orbits with ideal norms. Their
+scale factors and the additive Gram bound Q, (15.4), are unchanged.
+More precisely, for the additive polynomial of Q, Section~6, with its
+specified finite ray coefficients and a fixed compact additive row
+shape, put $P_a=Y^2/Q\ge1$. Then
+\[
+ \sum_m |A_m(Y)|^2
+ \ll_{K,S,\epsilon}(1+|\nu|)^J\frac QY
+       \left(1+P_a^{1/6}+\frac{P_a^2}{Y}\right)Z^\epsilon.
+\]
+Here $\nu\in\mathbb R$ is the norm-power height in the additive test,
+the row shape has norm scale $Q$, the scales lie in fixed
+polynomial ranges, and $J$ is a finite fixed seminorm order.
+No arbitrary row-dependent arithmetic coefficient is allowed.
+The real loss $\epsilon$ is prescribed before the fixed target and
+its finite conductor; constants, $J$, and thresholds may depend on
+those fixed data.
+\end{lemma}
+
+\begin{proof}
+The quotient $T/\Gamma$ is compact. Choose a smooth, compactly
+supported unit partition on $T$, with the finite-place components
+locally constant, whose translates by $\Gamma$ sum to one.
+This represents orbit sums by lattice sums without counting infinitely
+many associates. If $\ell_x$ is the positive norm section, define
+\[
+ W_\phi(x)=\int_T\phi(\ell_xv)\,d^\times v,
+ \qquad \widetilde W_\phi(x)
+       =\int_T\widehat\phi(\ell_xv)\,d^\times v.
+\]
+Every compact smooth annular norm test has such a lift, by multiplying
+it by a fixed compact shape function of integral one. For a primitive
+exterior residue character $\chi$ of conductor $\mathfrak m=mR$,
+the nonprincipal masked formula is
+\[
+ \sum_{[k]\ne0}\chi(k)\one_{(k,\mathfrak R)=1}W_\phi(q_k/L)
+ =\frac{L\gamma(\chi)}{\sqrt{\N\mathfrak m}}
+  \sum_{\mathfrak d\mid\operatorname{rad}\mathfrak R}
+       \frac{\mu(\mathfrak d)\chi(d)}{\N\mathfrak d}
+  \sum_{[h]\ne0}\bar\chi(h)
+       \widetilde W_\phi\!\left(
+         \frac{Lq_h}{\N\mathfrak d\,\N\mathfrak m}\right).
+\]
+Indeed, expand the mask, substitute $k=dk'$, and apply additive
+Poisson on the self-dual $R$-lattice while integrating on the compact
+quotient $T/\Gamma$. The finite transform is the ordinary primitive
+Gauss transform. Haar translation removes the norm-one part of $dm$,
+so the transformed kernel is common and has no moving modulus shape.
+Fixed local sectors are separated before this operation. For a general
+periodic row coefficient one retains its full finite Fourier transform
+instead of replacing it by a primitive character. The dual zero is
+kept separately; for the primitive principal character it is
+\[
+ L\operatorname{vol}(T/\Gamma)\widehat\phi(0)
+       \sum_{\mathfrak d\mid\operatorname{rad}\mathfrak R}
+                         \frac{\mu(\mathfrak d)}{\N\mathfrak d}.
+\]
+Any included primal zero is the separate compact-quotient scalar
+$\operatorname{vol}(T/\Gamma)\phi(0)$ with its actual mask.
+It is never interpreted as $W_\phi(0)$.
+
+\paragraph{The general periodic version, including both zero orbits.}
+Let $f:R/\mathfrak c\to\mathbb C$ be a periodic function such that
+$f(\gamma a)=f(a)$ for every $\gamma\in\Gamma$; every fixed local
+sector and every original zero extension is retained in $f$ or in
+the fixed local profile. For $\mathfrak d\mid\operatorname{rad}\mathfrak R$
+define the unnormalized finite transform
+\[
+ \widehat f_d(h)=\sum_{a\bmod\mathfrak c}
+           f(da)e(ha/c),\qquad\mathfrak c=cR.
+\]
+Use the additive-sign convention consistent with the chosen lattice
+Fourier transform. Here $[k],[h]\in\Gamma\backslash(R\setminus\{0\})$,
+$q_k=\N(kR)=|k|_S$, and $c,d$ are chosen exterior generators.
+The exact orbit formula is
+\[
+ \sum_{[k]\ne0}f(k)\one_{(k,\mathfrak R)=1}W_\phi(q_k/L)
+ =\frac L{q_c}\sum_{\mathfrak d\mid\operatorname{rad}\mathfrak R}
+       \frac{\mu(\mathfrak d)}{q_d}
+       \sum_{[h]\ne0}\widehat f_d(h)
+           \widetilde W_\phi\!\left(\frac{Lq_h}{q_dq_c}\right)
+       +\mathcal Z_f,
+\]
+where
+\[
+ \mathcal Z_f=
+ \frac{L\operatorname{vol}(T/\Gamma)\widehat\phi(0)}{q_c}
+       \sum_{\mathfrak d\mid\operatorname{rad}\mathfrak R}
+              \frac{\mu(\mathfrak d)}{q_d}\widehat f_d(0)
+ -\operatorname{vol}(T/\Gamma)\phi(0)f(0)
+       \sum_{\mathfrak d\mid\operatorname{rad}\mathfrak R}\mu(\mathfrak d).
+\]
+The last term is absent for an annular lift. The mask is expanded
+before the finite transform: for general $f$ one transforms $f(da)$,
+not a fictitious multiplicative factor $f(d)f(a)$. Since every
+$\gamma\in\Gamma$ is a unit modulo the exterior modulus, a residue
+substitution shows that $\widehat f_d$ is also $\Gamma$-invariant.
+Both nonzero sums are therefore genuine orbit sums. Specializing to
+a primitive character gives
+$\widehat f_d(h)=\chi(d)\sqrt{q_c}\gamma(\chi)\bar\chi(h)$
+and recovers the preceding character formula. For the primitive
+principal character $\mathfrak c=R$, the dual-zero formula specializes
+to the displayed principal scalar.
+
+
+On positive norm sheets, product Schwartz bounds give arbitrary
+power decay at infinity and at most $(1+|\log x|)^b$ at zero,
+where $b$ depends only on the fixed field and finite data.
+Euler derivatives have the same logarithmic-degree bound. Thus the
+additional logarithms consume a prescribed small real loss, with only
+the threshold depending on the data. A positive Gaussian/compact-open
+lift majorizes the entire row ball.
+
+For the Gram bound follow the full-correlation proof of Q,
+Proposition~15.2, retaining its collision zeros. Write
+$s_i=Cn_i$, $(n_1,n_2)=1$. The first Poisson transform has precisely
+the prefactor $Q/Y^3$: the lattice denominator $q_{s_1}q_{s_2}$
+cancels the same factor in the complete Gauss correlation.
+The zero frequency forces $n_1=n_2=1$ and contributes $O(Q/Y)$.
+Insert the complete divisor identity for coprimality before extending
+the coefficient, and write $n_i=dm_i$. Its bounded extension is used
+with all original shared-prime zeros. After reciprocity the exterior
+period is
+\[
+ \mathfrak r=\operatorname{lcm}(\operatorname{rad} C,
+                 \operatorname{rad}(k)),\qquad
+ q_{\mathfrak r}\ll_{\rm fixed}q_Cq_k,
+\]
+with the fixed local data included in the fixed profile or sectors.
+For a nonexceptional $k$, namely one with a valuation not divisible
+by six at a prime outside $C$ and the fixed support, the normalized
+two-variable finite transform has size at most $q_C$ and its zero
+coefficient vanishes. These are the same finite-field and CRT
+identities as in Q; the residue-field cardinality simply becomes
+$q_{\mathfrak p}$.
+
+Keep one joint two-column profile, rather than separately chosen
+row-dependent Fourier densities. On a shell
+$q_Cq_k/P_a\asymp\mathcal R$, this profile has homogeneous seminorms
+$O((1+|\nu|)^J\mathcal R^{-B})$. Split $q_C\asymp C_0$ and $q_d\asymp D_0$ into dyads.
+With $N=Y/(C_0D_0)$, use the unit partition in both columns and balance an
+allowed generator of $\mathfrak r$ by P, Lemma~3.2. Its normalized
+shape stays in a fixed compact set. Two-column lattice Poisson gives
+\[
+ \left|\sum_{m\in R^2}a_{C,d,k}(m)W_{\mathcal R}(m/\ell_N)\right|
+ \ll (1+|\nu|)^J\mathcal R^{-B}q_CN^2
+          \min\{1,(q_{\mathfrak r}/N)^A\}.
+\]
+For $N\ge q_{\mathfrak r}$ the zero frequency is absent. A nonzero
+dual vector has a large archimedean coordinate; taking the fixed
+Schwartz order sufficiently large in terms of $A[K:\mathbb Q]$
+gives the displayed decay. For $N<q_{\mathfrak r}$ use the compact
+profile point count; a nonempty subunit annulus is bounded below by
+a fixed constant. Thus field degree changes the derivative order,
+not the exponent of $N$.
+
+Ideal counting bounds the nonexceptional frequencies on this shell
+by $O(\mathcal R P_a/C_0)$, up to a fixed-degree logarithm for
+representatives in compact additive shapes. The same positive dyadic
+sum as in Q is
+\[
+ \sum_{i,j\ge0}2^{-i-j}
+       \min\{1,(2^{i+j}/\Lambda)^A\}
+ \ll_A\frac{1+\log(2+\Lambda)}{\Lambda},
+ \qquad\Lambda=Y/(\mathcal R P_a).
+\]
+After the shell sum this gives $(Q/Y)(P_a^2/Y)Z^\epsilon$.
+Exceptional nonzero frequency ideals have the form
+$\mathfrak a^6\mathfrak e$, with $\mathfrak e$ supported on $C$
+and the fixed support. There are $q_C^\epsilon$ possibilities for
+$\mathfrak e$ and $O((\mathcal R P_a/C_0)^{1/6})$ possibilities
+for $\mathfrak a$. Representatives of one exterior ideal in the
+compact additive shapes are $S$-units in a logarithmic box, hence
+contribute only a fixed-degree logarithm. The corresponding term
+is $(Q/Y)P_a^{1/6}Z^\epsilon$. Adding the diagonal gives the claim.
+\end{proof}
+
+\paragraph{Application to a fixed infinite type.}
+In the physical probe the target character acts on the completed
+theta column $cn^3$, not on the additive row variable $m$ or the
+additive polynomial $A_m$. Consequently the preceding Gram argument
+is literally unchanged for a genuine unitary target. Its continuous
+infinity phase is handled by the fixed-type theta reflection lemma;
+compensation contributes only the bounded column/slot coefficient
+$\overline{\psi(p)}$. The completed-index masks, finite correlations,
+local Euler algebra and subset scale coefficients remain the same.
+The arbitrary-annular reflection has the same two-ended kernel
+bound, with higher fixed seminorm and height orders. Therefore the
+homogeneous common-profile separation and the positive row-energy
+calculation of Q, Sections~14--15, retain their norm exponents.
+At the original geometry the low estimate is $Z^{3/16+\epsilon}$.
+The high Euler factors use only unit-modulus local target values;
+their prime sums converge in the same regions over a fixed number
+field. The principal residue constant is nonzero and may be calibrated
+by one fixed scalar, as in P, Section~8. None of these steps imposes
+a new zero-free hypothesis.
+
+
+\section{The canonical family and the starting bound}\label{sec-inverse}
+
+Fix a finite group $\Theta$ of finite-order ray characters containing
+the fixed finite Gauss and reciprocity corrections. Enlarge the fixed set
+$S$ to contain every fixed conductor and excluded prime. For a fixed target $\psi\in\Packet$, its genuine infinite-order
+part is not made a member of $\Theta$. Global norm twists are placed
+in the tests, and the finite-order cases use the original finite class.
+For a finite-order target, enlarge $\Theta$ to contain $\psi$
+and absorb $\psi$ into the finite presentation; in the paired
+moment this case may always be written with $\omega_0=1$.
+Writing $\chi_u(n)=\chi_n(u)$ for the physical sextic presentation,
+the actual row family is
+\begin{equation}\label{eq-family}
+ \Xcal_u=
+ \{\theta\chi_u,\theta\bar\chi_u:\theta\in\Theta\}
+ \cup
+ \{\psi\theta\bar\chi_u,\bar\psi\theta\chi_u:
+                                     \theta\in\Theta\}.
+\end{equation}
+It is closed under conjugation. For each physical row it contains
+finitely many characters, although some have infinite order.
+
+\subsection{Preservation of the fixed infinity type}
+
+For a presentation $\nu\chi_u^{\epsilon_\chi}$, the initialization
+in Q, (17.68), conjugates the whole polynomial when
+$\epsilon_\chi=+1$. Its canonical background is thus
+\begin{equation}\label{eq-direction}
+ \nu_{\rm can}=\nu^{-\epsilon_\chi}.
+\end{equation}
+The two conjugate genuine presentations in \eqref{eq-family}
+both give a background in $\psi\Theta$; finite-order presentations
+give one in $\Theta$.
+
+\begin{lemma}[Directed canonical reduction]\label{lem-directed}
+The canonical reductions of Q, Section 17, preserve the class
+\[
+ \nu_{\rm can}\in\Theta\cup\psi\Theta.
+\]
+No live background with a new power of the genuine character
+is introduced. Together with the character-equivariant theta reflection and the
+canonical transfer in Appendix~\ref{app-transfer}, this is the entire
+infinite-type family needed by the marked inverse estimate.
+\end{lemma}
+
+\begin{proof}
+We check the places where finite order could matter. In the first
+Poisson step, Q, (17.22)--(17.30), write
+$n_i=A_i C u_i$. On the original support,
+\[
+ \nu(n_1)\overline{\nu(n_2)}
+ =\nu(A_1)\overline{\nu(A_2)}
+       \nu(u_1)\overline{\nu(u_2)}.
+\]
+The common factor cancels because $|\nu(C)|=1$. Keep the last two
+factors outside the finite Gauss-ray table. Expanding that table
+then gives backgrounds $\nu\vartheta_i$, $\vartheta_i\in\Theta$;
+no finite Fourier expansion of $\nu$ is being used. In the second
+Poisson step, Q, (17.40)--(17.55), the common extracted factor again
+contributes $|\nu\vartheta_i(v')|^2=1$. A child background is
+$\nu\vartheta_i\vartheta$, still in the same class.
+
+Cube extraction in Q, (14.2) and (17.10), gives $\nu(b)^3$
+on the cube variable. This is an allowed bounded coefficient on
+that variable, not a replacement of the live residual character
+by $\nu^3$. Divisor extraction and the priority identities for
+marks keep their original masks and product coefficients.
+
+The remaining use of the background is the completed theta
+terminal in Q, (14.14). Over $K$ this is supplied by
+Lemma~\ref{lem-general-arch} and the finite marked reflection in
+Appendix~\ref{app-transfer}. The finite table is kept separate from the fixed
+archimedean phase. Its decay and finite-seminorm
+bounds are exactly those used in the transferred canonical proof.
+Thus the finite tables, masks, and live background are all
+preserved, including at the reflected terminal.
+\end{proof}
+
+The resulting inverse estimate $\mathsf I$ has the following precise form. With the
+source-compatible prime slots $Q_{u,i}$,
+total slot length $z$, and a fixed polynomial-length inverse sum
+\[
+ \Mcal_u(D;W)=D^{-1/2}\sum_n
+       \mu(n)\nu(n)\chi_n(u)^{\epsilon_\chi}W(q_n/D),
+\]
+take only presentations from \eqref{eq-family}, equivalently
+$\nu^{-\epsilon_\chi}\in\Theta\cup\psi\Theta$.
+The resulting estimate is
+\begin{equation}\label{eq-MI}
+ \sum_{0<q_u\ll Z^m}
+ \left|\Mcal_u(Z^r;W)\prod_iQ_{u,i}\right|^2
+ \ll Z^{m+\eps},
+ \qquad r+2z<m,\quad 2r+8z<3m.
+\end{equation}
+Each strict inequality has a fixed positive margin. Slot coefficients
+are bounded and fixed independently of the row; supports are
+disjoint before masks are imposed. All products retain the same
+coprimality mask. Only the rowwise profile choices permitted by Q,
+Lemma 4.5, are allowed. At initialization the masks come only from
+the fixed set $S$ and the displayed presentation zeros. Moving
+punctures generated inside the canonical reduction must satisfy
+Q, (17.2), with their capacity counted there. An additional freely
+chosen moving mask is not allowed, even if held fixed during one
+row sum.
+
+\subsection{A single-row amplification}
+
+\begin{proposition}\label{prop-seed}
+Under Source Input~\ref{hyp-source}, the transferred inverse estimate implies,
+for every $\eta\in\Packet$,
+\begin{equation}\label{eq-seed}
+ L_K(s,\eta)\ne0\qquad(\Rea s>11/12).
+\end{equation}
+This implication uses no prior zero-free bound for genuine
+infinite-order characters.
+\end{proposition}
+
+\begin{proof}
+Remove a global norm twist and use the permitted orientation
+of the fixed infinite type; finite-order cases are included. Use $\nu=\eta$ and $\epsilon_\chi=-1$ in the inverse
+polynomials. The first two-scale statement of Q, Lemma 17.6, applies
+to independent $U,D\ge1$ and gives
+\begin{equation}\label{eq-two-scale}
+ \sum_{u\sim U}^{\text{sixth-power-free}}
+ |\Mcal_u(D;W)|^2
+ \ll \max\{U,U^{1/6}D^{5(1+c)/6}\}(UD)^\eps
+ \qquad(c>0).
+\end{equation}
+Take a fixed bounded row shell containing $u=1$. This is the
+independent-scale assertion, not the later specialization in which
+$D=U^r$ and $r$ is bounded.
+
+For completeness, the amplification in this special case is short.
+Put $H=D^{1+c}$ and $P=H^{1/6}$. The no-slot case of
+\eqref{eq-MI}, with base $H$, bounds the row energy up to $H$
+by $H(HD)^\eps$, also after the scale supremum in Q, Lemma 4.5.
+For each allowed ideal $a$ with $q_a\le P$, the exact identity is
+\begin{equation}\label{eq-amplification-mask}
+ \Mcal_1(D;W)=
+ \sum_{d\mid\operatorname{rad}(a)}
+       \mu(d)\eta(d)q_d^{-1/2}\Mcal_{a^6}(D/q_d;W).
+\end{equation}
+It follows from $\chi_n(a^6)=\one_{(n,a)=1}$.
+There are $\gg_{K,S}P$ integral ideals $a$ in an allowed
+fixed class with $q_a\le P$. Their sixth powers are distinct
+ideal rows of norm at most $H$, and the divisor coefficient
+mass is a small power. Weighted Cauchy and averaging give
+\[
+ |\Mcal_1(D;W)|^2\ll H/P\cdot D^\eps
+             =D^{5(1+c)/6+\eps}.
+\]
+Letting $c$ and the preliminary loss be sufficiently small proves
+\begin{equation}\label{eq-mobius}
+ \sum_{(n,S)=1}\mu(n)\eta(n)W(q_n/D)
+       \ll_{\eta,W,\eps}D^{11/12+\eps}.
+\end{equation}
+
+Choose a smooth dyadic partition $\sum_{j\ge0}W(q/2^j)=1$
+for $q\ge1$. On a compact subset of $\Rea s>11/12$, the tests
+$W_s(y)=W(y)y^{-s}$ have bounded relevant seminorms. Thus
+\[
+ G_\eta(s)=\sum_{j\ge0}2^{-js}
+     \sum_{(n,S)=1}\mu(n)\eta(n)W_s(q_n/2^j)
+\]
+converges locally uniformly there by \eqref{eq-mobius}.
+For $\Rea s>1$ it equals $1/L_K^S(s,\eta)$. The meromorphic
+identity $L_K^S(s,\eta)G_\eta(s)=1$ proves the claim. Deleted
+Euler factors have no zeros in $\Rea s>0$.
+
+For two varying scales the same proof averages over $(u,a)$:
+valuation modulo six recovers the sixth-power-free ideal $u$
+from $ua^6$, and the quotient recovers $a$. The finitely many
+class and unit sectors cost only a fixed factor. This proves
+\eqref{eq-two-scale} from the same transferred row-energy estimate.
+
+The starting argument uses only
+$\mathsf T$ and $\mathsf I$, corresponding to Q, Section 17
+and its theta terminals. It uses neither the fourth moment of Section 18
+nor prime cancellation from a genuine-character zero-free region.
+\end{proof}
+
+\section{The paired fourth moment}\label{sec-fourth}
+
+Proposition~\ref{prop-seed} gives $B\le11/12$ in
+\eqref{eq-common-B}. In the contradiction $B>7/8$, put
+\begin{equation}\label{eq-kappa}
+ \Delta=B-\frac78,\qquad
+ \kappa=2B-1=\frac34+2\Delta,\qquad
+ 0<\Delta\le\frac1{24}.
+\end{equation}
+Every finite-order Hecke character lies in $\Packet$.
+Consequently the prime premise of the transferred fourth moment is already supplied
+by the definition of $B$. A finite-order $7/8$ theorem is not
+being assumed, and $\kappa$ is not replaced by $3/4$ in the
+actual fourth-moment capacity.
+
+Let $\xi_u$ be the finite moving presentation in Q, Section 18,
+including its fixed finite-ray corrections and all zero extensions.
+Let $\omega_0$ be either $1$, $\psi$, or $\bar\psi$, and put
+$\lambda_u=\omega_0\xi_u$. For a positive-length prime slot,
+take the paired coefficient $\omega_0^{-1}\vartheta_i$,
+$\vartheta_i\in\Theta$. Its actual prime polynomial is
+\begin{equation}\label{eq-paired}
+ Q_{u,i}=P_i^{-1/2}\sum_p
+       \xi_u(p)\vartheta_i(p)W_i(q_p/P_i).
+\end{equation}
+Consequently the character that needs cancellation at primes
+is finite order.
+
+\begin{proposition}[Paired fourth moment]\label{prop-fourth}
+Under Source Input~\ref{hyp-source}, retain the row, common-mask, and fixed
+moving-support hypotheses
+of Q, Lemma 18.1, and write its effective width as $M=m+q$.
+For a sufficiently fine fixed slot mesh,
+\begin{equation}\label{eq-fourth}
+ \sum_{u\in\mathcal R_z}
+  |S_{\lambda_u}(n_1;W_1)S_{\lambda_u}(n_2;W_2)
+                         \prod_iQ_{u,i}|^2
+ \ll Z^{M+\eps}.
+\end{equation}
+Here $S$ denotes the source's centrally normalized plain sum.
+For positive total slot length $z$, it suffices that
+\[
+ n_1+n_2+6\kappa z\le M,
+\]
+and $\mathcal R_z$ excludes rows whose finite inducing character
+$\xi_u^*$ belongs to $\Theta$. For $z=0$, the bounded
+nonnegative lengths $n_1,n_2$ are unrestricted, and only a
+principal actual inducing character $\lambda_u^*$ is excluded.
+The constants have the source's finite-seminorm and fixed
+polynomial-height dependence.
+\end{proposition}
+
+\begin{proof}[Compatibility checks]
+We record the changes in the source's fourth-moment reduction.
+The canonical recursion and its field-dependent counting steps
+are transferred in Appendix~\ref{app-transfer}. The following
+checks supply its fixed-type reflection, paired prime premise,
+and centered exceptional terminal.
+
+First, ordinary Hecke reflection is available for $\lambda_u$.
+Writing its fixed complex local parameters as $(k_v,\tau_v)$,
+the gamma quotient is, up to fixed exponential scales,
+\[
+ \prod_{v\mid\infty}
+ \frac{\Gamma(s+|k_v|/2+i\tau_v)}
+      {\Gamma(1-s+|k_v|/2-i\tau_v)}.
+\]
+Its poles have nonpositive real part and it has polynomial growth
+on fixed vertical strips away from its poles. The finite conductor
+factor is $Q^{1/2-s}$, with $Q=|d_K|\N\mathfrak f_{\lambda_u}$,
+so the dual norm length is still $Q/X$ \cite{Tate}.
+Coincident poles can produce powers of $\log x$ at the small end
+of the reflected profile. The central annular coefficients are
+therefore bounded by $2^{-j/2}(1+j)^A$, still summable.
+The common-mask identities Q, (18.4)--(18.8), must be applied
+before a primitive inducing character is substituted.
+
+Second, both finite Fourier transformations in Q,
+Sections 18.4--18.6, act on the finite row character. Keep the
+factors $\omega_0(n_1)\overline{\omega_0(n_2)}$ on the two
+columns outside each finite table. Extraction multiplies them
+by unit-modulus scalars; it leaves a single $\omega_0$ on
+each surviving plain character. Its matching inverse remains
+on the slot coefficient. Conjugating a reflected expression
+is handled in two ways. After reflecting a single plain factor,
+conjugate that factor and its test to recover the original
+character inside its absolute square. A change of the whole
+row orientation conjugates both plain factors and every slot,
+including their coefficients and tests. Thus every live prime
+polynomial continues to have a finite actual character as in
+\eqref{eq-paired}. Q's prime estimate uses the common boundary $B$ and hence
+$\kappa=2B-1$. The transferred norm-form capacity is
+$n_1+n_2+6\kappa z\le M$. The dependence on $\Delta$ must
+be retained in the later row comparison.
+
+Third, the exceptional finite inducing family is handled on
+unmasked functions before inserting a moving radical.
+For each fixed $\vartheta\in\Theta$, Hecke continuation and a
+Mellin shift give, uniformly for $X>0$,
+\[
+ \sum_n(\omega_0\vartheta)(n)W(q_n/X)(q_n/X)^{it}
+ =c_{\omega_0\vartheta}\,X I_W(t)
+       +O\bigl(p_J(W)(1+|t|)^A\bigr).
+\]
+After global norm twists have been removed, the coefficient
+$c_{\omega_0\vartheta}$ is zero unless the character is principal;
+$I_W(t)=\int_0^\infty W(y)y^{it}\,dy$.
+For $X\ge1$ the error follows by shifting the unmasked $L$-function
+to $\Rea s=-1$ and is in fact $O(X^{-1})$ with the same type
+of seminorm bound. For $X<1$ bounded ideal counting suffices.
+
+Insert the common radical $R$ only afterwards by
+inclusion--exclusion. The main coefficient is multiplied by
+$\sum_{d\mid R}\mu(d)(\omega_0\vartheta)(d)/q_d$,
+independently of the scale; the error grows by at most $Z^\eps$
+when $q_R$ is polynomially bounded. Keep the common kernel and
+mask through the two equal-product rectangles before separating
+the centered expression. Their principal main terms cancel
+exactly as in Q, Section 18.7. For a genuine infinite-type
+$\omega_0$ the residue is zero, giving a stronger bound.
+Thus this exceptional calculation adds no degree-dependent
+power of the moving norm. It preserves the exceptional-row
+rule stated above.
+More quantitatively, if the four scales in the two rectangles
+are at least $Z^\varrho$, $\varrho\ge0$, and have common
+product $T$, the unnormalized error after cancellation is
+$O(Z^\eps T Z^{-\varrho}(1+|t|)^A)$.
+Central normalization divides by $T^{1/2}$, giving
+$O(Z^\eps T^{1/2}Z^{-\varrho}(1+|t|)^A)$, the saving
+used in Q, (18.47).
+\end{proof}
+
+\section{Compensation and the principal factor}\label{sec-probe}
+
+Let $I_{\psi;D}$ denote the physical probe in Q with target
+$\psi$ and the mark $\one_{D\mid cn^3}$ on its whole
+completed index. Proposition~\ref{prop-theta-transfer} supplies its character-equivariant
+norm-form realization over $K$. At a good prime $p$,
+$Q=q_p$, the compensation is
+\begin{equation}\label{eq-comp-one}
+ \overline{\psi(p)}I_{\psi;p}(X,Y,ZQ)
+       -Q^{-3/2}I_\psi(X/Q,Y/Q,Z).
+\end{equation}
+For disjoint prime windows $\mathcal P_i$ and
+$p_J=\prod_{i\in J}p_i$, its full form is
+\begin{align}\label{eq-comp-full}
+ I_{\psi,\mathrm{mod}}(Z)
+ =\sum_{(p_i)}\prod_iW_i(q_{p_i}/P_i)
+ \sum_{J\subseteq\{1,\ldots,J_0\}}&
+       (-1)^{|J|}q_{p_J}^{-3/2}\overline{\psi(p_{J^c})}
+       \nonumber\\[-2pt]
+ &\hspace{-30mm}\cdot I_{\psi;p_{J^c}}
+       (X/q_{p_J},Y/q_{p_J},Zq_{p_{J^c}}).
+\end{align}
+The target still acts on the whole completed index. All extra
+target factors have absolute value one, so the subset rescaling
+coefficients have exactly the sizes used by the low estimate
+in $\mathsf T$.
+
+The physical Mellin monomial is
+$X^{1/2-z}Z^{s+z-1}Y^{w-1}$. Marking at $p$ and replacing
+$Z$ by $ZQ$ contributes $Q^{s+z-1}P_p^*$; the term with
+coefficient $Q^{-3/2}$ and scales $(X/Q,Y/Q)$ contributes
+$Q^{z-w-1}P_p$. After extracting $Q^{z-1}$, their difference is
+$\bar\psi(p)Q^sP_p^*-Q^{-w}P_p$. This verifies the scale
+and phase in \eqref{eq-comp-one}.
+
+For the remaining local calculation put
+\[
+ V=Q^{-6z},\quad W=\chi_u(p)Q^{-w},\quad
+ D=\psi(p)\bar\chi_u(p)Q^{-s}.
+\]
+If $P_p$ is the local sum and $P_p^*$ its marked part, then
+\[
+ P_p-P_p^*=(1-V)^{-1}+W(1-W)^{-1},\qquad
+ B_p=\overline{\psi(p)}Q^sP_p^*/P_p-Q^{-w}.
+\]
+Since $\overline{\psi(p)}Q^sD=\bar\chi_u(p)$,
+the main prime factor is
+\begin{equation}\label{eq-main-prime}
+ \Qcal_i(u;z)=-\sum_{p\in\mathcal P_i}
+       W_i(q_p/P_i)q_p^{z-1}\bar\chi_u(p).
+\end{equation}
+This is exactly the finite actual prime character needed in
+Proposition \ref{prop-fourth}. No condition $\psi(p)=1$
+is imposed on the prime windows.
+
+The moment pairing can be made explicit. Orient a genuine
+detector witness as $\lambda_u=\psi\theta\bar\chi_u$.
+For the inverse moment, use direction $-1$ and relative slot
+coefficient $(\psi\theta)^{-1}$, which is bounded and independent
+of the row. For the plain fourth moment, conjugate both plain
+witnesses and all selected prime slots together. The resulting
+plain character is $\bar\psi\bar\theta\chi_u$, and its
+relative slot coefficient is $\psi\theta$. Thus in Proposition
+\ref{prop-fourth} one has $\omega_0=\bar\psi$,
+$\xi_u=\bar\theta\chi_u$, and the required coefficient
+$\omega_0^{-1}\theta$. The actual slot is $\chi_u$ with the
+conjugated profile. The other presentations in \eqref{eq-family}
+reduce to these by conjugation and finite twists. Test heights
+only change sign, so the source profile estimates still apply.
+
+Contour shifts use the full local correction, without dividing
+by a possibly vanishing $P_p$. For example the replacement
+factor can be written
+\[
+ G_p=\frac{
+  (\overline{\psi(p)}Q^s-Q^{-w})(1-V)(1-W)P_p^*
+              -Q^{-w}(1-VW)}{1-D}.
+\]
+The two Euler regions and the joint error-slot estimates in
+Q, Section 16, use only unit-modulus local target values.
+Their local algebra is unchanged over $K$. The transferred physical estimates retain the full correction
+and its norm-sum estimates, including all its masks.
+
+\subsection{The general-field local factor}
+
+Write
+$\vartheta=\bar\Lambda_K\bar G\psi$.  At a good prime of norm $Q$ put
+\[
+ V=Q^{-6z},\quad W=\chi_u(p)Q^{-w},\quad
+ D=\psi(p)\bar\chi_u(p)Q^{-s},\quad
+ E=\vartheta(p)^6Q^{4-6s}V.
+\]
+The exact local sum is \cite[(7.19)]{P},
+\[
+ P_p=\frac1{1-V}+\frac W{1-W}
+ +\frac E{1-E}\left(\frac{1-Q^{-1}}{1-V}+W\right)
+ -\frac D{1-E}\left(1+\frac{(Q-1)WV}{1-V}\right).
+\]
+Thus the full factorization is
+\[
+ \zeta_K^S(6z)\frac{L_K^S(w,\chi_u)}
+                         {L_K^S(s,\psi\bar\chi_u)}H_{u,\psi}(s,w,z).
+\]
+In particular the sixth-power row variable does not carry $\psi^6$;
+both principal poles remain at $w=1$ and $z=1/6$. Define
+$H_\psi^S(s)=H_{1,\psi}(s,1,1/6)$, and let $H_{\psi,1,Z}$ denote
+the principal-row correction after all compensations and prime-window
+sums have been performed.
+
+\subsection{The positive normalizer}
+
+Use the original geometry
+\begin{equation}\label{eq-geometry}
+ \ell=\frac16,\quad b=\frac18,\quad M=\frac56,
+ \quad l_x=\frac{17}{48},\quad l_y=\frac{23}{48},
+ \quad h=\frac{13}{16},\quad C(s)=s-\frac{11}{16}.
+\end{equation}
+Here $X=Z^{l_x}$ and $Y=Z^{l_y}$.
+Choose a sufficiently fine fixed even slot count $J_0$, with
+$\ell_i=\ell/J_0$, scales $P_i=Z^{\ell_i}$, and nonnegative
+tests $W_i$ on disjoint annuli. These analytic tests, lengths,
+and the count precede the later target in $\Packet$.
+After fixing that target and its arithmetic data, choose the
+finite identity-ray filter $T=T_\psi$ needed by the local
+presentation, and let $\mathcal P_i$ be the corresponding primes
+in the $i$th annulus. Put
+\begin{equation}\label{eq-normalizer}
+ S_i(Z)=\sum_{p\in\mathcal P_i}W_i(q_p/P_i)q_p^{-5/6},
+ \qquad A_T(Z)=(-1)^{J_0} Z^{-\ell/6}\prod_iS_i(Z).
+\end{equation}
+The fixed-ray prime theorem gives $S_i(Z)>0$ eventually and
+$A_T(Z)\asymp_{K,T,W_i}(\log Z)^{-J_0}>0$.
+The ray filter changes a fixed positive density and the lower
+threshold. It follows that $A_T(Z)^{-1}\ll_{\psi,\eps}Z^\eps$
+for every preassigned $\eps>0$. No uniform ray-class density
+is required.
+
+At the principal residue $u=1,w=1,z=1/6$, Q's local estimate
+is still $B_p=-1+O(q_p^{-7/8})$. Choose, before the target,
+\[
+ \mu_0=\frac7{16}\min_i\ell_i=\frac7{96J_0}>0.
+\]
+Then uniformly in $\Im s$ on $\Rea s>7/8$,
+\begin{equation}\label{eq-principal-approx}
+ H_{\psi,1,Z}(s,1,1/6)
+   =H_\psi^S(s)Z^{\ell/6}A_T(Z)
+        \{1+O_\psi(Z^{-\mu_0})\}.
+\end{equation}
+The same fixed set $S$ is used throughout. Enlarging its fixed
+cutoff as in Q, (10.1)--(10.2), gives
+\begin{equation}\label{eq-contraction}
+ H_\psi^S\text{ holomorphic on }\Rea s>7/8,
+ \qquad |H_\psi^S(s)-1|\le\tfrac12.
+\end{equation}
+On the principal residue $u=1,w=1,z=1/6$, the displayed local formula
+gives, uniformly for $\sigma=\Re s\ge7/8$,
+\[
+ H_p-1\ll Q^{-2}+Q^{-1-\sigma}+Q^{3-6\sigma},\qquad
+ B_p+1\ll Q^{-\sigma}+Q^{-1}+Q^{3-5\sigma}
+             \ll Q^{-7/8}.
+\]
+The first bound is normally summable.  A fixed enlargement of $S$
+makes the logarithmic Euler-product tail as small as desired and
+proves \eqref{eq-contraction}.  Once this has been done the quotient
+$B_p=G_p/H_p$ is legitimate on this principal locus.
+For each fixed positive window, its relative error is at most
+$O(P_i^{-7/8})$, by division by the same positive sum $S_i(Z)$.
+Thus \eqref{eq-principal-approx} holds with the pretarget
+$\mu_0=7/(96J_0)$, even if $T$ was selected later.
+
+We make the base probe normalization explicit, separately from
+the prime-slot tests $W_i$. Choose the Bruhat--Schwartz test
+$W_{0,\mathrm{add}}$ compactly supported in $K_S^\times$ and the
+nonnegative nonzero annular test $W_{1,\mathrm{add}}$, as in
+\cite[(7.1)--(7.3)]{P}. Put
+\[
+ \mathcal M_{\mathrm{add}}(z)
+ =\int_{K_S^\times}\widehat W_{0,\mathrm{add}}(y)
+                          |y|_S^z\,d^\times y,
+ \qquad
+ \widehat W_{1,\mathrm{add}}(w)
+ =\int_0^\infty W_{1,\mathrm{add}}(t)t^w\,\frac{dt}{t}.
+\]
+The first test is chosen with
+$\widehat W_{0,\mathrm{add}}(0)=0$ and
+$\mathcal M_{\mathrm{add}}(1/6)\ne0$.
+At one complex place, subtract suitable multiples of two bumps
+on different radial subannuli: their additive integrals cancel
+while their different radial moments do not. The local zeta
+functional equation gives the required nonzero Mellin pairing,
+exactly as in P, (7.1). A fixed scalar then makes
+$\mathcal M_{\mathrm{add}}(1/6)>0$.
+Only $W_{1,\mathrm{add}}$ is required to be nonnegative.
+
+In this normalization P, (8.13), gives the unmarked double-residue
+scalar
+\[
+ c_S=\frac16\bigl(\operatorname*{Res}_{s=1}\zeta_K^S(s)\bigr)^2
+         \mathcal M_{\mathrm{add}}(1/6)
+         \widehat W_{1,\mathrm{add}}(1)>0.
+\]
+The Gaussian normalization removes the target-dependent
+archimedean scalar before this computation. The physical principal
+row is unique: a row character trivial on all exterior primes is
+trivial by Chebotarev, so its Kummer class is a sixth power and
+its unit ambiguity belongs to $(R^\times)^6$. Any finer unit
+sectors used in positive moment estimates are recombined into
+this one physical orbit. Compensation commutes with unfolding
+and creates no additional principal residue.
+
+
+
+With this calibrated positive scalar $c_S$, set
+\begin{equation}\label{eq-signal}
+ J_\psi(Z)=\frac{I_{\psi,\mathrm{mod}}(Z)}{c_S A_T(Z)},
+ \qquad
+ f_\psi(Z)=\frac1{2\pi i}\int_{(2)}
+     Z^{C(s)}e^{(s-5/6)^2}\frac{H_\psi^S(s)}{L_K^S(s,\psi)}\dd s.
+\end{equation}
+Neither expression contains an analysis height cutoff.
+Lemma~\ref{lem-orbit-gram}, the marked reflected energy in
+Appendix~\ref{app-transfer}, and the positive calculation of
+Q, Proposition 15.3 give, after the subpower reciprocal normalizer,
+\begin{equation}\label{eq-low}
+ |J_\psi(Z)|\ll_{\psi,\eps}Z^{3/16+\eps},
+ \qquad C(7/8)=3/16.
+\end{equation}
+No parameter optimization below $7/8$ is needed.
+
+
+\section{The dynamic endpoint and one family closure}\label{sec-close}
+
+Fix $(K,\omega)$ and suppose $B=B_{K,\omega}>7/8$.
+Proposition~\ref{prop-seed} gives $B\le11/12$, so
+\eqref{eq-kappa} applies. Every companion denominator in the
+detector belongs to $\Packet$, hence its zero real parts are
+at most $B$. All common small-row and principal target
+contours use $B+e$. This is legitimate before any improved
+bound has been proved.
+
+\subsection{The capacity comparison}
+
+Use $\delta=2a-1$, $q=x\delta$, with
+$0\le\delta\le\alpha=5/6$ and $0\le x\le1/2$.
+At effective row width one, an inverse witness of length $r<1$
+has capacity $(1-r)/2$. A plain witness of length $m<1/2$,
+used twice in the fourth moment, has the actual capacity
+\begin{equation}\label{eq-dynamic-capacity}
+ z_P(m)=\frac{1-2m}{6\kappa}
+       =\frac{1-2m}{9/2+12\Delta}.
+\end{equation}
+The baseline $2(1-2m)/9$ is used only for comparison.
+
+For the same witness and spike choices as Q, Proposition 19.2,
+the difference in the plain row-count exponent is
+\begin{align}\label{eq-capacity-cost}
+ 2q(1-2m)\left(\frac29-\frac1{9/2+12\Delta}\right)
+ &=\frac{24q(1-2m)\Delta}{(9/2)(9/2+12\Delta)}
+ \le\frac{\Delta}{4}+O(\eps).
+\end{align}
+The comparison is used where $m\ge1/3-O(\eps)$ and $2q\le1$.
+Zero-capacity endpoints use the independent-scale inverse
+amplification or the zero-slot plain moment, rather than a
+strict marked estimate at zero width.
+
+Put
+\begin{align*}
+ D_x&=3-\frac{17x}{9}, & P_x&=\left(2-\frac{8x}{9}\right)(1-x),\\
+ J&=(\alpha-\delta)D_x+\delta P_x,
+ &R_*&=1-\delta+
+       \frac{(\alpha-\delta)\delta P_x}{2J}.
+\end{align*}
+The crossing of the short and long witnesses in Q, (19.7) and
+(20.8), now gives the actual bound
+\begin{equation}\label{eq-row-dynamic}
+ R\le R_*+\frac{\Delta}{4}+\eps.
+\end{equation}
+This uses only the inverse and paired plain inputs above.
+The witness/row conversion is Q, Sections 8 and 19 applied with
+the transferred moments and fixed-type Hecke continuation.
+The conductor powers are unchanged; fixed local gamma parameters
+affect only height constants.
+One has $35/54\le J\le5/2$ on the whole closed parameter rectangle.
+
+The only finite exceptional presentations among the
+sixth-power-free physical rows lie in the finite fixed sector
+part. Indeed, a prime outside $S$ with valuation from one to
+five ramifies the sextic character; a character with fixed
+conductor in $S$ has no such prime. Class representatives
+and $U_S/U_S^6$ give finitely many remaining sectors. This
+assertion concerns physical rows; canonical sixth-power
+descendants retain the exceptional treatment in $\mathsf P$.
+
+\subsection{The original numerical certificate}
+
+If $U=Z^d$ is a moderate row norm, the full correction in
+$\mathsf T$ gives the relative exponent
+\begin{equation}\label{eq-E-general}
+ \mathcal E(d;R,q)=
+ -\frac1{48}+\frac23\delta+\frac q6
+       -h(1-R)
+       +(d-h)\left(R+\frac\delta2-\frac{17}{50}\right),
+ \qquad h=\frac{13}{16},
+\end{equation}
+measured against $C(7/8)=3/16$.
+The term $q/6$ is already a base-$Z$ exponent.
+Changing $R$ by $c$ changes $\mathcal E$ by $dc$.
+Write $E_*(d)=\mathcal E(d;R_*,q)$.
+
+The exact certificate Q, (20.9), is unchanged. Set
+$y=1/2-x$ and $v=51+41y$. Then
+\begin{align}\label{eq-certificate}
+ 10368vJ(-E_*(h))={}&
+ (3+5y)\{(4v\delta-79)^2+49\}\nonumber\\
+ &+4y\{4v\delta[(1+3y)(15+32y)\delta+9-13y]
+                                      +265+3485y\}.
+\end{align}
+Every displayed summand is nonnegative for
+$0\le y\le1/2$ and $0\le\delta\le5/6$.
+Since $v\le17(3+5y)$ and $J\le5/2$,
+\begin{equation}\label{eq-high-margin}
+ -E_*(h)\ge\frac{49}{440640}>10^{-4}.
+\end{equation}
+The crucial comparison for the actual dynamic capacity is therefore
+\begin{equation}\label{eq-dynamic-saving}
+ \mathcal E(h;R,q)-\{C(B)-C(7/8)\}
+ \le-\frac{49}{440640}
+       +\frac h4\Delta-\Delta+O(\eps)
+ =-\frac{49}{440640}-\frac{51}{64}\Delta+O(\eps).
+\end{equation}
+Thus the loss in capacity is absorbed by the very gap that defines
+the contradiction. No fourth moment with $\kappa<3/4$ is used.
+
+For the bounding exponent $R_*+\Delta/4$ the coefficient of
+$d-h$ in \eqref{eq-E-general} is at least
+$33/50-\delta/2\ge73/300$. Hence the endpoint controls the
+selected moderate ranges below $h$. The supply margin is
+\[
+ \frac{\ell}{h}=\frac8{39}>\frac7{37},\qquad
+ \frac8{39}-\frac7{37}=\frac{23}{1443}.
+\]
+A fixed extension $h<d\le h+\zeta$, $\zeta<1/48$, leaves
+available length greater than $1/5>7/37$.
+At $\delta=5/6$ the unmarked amplified endpoint gives
+$R=1-\delta$; no shrinking strict inverse width is used.
+
+\subsection{The remaining ranges}
+
+Take $d_{\min}=1/100$. The source comparisons retained in
+$\mathsf T$ give the following positive margins before small
+losses.
+\begin{center}
+\begin{tabular}{p{.57\linewidth}p{.31\linewidth}}
+\toprule
+Range & Saving\\
+\midrule
+Floor bin $\delta=1/50$, before subtracting $\Delta$
+& $7/1200$\\
+$d_{\min}\le d\le1/2$, no selected slots,
+before subtracting $\Delta$ & $49/14400$\\
+Small rows $1\le U\le Z^{d_{\min}}$,
+apart from the principal row, relative to $C(B)$ & $63/800$\\
+Principal $w$ contour & $23/960$\\
+Principal $z$ contour & $13/9600$\\
+Principal slot approximation & $\mu_0=7/(96J_0)$\\
+\bottomrule
+\end{tabular}
+\end{center}
+For the middle range, the unselected count
+$R=76/75-2\delta/3$ yields
+\[
+ \mathcal E(d;R,q)\le
+ -\frac{529}{2400}+\frac{25}{96}\delta
+ \le-\frac{49}{14400}.
+\]
+For the small rows the full-correction estimate on
+$(\Rea s,\Rea w,\Rea z)=(B+e,1/2,17/50)$ gives
+$-79/800+2d_{\min}=-63/800$, relative to $C(B)$.
+This includes the nontrivial unit sectors. There is no additional
+cost from using $11/12$ instead of an individual target boundary:
+the common line is $B+e$ throughout.
+Rows above $h+\zeta$ are estimated on
+$(2,2,z_\infty)$; the arbitrary-decay assertion in $\mathsf T$
+allows a fixed sufficiently large $z_\infty$.
+
+\subsection{Real choices before the target}
+
+The following is Q, Section 20.6's order of choices applied to
+the family $\Packet$. Put
+\[
+ m_{\rm hi}=\frac{51}{64}\Delta,\qquad
+ m_{\rm high}=\min\{m_{\rm hi},63/800\}.
+\]
+Reserve fixed fractions of the low margin $\Delta$, the high
+margin $m_{\rm high}$, and both principal contour margins.
+Make the choices common for the permitted representatives of
+the fixed finite collection of types $0,\omega_\infty,
+\bar\omega_\infty$.
+Choose the moment losses and capacity decrements first.
+The uniform real-parameter assertion of $\mathsf P$ then
+gives a slot mesh on $3/4\le\kappa\le5/6$.
+Choose an even $J_0$ sufficiently large that
+$2\ell/J_0$ is below that mesh, the allocated rounding loss,
+and $1/185$.
+
+Take $\ell_i=\ell/J_0$ and choose nonnegative nonzero tests on
+disjoint intervals
+\[
+ I_i=\left(1+\frac{2i-1}{2J_0+1},
+           1+\frac{2i}{2J_0+1}\right),\qquad 1\le i\le J_0.
+\]
+These analytic supports are disjoint before any ray or row mask
+and are chosen before the finite-order target twist. The fixed
+arithmetic ray filter may be selected after that twist; it changes
+only constants and thresholds. The pretarget error exponent is
+$\mu_0=7/(96J_0)$ in \eqref{eq-principal-approx}.
+Now choose the amplitude and bin widths, remaining real
+losses, $\zeta$, and $z_\infty$, in this order, reserving
+the fractions used in Q, Section 20.6.
+The real-parameter uniformity for these choices follows from the
+transfer and finite-depth argument in Appendix~\ref{app-transfer}.
+
+For definiteness, after these allocations one can retain
+\begin{equation}\label{eq-sigma}
+ \sigma=\frac18\min\left\{
+      \frac{51}{64}\Delta,\frac{63}{800},
+      \frac{23}{960},\frac{13}{9600},\frac7{96J_0}
+                       \right\}>0.
+\end{equation}
+This number depends on the fixed family and $\Delta$, but
+not on its later target $\psi$. Notice that
+$\sigma<\Delta/2$.
+
+\subsection{Height choices and continuation}
+
+Now fix a target $\psi\in\Packet$, removing its global norm
+twist. Choose between it and its conjugate to satisfy the
+nonzero angular condition in Section \ref{subsec-general-arch}.
+Conjugation preserves the family and the real parts of zeros,
+so proving the estimates for this representative suffices.
+Choose its arithmetic data, final $S$, finite sectors, and
+identity-ray filter $T$. Then choose all retained internal
+seminorm and Sobolev orders.
+The transferred estimates give finite numbers
+$A_\psi,B_\psi$ and a positive permitted height ceiling such
+that, for the subsequently chosen external order $N$,
+\[
+ |J_\psi-f_\psi|
+ \ll_{\psi,N}
+ Z^{C(B)-2\sigma}(1+T_1)^{A_\psi}
+       +Z^{B_\psi}T_1^{-N}.
+\]
+Degree, infinity type, and fixed local profiles can enlarge
+$A_\psi$, $B_\psi$, and the threshold. Choose a positive
+$\tau_\psi$ small enough for the height ceiling and the
+reserved saving, put $T_1=Z^{\tau_\psi}$, and then choose
+$N$ large enough. With the strict reserves above, the
+conclusion of Q, Lemma 11.1 is
+\begin{equation}\label{eq-high-final}
+ |J_\psi(Z)-f_\psi(Z)|\ll_\psi Z^{C(B)-\sigma}.
+\end{equation}
+The analysis height belongs only to this estimate:
+neither $J_\psi$ nor $f_\psi$ depends on $T_1$.
+The low bound with loss $\Delta/2$ and
+$\sigma<\Delta/2$ now gives
+\begin{equation}\label{eq-f-bound}
+ |f_\psi(Z)|\ll_\psi Z^{C(B)-\sigma}.
+\end{equation}
+
+The continuation is elementary once this common exponent is
+available. Moving the defining line of $f_\psi$ arbitrarily far
+right gives rapid decay as $Z\downarrow0$. Hence
+\[
+ \mathcal F_\psi(s)=\int_0^\infty
+       f_\psi(Z)Z^{-C(s)}\,\frac{dZ}{Z}
+\]
+is holomorphic on $\Rea s>B-\sigma$.
+Mellin inversion, first on $\Rea s=2$, identifies it with
+\[
+ e^{(s-5/6)^2}\frac{H_\psi^S(s)}{L_K^S(s,\psi)}.
+\]
+Both numerator factors are nonzero on $\Rea s>7/8$, and
+$B-\sigma>7/8$. Thus every $L_K(s,\psi)$ in $\Packet$
+has no zero in $\Rea s>B-\sigma$. At a norm-character
+pole its reciprocal merely has a zero, which causes no
+problem.
+
+By the definition of $B$, if $B>7/8$ there exists a target
+in $\Packet$ with a zero of real part greater than
+$B-\sigma/2$. The preceding conclusion is a contradiction.
+Consequently $B\le7/8$, and in particular
+$L_K(s,\omega)$ is zero-free in $\Rea s>7/8$.
+Apply this with $\omega=\psi\circ N_{K/F}$ and use
+Lemma \ref{lem-descent}. This proves Theorem \ref{thm-main}.
+
+\section{Original sources and proof dependencies}\label{sec-scope}
+
+The main theorem concerns arbitrary number fields and arbitrary
+fixed unitary infinity types. Its analytic source dependence is
+Source Input~\ref{hyp-source}. The general-field conclusions
+$\mathsf T$, $\mathsf I$, and $\mathsf P$ are the proved transfer
+of Proposition~\ref{hyp-main}, not further hypotheses.
+
+\begin{center}
+\begin{tabular}{>{\raggedright\arraybackslash}p{.45\linewidth}
+                >{\raggedright\arraybackslash}p{.46\linewidth}}
+\toprule
+Source or argument & Role in this paper\\
+\midrule
+P, Sections 3, 5--7 and Appendix A
+& Original theta construction, arithmetic calibration, and local
+coefficient identities; its general-field and fixed-type
+realizations are verified in Section~\ref{sec-inputs}.\\
+Q, Sections 5--16
+& Original physical and marked-reflection constructions;
+norm-form Poisson, additive Gram, and full local compensation
+are verified here.\\
+Q, Sections 17--18
+& Original long canonical proofs. Appendix~\ref{app-transfer}
+supplies the general-field replacements, keeping their integer
+width and capacity calculations.\\
+Q, Sections 19--20
+& Witness comparison and the exact endpoint certificate;
+the dynamic capacity loss and fixed-type family closure are
+calculated in Section~\ref{sec-close}.\\
+Abelian descent and the fixed-type starting bound
+& Proved here, including norm-character poles and exact
+sixth-power amplification masks.\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Q's published finite-order $7/8$ theorem and P's cyclotomic
+$1-10^{-6}$ theorem are not used as a shortcut to an arbitrary-field
+conclusion. In particular $K=F(\zeta_{12})$ need not be cyclotomic
+over $\mathbb Q$. The transfer is the reason the original
+constructions apply to this $K$.
+
+The higher-order large sieve of \cite[Theorem 1.3]{BGL} is compatible
+with the exterior ideal symbols, but it does not alone prove the
+canonical inverse moment. At column length $N=M^{9/10}$ its term
+$(MN)^{2/3}$ is $M^{19/15}$, exceeding the desired $M^{1+\eps}$.
+The two source Poisson reductions and the marked terminal are
+therefore essential. Likewise, the actual identity
+$\chi_n(a^6)=\one_{(n,a)=1}$ is retained throughout; replacing it
+by a primitive character and discarding its zeros would invalidate
+the amplification.
+
+This paper reproduces the transfer arguments and the simplified
+closure. It does not independently re-prove every line of the
+long original theta and canonical constructions. That is the
+remaining source-relative qualification in Theorem~\ref{thm-main}.
+
+\appendix
+\section{Transfer of the canonical estimates}\label{app-transfer}
+
+\begin{proposition}[Fixed-field moment transfer]
+\label{prop-recovered-moment-transfer}
+Retain the original canonical arguments of Q, Sections 14, 17 and 18,
+and the normalized theta realization of P, with its general-field and
+fixed-infinity-type realization established above. Then the directed
+marked inverse estimate \eqref{eq-MI} and the paired fourth moment
+\eqref{eq-fourth} hold over the fixed field $K$ with their displayed
+width, coefficient, zero-extension and common-mask restrictions.
+For the fourth moment one may use $3/4\le\kappa\le1$; when
+$\kappa<1$, its prime premise concerns only finite-order characters
+and is the boundary $(1+\kappa)/2$.
+The slot mesh is independent of the subsequently fixed slot count.
+For a fixed infinity-type orbit, the real losses and that mesh can
+also be chosen before the later finite-order target twist and its
+fixed conductor. Thus the two general-field moment estimates are
+consequences of the cited canonical proofs and the replacements
+verified here, rather than additional moment hypotheses.
+\end{proposition}
+
+\begin{proof}\leavevmode\par
+\paragraph{1. The common orbital Poisson formula.}
+Use Lemma~\ref{lem-orbit-gram}, including its general-periodic
+version and separate zero orbits. The primitive character formula
+is used in the two inverse transforms and their initialization;
+the full finite Fourier formula is used in the second plain
+transform. The mask is expanded first. Its common norm kernel,
+fixed logarithmic growth, and finite-seminorm bounds are exactly
+the profile data required by the source reductions.
+
+\paragraph{2. Local tables, masks, and fixed unitary coefficients.}
+At a good prime of norm $P$ the full normalized finite sums obey
+\[
+ |G(\mathfrak p^a,h)|=P^{(a-1)/2}
+       \one_{v_{\mathfrak p}(h)=a-1}\quad(6\nmid a),
+ \qquad
+ G(\mathfrak p^a,h)=P^{a/2}\one_{\mathfrak p^a\mid h}
+       -P^{a/2-1}\one_{\mathfrak p^{a-1}\mid h}\quad(6\mid a).
+\]
+These follow by separating the higher residue digits and applying
+finite-field orthogonality. CRT gives the full two-column
+correlations, including collision zeros, exactly as in Q,
+Section 13.3. Thus a displayed sixth-divisible exponent remains
+a puncture. All ideal common-support extractions are exact before
+any coefficient is bounded or a coprime support is enlarged.
+Once factor ideals and the finitely many unit sectors are fixed,
+the old-label fibre is fixed modulo $\Gamma$; this replaces the
+source's uniqueness of primary generators, at a fixed finite
+cost. The fixed background stays on columns, not in an exterior
+row modulus. Lemma \ref{lem-directed} gives its exact propagation:
+the first and second transforms replace $\nu$ only by
+$\nu\vartheta$, $\vartheta\in\Theta$, using
+$\nu(ACn)=\nu(A)\nu(C)\nu(n)$ and $|\nu(C)|^2=1$.
+No finite Fourier expansion of a genuine $\nu$ is made.
+Character-equivariant theta periods retain the fixed unit phases;
+their conductor phases are multiplicative row, tuple, or frozen
+scalars. They are not dropped by replacing the period by an
+unweighted unit average. Cube completion leaves $\nu(b)^3$ on
+the extracted cube variable, as already checked in that lemma.
+
+\paragraph{3. The full marked terminal.}
+The identity
+$\one_{p\mid A}=1-\chi_p(A)^0$ applied to the compatible
+theta branches gives inactive and active mark sizes $P^{-1}$
+and $P^{-1/2}$. A residual row digit $j=1$ and a mark digit
+$j=0$ have trivial pair phase. The remaining row character is
+quadratic and the active marked squarefree column is cubic.
+Freeze every other digit, including $j=4$, and separate fixed
+local sectors of the row product and marked product individually.
+The annular theta kernel established above, the fixed-field quadratic sieve verified in
+\cite[Lemma 6.4]{P}, and the cubic sieve of \cite[Theorem 1.3]{BGL}
+therefore give Q, Lemma 14.3's full reflected energy. In its
+notation this exponent is
+\[
+ E_{\rm ref}=\frac O2+\max(H,v+\ell_b)-S_0-B_0+z_a-u-\ell_b
+       -\frac12(T_d-v-3\ell_b)_+,
+ \qquad u=\min\{v,z_a,(v+z_a)/3\}.
+\]
+Here $O$ is the powerful-row length, $H$ the actual residual
+squarefree-row length, $v,\ell_b$ the dual squarefree and cube
+lengths, and $S_0,B_0,T_d$ are the local extraction quantities of
+that lemma. Its completed quadratic reduction, Q, Lemma 5.5,
+is an ideal factorization with all collision masks retained.
+No special low-side condition $2A_0\le O$ is used here.
+For the squarefree fourth-power label of length $V$, puncture
+length $Q$, row length $M$, and completed scale $N_*$, the
+primewise conductor comparison is
+\[
+ H\le M-O+o(1),\qquad
+ T_d-S_0-B_0\le2M-O+Q+V-N_*+2z_a+o(1).
+\]
+These are Q, (17.11), with ideal norms. If $F_0=N+V$ and
+\[
+ F_0-M-Q-z_0\ge c,\qquad 4F_0-3M-6z_0\ge c,
+\]
+the short completion $V<d_0$, $N_*=N-3b_h$,
+$b_h<d_0+o(1)$ gives the three terminal bounds
+\[
+ F_0-c,\qquad F_0-2c+5d_0,\qquad
+ F_0-M/4-3c/4+5d_0/2,
+\]
+apart from the assigned small losses. They are strictly below
+$F_0$ when $d_0\le c/200$, precisely Q, (17.12)--(17.14).
+The label mass is counted once and cancels its original
+$Z^{-V}$ normalization. Neither a label prime nor a puncture
+prime has been incorporated into the fixed data.
+
+\paragraph{4. The two inverse transforms and initialization.}
+Use the orbital identity in paragraph 1 at Q, (17.22) and
+(17.36), retaining the genuine coprime expression before
+truncating its ratio tails. Its prefactor, conductor norm,
+puncture divisor, finite transform and scalar kernel argument
+are exactly the quantities in Q, (17.23)--(17.60).
+Paragraph 2 gives the same finite column identities and
+whole-product priority assignments. In particular the canonical
+coefficient remains
+$\overline\Lambda\gamma_2\nu\rho$, since the calibrated
+squarefree identities are
+$\gamma_2^3=\mu_K\Lambda$ and
+$\overline\Lambda\gamma_2\gamma_1=\mu_KG$.
+The two invariants in paragraph 3 and the strict child-row
+decrease in Q, (17.17), are unchanged. The common smooth kernel
+and all outside row masks remain common through the weighted
+Cauchy inequalities of Q, Section 17.3; no row-dependent column
+coefficient is introduced. The one-transform initialization has
+the same local identities. Its two margins, before enclosure
+losses, are
+\[
+ m-r-2z+2G,\qquad 3m-2r-8z+10G+2P_1,
+\]
+as in Q, (17.85)--(17.86). Here $G,P_1\ge0$ are the source's
+extracted norm lengths. The hypotheses of \eqref{eq-MI}
+supply the required positive margins. This imports the finite
+canonical induction and proves the directed inverse estimate,
+with its exact mask and coefficient restrictions. Proposition~\ref{prop-seed} gives the independent-scale
+form with the exact sixth-power masks.
+
+\paragraph{5. The ordinary fourth-moment reflection and coefficients.}
+The compatibility checks in Section \ref{sec-fourth} prove the
+fixed-infinity-type reflection and the paired propagation, so
+we use them rather than treating an infinite-order twist as a
+finite Fourier coefficient. The finite conductor factor remains
+$Q^{1/2-s}$ and the dual norm scale $Q/X$. The product of complex
+gamma quotients may have repeated poles at real part zero;
+its small annular coefficients are
+$O(2^{-j/2}(1+j)^A)$, which are summable. The degree changes
+orders and constants, not the conductor exponent.
+The common-mask identities Q, (18.4)--(18.8), are applied to
+the displayed presentation before primitive reduction.
+Apply the general-periodic version of paragraph 1 in the two
+plain transforms. CRT and complete factor allocation preserve
+Q, Lemma 18.2's one whole-product character on each separated
+side, the original individual slot coefficients, one common
+mask and norm power on both rectangles, and their equal product
+of plain scales. The two sides differ by a character in
+$\Theta$. Thus they have the same finite exceptional status,
+and the actual prime characters remain finite order. Their
+prime estimate is Q, (18.12), with the stated finite-order
+zero-free premise. All strict width and positive-part ledgers
+in Q, Sections 18.4--18.8, consequently keep their coefficients.
+
+\paragraph{6. Exceptional rows and the prime pool.}
+The unmasked Mellin argument in Section \ref{sec-fourth},
+followed only afterwards by common-mask inclusion--exclusion,
+replaces the exceptional lattice estimate. If the four plain
+scales are at least $Z^a$, $a\ge0$, and have common product
+$T_0$, its equal-product cancellation gives
+$O(Z^\eps T_0^{1/2}Z^{-a}(1+|t|)^A)$ after central
+normalization, exactly the saving in Q, (18.47); a genuine
+background has zero residue and gives a stronger bound.
+The canonical exceptional condition prescribes each exterior
+row valuation modulo six. Hence its ideal is
+$\mathfrak h_0\mathfrak a^6$ in finitely many unit sectors.
+At a newly nonunit extracted prime of common multiplicity one,
+the fixed factor has valuation two, so the row valuation is
+four modulo six. If these primes have length $v_1$, then
+$\N\mathfrak h_0\ge Z^{4v_1}$, giving the count required by
+Q, (18.41). The old moving support is disjoint from this
+support because its original column zeros are still present.
+The comparison of $h$ with $hp^6$ uses a fixed prime pool of
+length $\ell_{\rm pool}$; the prime ideal theorem supplies
+$Z^{\ell_{\rm pool}+o(1)}$ allowed primes. An output ideal
+has only a bounded number of such prime divisors. The same
+single pool-density gain therefore survives on unit orbits.
+The local error valuations $1,6,7$ have squared coefficients
+$P^{-1},1,P^{-1}$ by paragraph 2. A mesh below
+$\ell_{\rm pool}/2$ separates the pool from all live slots.
+These are the field-sensitive ingredients in the plain
+induction, and prove \eqref{eq-fourth} by the cited induction.
+
+\paragraph{7. Uniform real choices and finite propagation.}
+The source chooses its width floor, strict decrements and
+finite depth from bounded real length ranges and requested
+losses. None of the replacements above changes a norm exponent
+or an affine ledger. A fixed $K,S,\psi$ can add finite sectors,
+kernel logarithmic powers, seminorm orders and finite constants.
+For every preassigned $\eta>0$, each such logarithm is bounded
+by $C_{K,S,\psi,\eta}Z^\eta$; the same $\eta$ works whatever
+its fixed logarithmic degree. Allocate this aggregate loss
+through the source's finite depth before choosing the internal
+orders. Support-enclosure constants affect only the eventual
+threshold through $O_{K,S,\psi}(1/\log Z)$.
+The width step fixes the prime-pool length, and then the mesh,
+before the number of slots is fixed. Divisor allocations for
+that fixed number of slots cost their one small-power loss;
+their constants, not the mesh, may depend on the slot count.
+It follows that real choices can precede the later finite-order
+twist and enlargement of $S$. Their constants and height orders
+need not do so. The common Fourier measures in paragraphs 1
+and 4 allow the finite-seminorm propagation of Q, Section 17.3
+and the loss order of Section 18.8 unchanged. Increasing a final
+external tail order differentiates only external tests, not an
+already chosen internal moment profile, so its height degree
+does not increase. Finer unit sectors used in positive moment estimates are recombined
+into the original $(R^\times)^6$ physical orbits; they add no
+principal residue. The analytic annuli, slot lengths, and number of slots precede
+the target conductor. The fixed arithmetic ray filter can be
+chosen afterwards: it changes the positive normalizer by a
+fixed density, while the relative local slot error and its
+preassigned exponent $\mu_0$ are unchanged. This proves the asserted
+quantitative and mesh uniformity and completes the transfer.
+\end{proof}
+
+
+\begin{thebibliography}{9}
+\bibitem{Q} OpenAI,
+\emph{The Quasi-Riemann Hypothesis: A Zero-Free Half-Plane
+$\operatorname{Re}(s)>7/8$}, 30 September 2026.
+\href{https://github.com/openai/math/blob/main/preprints/The-Quasi-Riemann-Hypothesis-September-30-2026/paper.pdf}{Original paper}.
+
+\bibitem{P} OpenAI,
+\emph{Primitive roots for every admissible integer base},
+4 October 2026.
+\href{https://github.com/openai/math/blob/main/preprints/Primitive-roots-for-every-admissible-integer-base-October-4-2026/primitive-roots-all-integer-bases.pdf}{Original paper}.
+
+\bibitem{Tate} J. T. Tate,
+\emph{Fourier analysis in number fields and Hecke's zeta-functions},
+in J. W. S. Cassels and A. Fr\"ohlich (eds.),
+\emph{Algebraic Number Theory}, Academic Press, 1967,
+pp. 305--347.
+
+\bibitem{BGL} V. Blomer, L. Goldmakher, and B. Louvel,
+\emph{L-functions with $n$-th-order twists},
+International Mathematics Research Notices 2014, no. 7,
+1925--1955.
+\href{https://doi.org/10.1093/imrn/rns257}{doi:10.1093/imrn/rns257};
+\href{https://arxiv.org/abs/1112.1650}{arXiv:1112.1650}.
+\end{thebibliography}
+\end{document}

@@ -30,9 +30,9 @@
 We prove a zero-free strip of width $25/258$ for all finite-order
 Hecke $L$-functions, conditional on the cited theta and reflection
 inputs and the fixed-order large sieve.  The proof first treats Dedekind zeta
-functions.  Each reflected row then pairs a character with its
-conjugate, and one symmetric zero-free rectangle controls both
-$L$-factors.  The required density estimate retains
+functions, making the numerator and denominator in each reflected
+row the same $L$-function.  A zero-free region assigned to that row
+then controls both factors.  The required density estimate retains
 the number of selected rows in a fourth $L$-moment and a second
 mollifier moment.  Its exponent is determined by a quadratic
 equation, and a quartic inequality gives the stated rational width.
@@ -99,7 +99,7 @@ Mellin integrals with scalar factor
 and row Dirichlet series
 \begin{equation}\label{eq-euler}
  \zeta_F^S(6z)\,
- \frac{L_F^S(w,\chi_u)}{L_F^S(\xi,\overline{\chi_u})}
+ \frac{L_F^S(w,\chi_u)}{L_F^S(\xi,\chi_u)}
  H_u(\xi,w,z).
 \end{equation}
 The local factors are those in~\cite[(7.16)--(7.20)]{OAI}.
@@ -626,9 +626,6 @@ Borel--Carath\'eodory bound it by $O(\log U)$ on a larger inner
 disc.  Three-circles interpolation on an intermediate disc reaching
 $\alpha+2\lambda+it$ gives $O((\log U)^\theta)$ with fixed
 $\theta<1$.  Exponentiating gives both parts of \eqref{eq-both}.
-Since $L_F^S(s,\overline{\chi_u})=\overline{L_F^S(\bar s,\chi_u)}$,
-the symmetric rectangle gives the same bounds for $\overline{\chi_u}$,
-in particular the reciprocal bound for the denominator in \eqref{eq-euler}.
 The same argument applies to the floor with left boundary $1/2$.
 
 For $\alpha\le11/12$ choose
@@ -636,9 +633,9 @@ For $\alpha\le11/12$ choose
  \xi=\alpha+4\lambda,\qquad
  w=1-\alpha-2\lambda,\qquad z=1/3+\lambda.
 \end{equation}
-The primitive functional equation sends the numerator at $w+it$
-to the conjugate character at $1-w-it=\alpha+2\lambda-it$.
-The fixed local factors at $S$ are harmless, so \eqref{eq-both} gives
+The functional equation sends the numerator to $1-w=\alpha+2\lambda$.
+Conjugation preserves its absolute value at the opposite height,
+so the symmetric zero rectangle and \eqref{eq-both} give
 \[
  |L_F^S(w+it,\chi_u)|
  \ll U^{\alpha-1/2+2\lambda+\eps}(2+|t|)^C.
@@ -732,8 +729,8 @@ In every intermediate group $\ell-z>0$.  In the middle bins,
 $\ell=1+d(1/2-x_*)\ge3/4$; in the highest bins
 $\ell\ge3/8>1/3$.  The largest dyadic endpoint is consequently
 $t=h+\lambda$, changing the bounds by $O(\lambda)$.
-All contours satisfy \eqref{eq-domain}.  On the bin contours
-\eqref{eq-bin-lines}, the potentially tight local Euler inequalities have margins
+All contours satisfy \eqref{eq-domain}.  The potentially tight
+same-character inequalities have margins
 $\xi+w-1=2\lambda$ and $\xi+z-5/6\ge5\lambda$.
 
 For large rows move to $\xi=w=4$ and $z=6/\lambda+1$.

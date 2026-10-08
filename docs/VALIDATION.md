@@ -1,6 +1,6 @@
 # Validation record
 
-Checked on **8 October 2026**. All available TeX sources were compiled with pdfTeX **1.40.26 / TeX Live 2024** on Windows. The stored Hecke PDF uses this build; the other stored PDFs from TeX sources were built with pdfTeX **1.40.25 / TeX Live 2023** on Linux.
+Checked on **8 October 2026**. The PDFs from TeX sources were last built with pdfTeX **1.40.25 / TeX Live 2023** on Linux.
 
 ## LaTeX compilation and layout
 
@@ -10,10 +10,12 @@ Each available TeX target passes three `pdflatex` runs with shell escape disable
 | --- | --- | --- |
 | 029 | `artin_positive_density.tex` | Pass |
 | 029 | `hecke_zero_free_strip.tex` | Pass |
+| 029 | `hecke_seven_eighths_all_characters.tex` | Pass |
 | 030 | `modularity_cm_totally_real.tex` | Pass |
+| 159 | `math159_one_level_bound.tex` | Pass |
 | 172 | `algebraic_spherical_configurations.tex` | Pass |
 
-The compiled PDFs were compared with the stored PDFs: page counts and extracted text agree. The Hecke PDF was rendered for layout review after correcting the conjugate character in its reflected denominator and the accompanying explanation. Compiler versions and PDF metadata can affect byte-for-byte reproduction. Build output goes to `build/`.
+The rebuilt PDFs were compared with the previous builds: page counts and text agree except for the title block. The 017 PDF has no TeX source; its first page was edited directly, leaving the mathematical text unchanged. Compiler versions and PDF metadata can affect byte-for-byte reproduction. Build output goes to `build/`.
 
 ## Finite computation check
 

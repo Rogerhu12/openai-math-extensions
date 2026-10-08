@@ -26,14 +26,24 @@
       "sha256": "96390b913099166f9cebe1f398f68348d9e66690571f9ebacdb9f5882555e1ec"
     },
     {
+      "path": "papers/029-artin-primitive-roots/hecke_seven_eighths_all_characters.pdf",
+      "bytes": 515349,
+      "sha256": "9402541290c82900167e9e1419b8fc933471211ab5c770e94d182ba53171680e"
+    },
+    {
+      "path": "papers/029-artin-primitive-roots/hecke_seven_eighths_all_characters.tex",
+      "bytes": 84474,
+      "sha256": "743958806ec14792d6123a304ac66da02fd14bb0ba2c426b9bc55802114f54bf"
+    },
+    {
       "path": "papers/029-artin-primitive-roots/hecke_zero_free_strip.pdf",
-      "bytes": 392729,
-      "sha256": "4a0e397bd157d96ed5f341c5adf45f56875d9fb85eb1e3ee7ecf43acbbe95245"
+      "bytes": 392217,
+      "sha256": "9693b8f336859477960a63a234b8f0ab4748625b71d879d7fd7d21e2b562c05c"
     },
     {
       "path": "papers/029-artin-primitive-roots/hecke_zero_free_strip.tex",
-      "bytes": 35681,
-      "sha256": "a457fa0b01b8513a2a9fe05b1d720a14b57e023c4f1825fb358b63c95bc34f4e"
+      "bytes": 35438,
+      "sha256": "1520d80f7f8b1bb95f5068c0220473102fdcda1953f64b02eda9f839bdeabfad"
     },
     {
       "path": "papers/030-modularity/modularity_cm_totally_real.pdf",
@@ -44,6 +54,16 @@
       "path": "papers/030-modularity/modularity_cm_totally_real.tex",
       "bytes": 67612,
       "sha256": "de2eab916e1438d6d99b7c3a8d9dfd484c624d47d436e6024329ddc9e5ab3edc"
+    },
+    {
+      "path": "papers/159-szemeredi-exponents/math159_one_level_bound.pdf",
+      "bytes": 352645,
+      "sha256": "3a5cc9254641c5b233aa0a51bf4bab0329d6878e30fd6b04911d7e4826113efc"
+    },
+    {
+      "path": "papers/159-szemeredi-exponents/math159_one_level_bound.tex",
+      "bytes": 40024,
+      "sha256": "4c97767accc2c4f3ca131ef9bc247fdcf919b57d8efb449375e641a9787ead2d"
     },
     {
       "path": "papers/172-euclidean-ramsey/algebraic_spherical_configurations.pdf",
